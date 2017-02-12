@@ -114,7 +114,7 @@ to the other party
 - list of defined error alerts...
 
 \chapter{Continuous Integration}
-TODO (overview, jenkins, travis, semaphore, beaker, openstack, ...)
+\todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
 
 \chapter {SSL/TLS Testing}
     Before the testing itself, we have to know what should be tested, how it
@@ -124,7 +124,7 @@ TODO (overview, jenkins, travis, semaphore, beaker, openstack, ...)
 \section{Tested Libraries}
     To prevent each project implementing the SSL/TLS on its own and introducing
     (in many situations) dangerous issues, several libraries were created and
-    can be freely used by any project, which needs SSL/TLS support. The most
+    can be used by any project, which needs a SSL/TLS support. The most
     popular ones are OpenSSL~\footnote{https://www.openssl.org/},
     NSS~\footnote{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS}
     and GnuTLS~\footnote{https://www.gnutls.org/}. Although, there are other
@@ -200,12 +200,26 @@ TODO (overview, jenkins, travis, semaphore, beaker, openstack, ...)
     \textit{gnutls-serv}. Both utilities support a parameter \textbf{-l},
     which lists all necessary information about supported ciphersuites.
 
-\subsection{TODO}
-TODO (beakerlib, testplan(!), test format, relevancy, tested systems, tested libraries,
-what's not covered and why, ...)
+\section{Tested Environments}
+    For the purposes of this thesis, an environment consists of an operating
+    system (e.g.
+    CentOS~\footnote{https://www.centos.org/},
+    Fedora~\footnote{https://getfedora.org/}) and its version
+    (e.g. 7, 25). Each of these environments must be tested separately, as
+    it contains a different set of library versions and policies, which
+    affect the SSL/TLS communication.
+
+    This thesis covers SSL/TLS libraries on CentOS and Fedora, as the tests used
+    and extended by this thesis were originaly created for
+    RHEL~\footnote{Red Hat Enterprise Linux -
+    https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux}.
+
+
+    \todo{beakerlib, testplan(!), test format, relevancy, tested systems, tested libraries,
+    what's not covered and why, ...}
 
 \chapter {Testing Results}
-TODO (filed bugs/CVEs, split upstream and downstream)
+\todo{filed bugs/CVEs, split upstream and downstream}
 
 \chapter {Conclusion}
-TODO summarise findings, current CI state, future work (if any), ...
+\todo{summarise findings, current CI state, future work (if any), ...}
