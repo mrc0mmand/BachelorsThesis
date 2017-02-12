@@ -113,3 +113,99 @@ attacks
 to the other party
 - list of defined error alerts...
 
+\chapter{Continuous Integration}
+TODO (overview, jenkins, travis, semaphore, beaker, openstack, ...)
+
+\chapter {SSL/TLS Testing}
+    Before the testing itself, we have to know what should be tested, how it
+    should be tested and where, or to be more precise, which environments it
+    should be tested in.
+
+\section{Tested Libraries}
+    To prevent each project implementing the SSL/TLS on its own and introducing
+    (in many situations) dangerous issues, several libraries were created and
+    can be freely used by any project, which needs SSL/TLS support. The most
+    popular ones are OpenSSL~\footnote{https://www.openssl.org/},
+    NSS~\footnote{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS}
+    and GnuTLS~\footnote{https://www.gnutls.org/}. Although, there are other
+    SSL/TLS libraries (e.g. LibreSSL~\footnote{https://www.libressl.org/} or
+    BoringSSL~\footnote{https://boringssl.googlesource.com/boringssl/}),
+    this thesis aims only on these three. However, a future
+    expansion to support other libraries is not impossible.
+
+    Even though these libraries are
+    separate projects, an user must be able to communicate with every client,
+    which supports the particular protocol and ciphersute, no matter which
+    implementation they use. Testing of this functionality - \textit{interoperability} -
+    is the main goal of this thesis.
+
+    For the testing itself we need at least two applications - a client and a server.
+    One option would be writing these applications using the public
+    API~\footnote{Application Programming Interface} of each library,
+    which is not error prone and would require a maintenance of such applications.
+    Thankfully, each of the tested libraries provides a set of utilities,
+    among which we can found a simple client and server application with
+    dozens of settings and options. These applications are then used in
+    various scenarios to ensure, that given valid combination of settings works
+    for both client and a server using different libraries.
+
+\subsection{OpenSSL}
+    OpenSSL is an open source library maintained by The OpenSSL Project,
+    which provides a toolkit for TLS and SSL
+    protocols, along with other general-purpose cryptographic functions.
+
+    This library provides a single powerful utility called \textit{openssl}. This
+    utility has dozens of subcommands with various SSL/TLS related functionality,
+    where the most important ones are:
+    \begin{description}
+        \item [ciphers] information about supported ciphersuites
+        \item [dsa, rsa, ec] DSA/RSA/EC key management
+        \item [s\_client] a simple SSL/TLS client
+        \item [s\_server] a simple SSL/TLS server
+        \item [x509] X.509 certificate data management
+    \end{description}
+
+    Thanks to its functionality-rich interface, OpenSSL is used for certificate
+    generation and management for all libraries in the testing process.
+
+\subsection{NSS}
+    Network Security Services~(NSS) is a set of open source libraries providing
+    support for SSL and TLS protocols,
+    S/MIME~\footnote{Secure/Multipurpose Internet Mail Extensions}
+    and other optional features, like
+    server-side TLS/SSL acceleration or client-side hardware smart cards support.
+
+    Compared to OpenSSL, which has a single utility for everything, NSS does
+    the exact opposite - each feature or tool has its own utility. For our
+    testing purposes, we will need the following ones:
+    \begin{description}
+        \item [certutil] certificate and key management for NSS databases
+        \item [listsuites] information about supported ciphersuites
+        \item [selfserv] a simple SSL/TLS server
+        \item [strsclnt] a simple SSL/TLS client for performance testing
+        \item [tstclnt] a simple SSL/TLS client
+    \end{description}
+
+    This library differs from the other two in the way how it handles
+    server and client certificates. These certificates cannot be passed
+    directly as arguments to the utility, but must be imported to a NSS
+    database which is then passed as an argument to the utility.
+
+\subsection{GnuTLS}
+    GnuTLS is a secure communications library which implements SSL, TLS and
+    DTLS~\footnote{Datagram Transport Layer Security} protocols.
+
+    Like the the libraries above, GnuTLS includes several utilities for library
+    testing - GnuTLS client \textit{gnutls-cli} and GnuTLS server
+    \textit{gnutls-serv}. Both utilities support a parameter \textbf{-l},
+    which lists all necessary information about supported ciphersuites.
+
+\subsection{TODO}
+TODO (beakerlib, testplan(!), test format, relevancy, tested systems, tested libraries,
+what's not covered and why, ...)
+
+\chapter {Testing Results}
+TODO (filed bugs/CVEs, split upstream and downstream)
+
+\chapter {Conclusion}
+TODO summarise findings, current CI state, future work (if any), ...
