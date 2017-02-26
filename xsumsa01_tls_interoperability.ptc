@@ -2,12 +2,14 @@
 \contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}
 \contentsline {chapter}{\numberline {2}SSL/TLS}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}Overview}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}TLS handshake}{4}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}The Handshake Protocol}{4}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Change Cipher Spec Protocol}{5}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Alert protocol}{5}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.2}TLS Protocols}{4}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}TLS Record Protocol}{4}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}TLS Handshake Protocol}{4}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}TLS Change Cipher Spec Protocol}{5}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Alert protocol}{5}{subsection.2.2.4}
 \contentsline {subsubsection}{Closure alerts}{5}{section*.2}
 \contentsline {subsubsection}{Error alerts}{5}{section*.3}
+\contentsline {subsection}{\numberline {2.2.5}TLS Application Data Protocol}{5}{subsection.2.2.5}
 \contentsline {chapter}{\numberline {3}Continuous Integration}{6}{chapter.3}
 \contentsline {chapter}{\numberline {4}SSL/TLS Testing}{7}{chapter.4}
 \contentsline {section}{\numberline {4.1}Tested Libraries}{7}{section.4.1}

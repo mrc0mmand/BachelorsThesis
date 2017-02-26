@@ -6,13 +6,13 @@
     \textit{Secure Socket Layer}~(SSL) and its successor
     \textit{Transport Layer Security}~(TLS) are cryptographic protocols
     designed to provide communications security over a computer network. As
-    the latest version of the SSL protocol (version~3~\cite{rfc6101}) was
+    the latest version of the SSL protocol (version~3.0~\cite{rfc6101}) was
     deprecated in June~2015~\cite{rfc7568} it will not be discussed
     further in this thesis.
-\section{Overview}
+\section{Overview}\label{overview}
     The primary goal of the TLS protocol is to provide privacy and data
     integrity between two communicating applications. The structure of
-    the protocol comprises of two layers: the TLS Record Protocol and
+    the protocol comprises two layers: the TLS Record Protocol and
     the TLS Handshake Protocol.
 
     The TLS Record Protocol lies at the lowest level, above some reliable
@@ -69,12 +69,29 @@
     TLS supports many extensions further extending its capabilities and possibilites,
     which will be described further in this thesis.
 
-\section{TLS handshake}
-- three subprotocols \\
-    - security parameters negotiation \\
-    - authentication \\
-    - error reporting
-\subsection{The Handshake Protocol}
+    \todo{RSA, DH(E), DSS, ECDS, ECDH(E), 3DES, RC4, AES, SHA, CHACHA20, POLYXXX}
+
+\section{TLS Protocols}
+    As mentioned above, the TLS protocol consists of four protocols --
+    the TLS Record Protocol, the TLS Handshake Protocol, the TLS Changer Cipher
+    Spec Protocol, the TLS Alert Protocol and the TLS Application Data Protocol.
+    In this section we will overview and discuss these protocols in more detail.
+
+\subsection{TLS Record Protocol}
+    In section \ref{overview} we briefly described the main function of the
+    TLS Record Protocol, which is encapsulation of protocol data from higher
+    layers. This includes fragmentation, optional compression, MAC application,
+    encryption and transmission of the data. On the receiving side the data is
+    decrypted, verified, decompressed, reassembled and then delivered to the
+    higher layers.
+
+    Through the data processing, following TLS data structures are used --
+    \textit{TLSPlaintext}, \textit{TLSCompressed} and \textit{TLSCiphertext}.
+    At the end a TLS record is formed by appending an TLS record header to
+    the \textit{TLSCiphertext} structure.
+
+    \todo{Describe fragmentation, compression and encryption?}
+\subsection{TLS Handshake Protocol}
 - session negotiation \\
     - session identifier \\
     - peer certificate \\
@@ -97,7 +114,7 @@
     - resumed \\
         - sessionID \\
         - tickets
-\subsection{Change Cipher Spec Protocol}
+\subsection{TLS Change Cipher Spec Protocol}
 - signal transitions in ciphering strategies \\
 - ChangeCipherSpec message \\
 - when recieved, read pending state is copied into the read current state \\
@@ -112,6 +129,8 @@ attacks
 - simple error handling => when error is detected, an error message is sent
 to the other party
 - list of defined error alerts...
+\subsection{TLS Application Data Protocol}
+- todo
 
 \chapter{Continuous Integration}
 \todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
