@@ -9,7 +9,11 @@
     the latest version of the SSL protocol (version~3.0~\cite{rfc6101}) was
     deprecated in June~2015~\cite{rfc7568} it will not be discussed
     further in this thesis.
+
+    \todo{Reference TLSv1.0, TLSv1.1 and TLSv1.2}
+
 \section{Overview}\label{overview}
+    \todo{TLS history?}
     The primary goal of the TLS protocol is to provide privacy and data
     integrity between two communicating applications. The structure of
     the protocol comprises two layers: the TLS Record Protocol and
@@ -86,54 +90,296 @@
     higher layers.
 
     Through the data processing, following TLS data structures are used --
-    \textit{TLSPlaintext}, \textit{TLSCompressed} and \textit{TLSCiphertext}.
+    \texttt{TLSPlaintext}, \texttt{TLSCompressed} and \texttt{TLSCiphertext}.
     At the end a TLS record is formed by appending an TLS record header to
-    the \textit{TLSCiphertext} structure.
+    the \texttt{TLSCiphertext} structure.
 
     \todo{Describe fragmentation, compression and encryption?}
 \subsection{TLS Handshake Protocol}
-- session negotiation \\
-    - session identifier \\
-    - peer certificate \\
-    - compression method \\
-    - cipher spec \\
-    - master secret \\
-    - is resumable \\
-\\
-- handshake: \\
-    - exchange hello messages (algorithms, random values, session resumption) \\
-    - exchange crypto parameters for premaster secret \\
-    - exchange certs and crypto info for authentication \\
-    - generate a master secret from the premaster secret and random values \\
-    - provide security params to the TLS Record Layer \\
-    - allow parameter verification between peers \\
-\\
-- types of handshake \\
-    - basic \\
-    - client auth \\
-    - resumed \\
-        - sessionID \\
-        - tickets
-\subsection{TLS Change Cipher Spec Protocol}
-- signal transitions in ciphering strategies \\
-- ChangeCipherSpec message \\
-- when recieved, read pending state is copied into the read current state \\
-- after sending, sender must copy write pening state into the write active state
-\subsection{Alert protocol}
-- alert message has a severiry indicator (warning/fatal) and a content \\
-- fatal => immediate connection termination
-\subsubsection{Closure alerts}
-- client must tell others that the connection is ending to prevent truncation
-attacks
-\subsubsection{Error alerts}
-- simple error handling => when error is detected, an error message is sent
-to the other party
-- list of defined error alerts...
+    The TLS Handshake Protocol is the core protocol of TLS which operates on
+    top of the TLS Record Protocol. Its goal is the authentication of communnicating
+    peers and negotiaton of security parameters necessary for establishment or
+    resumption of secure sessions.
+
+    \todo{current/pending write/read state}
+    \todo{Handshake message flow image}
+
+    % TODO
+    %\begin{tikzpicture}
+    %    \coordinate (a) at (0,0);
+    %    \coordinate (b) at (0,1);
+    %    \coordinate (c) at (1,0);
+    %    \coordinate (d) at (1,1);
+    %    \draw (a) -- (b)node{Client} (c) -- (d)node[pos=1.1]{Server};
+    %    \draw[-stealth] ($(a)!0.75!(b)$) -- node[above,scale=0.25,midway]{Text}($(c)!0.75!(d)$);
+    %    \draw[stealth-] ($(a)!0.65!(b)$) -- node[below,scale=0.25,midway]{Hey} ($(c)!0.65!(d)$);
+    %\end{tikzpicture}
+
+    \noindent The session establishment consists of following steps:
+    \begin{itemize}
+        \item Protocol version negotiation
+        \item Cipher suite negotiation
+        \item Server authentication and (optional) client authentication using
+              digital certificates
+        \item Exchange of session key information
+    \end{itemize}
+
+    \noindent The actual session establishment using the TLS Handshake Protocol
+    proceeds as follows:
+    \begin{enumerate}
+        \item The client sends a \texttt{ClientHello} message to the server, that
+              includes the TLS version a list of cipher suites supported by the
+              client (in the client's order of preference) and the client's
+              random value, which is used in subsequent computations.
+        \item The server responds with a \texttt{ServerHello} message, including
+              the protocol version, the cipher suite chosen by the server, the session ID,
+              and the server's random value.
+        \item If the server is to be authenticated, it sends its certificate in
+              a \texttt{Certificate} message.
+        \item A \texttt{ServerKeyExchange} message may be sent if the client
+              needs some additional information for the key exchange.
+        \item If a client authentication is required, the server sends a
+              \texttt{CertificateRequest}.
+        \item Finally, the server sends a \texttt{ServerHelloDone} message, to
+              indicate that the hello-message phase of the handshake is complete.
+        \item If the server has sent the \texttt{CertificateRequest} message, the
+              client must send the \texttt{Certificate} message containing its
+              certificate.
+        \item The client sends a \texttt{ClientKeyExchange} message. Its content
+              depends on the chosen key exchange algorithm.
+        \item If the client has sent its certificate to the server, it must also
+              send a digitally-signed \texttt{CertificateVerify} message, which
+              explicitly verifies posession of the private key belonging to the
+              client's certificate.
+        \item The client sends a \texttt{ChangeCipherSpec} message to the server,
+              using the TLS Change Cipher Spec Protocol (see
+              section \ref{change_cipher_spec}) and copies its pending write state
+              into the current write state.
+        \item The client sends a \texttt{Finished} message to the server under
+              the new write state (with the new algorithms, keys, and secrets).
+        \item In response, the server sends its own \texttt{ChangeCipherSpec}
+              message, copies its pending write state into the current write
+              state and send the \texttt{Finished} message under the new cipher
+              spec.
+    \end{enumerate}
+
+    At this point the TLS handshake is complete, and the peers may begin to
+    exchange application layer data.
+
+    \todo{session resumption handshake flow image}
+
+    When the client and the server decide to resume a previous session or duplicate
+    an existing one, the handshake can be simplified considerably. The client
+    sends a \texttt{ClientHello} message including the ID of the session to be
+    resumed. The server then checks its session cache for a match. If a match
+    is found, and the server is willing to re-establish the connection under
+    the specified session state, it sends a \texttt{ServerHello} message with
+    the same Session ID value. The client and the server can then directly move
+    to the \texttt{ChangeCipherSpec} message followed by the \texttt{Finished}
+    message. If a Session ID match is not found in the session cache, the
+    server generates a new session ID and the peers perform a full TLS handshake.
+
+    Let's have a closer look at the various messsages that are exchanged during
+    the TLS handshake:
+
+    \todo{Check differencies between TLS1.{0,1,2} protocols}
+
+\subsubsection{\texttt{HelloRequest}}
+    This message may be sent by the server at any time and tells the client
+    to begin a new session negotiation. Client should respond to this
+    message with a \texttt{ClientHello}. This message is not often used, but
+    it can be useful in some cases, e.g. forcing a session renegotiation for
+    a TLS sessions which are active for a longer period of time.
+
+\subsubsection{\texttt{ClientHello}}
+    The \texttt{ClientHello} message is usually the first message in the TLS
+    handshake, sent by the client, which initiates the session negotiation.
+    The message itself contains the latest TLS version supported by the client,
+    the client's random value, a session ID (which can be empty, if the client
+    wishes to negotiate a new session), a list of supported cipher suites,
+    a list of compression methods and optional extensions.
+
+\subsubsection{\texttt{ServerHello}}
+    The \texttt{ServerHello} is the server's response to the client's
+    \texttt{ClientHello} message. The structure of this message is quite similar
+    to the \texttt{ClientHello} -- instead of the lists of cipher suites and
+    compression methods, the server specifies a single cipher suite and a single
+    compression method. These values are chosen from the client's \texttt{ClientHello}
+    message and will be used for the session. The complete message contains
+    the TLS version chosen by the server, the server's random value, the length
+    of the session ID and the session ID, the cipher suite, the compression
+    method and the optional extensions.
+
+\subsubsection{\texttt{Certificate}}
+    If the agreed-upon key exchange method uses certificates for authentication,
+    the server sends a \texttt{Certificate} message containing a
+    certificate chain. This certificate chain can be then used by the client,
+    to verify the server's identity. The same message is used when a client
+    authentication is required (as a response to a \texttt{CertificateRequest}
+    message, see below). All exchanged certificates are of X.509 v3
+    type~\cite{rfc5280}, if not stated otherwise during the negotiaton.
+
+\subsubsection{\texttt{ServerKeyExchange}}
+    In some cases, the \texttt{Certificate} message does not contain enough data to
+    allow the client to exchange a premaster secret. In this situation, the
+    server sends a \texttt{ServerKeyExchange} message with necessary cryptographic
+    information, which allows such exchange and allows the client to complete
+    a key exchange.
+
+    When RSA (or Diffie-Hellman with fixed parameters) is used, the client can retrieve
+    the public key (or the server's Diffie-Hellman parameters) from the server certificate.
+    In these cases the \texttt{Certificate} message is enough to complete
+    a key exchange. But, for example, in case of ephemeral Diffie-Hellman, the client
+    needs some additional information --- Diffie-Hellman parameters --- which
+    must be delivered in a \texttt{ServerKeyExchange} message.
+
+\subsubsection{\texttt{CertificateRequest}}
+    When the server wants to authenticate the client, it sends
+    a \texttt{CertificateRequest} message to the client. This message tells
+    the client, which certificates are accepted by the server, and also asks
+    the client to send its certificate to the server. Only a non-anonymous
+    server can send a \texttt{CertificateRequest} -- that means a server, which
+    authenticates itself using the \texttt{Certificate} message.
+
+\subsubsection{\texttt{ServerHelloDone}}
+    This message is sent by the server and indicates the end of the section
+    of messages initiated by the \texttt{ServerHello} message. After sending
+    this message, the server will wait for a client response.
+
+\subsubsection{\texttt{ClientKeyExchange}}
+    The \texttt{ClientKeyExchange} message is sent by the client and it provides
+    the server with the client-side keying material, which is used to generate
+    the premaster secret.
+
+\subsubsection{\texttt{CertificateVerify}}
+    If the client provided a certificate that has signing capability, then it
+    must prove that it holds the corresponding private key for that certificate.
+    In this case, the client sends a digitally signed \texttt{CertificateVerify}
+    message to the server. This allows the server to verify the client certificate
+    using the client's public key and authenticate the client.
+
+\subsubsection{\texttt{Finished}}
+    The \texttt{Finished} message is always sent immediately after a
+    \texttt{ChangeCipherSpec} message~\ref{change_cipher_spec} to verify
+    that the key exchange and authentication processes were successful.
+    As the message follows the \texttt{ChangeCipherSpec} message, it is the
+    first message protected by the newly negotiated algorithms and keys.
+
+
+    \todo{extensions - signature\_algorithms, SessionTicket, ...(?)}
+
+% - session negotiation \\
+%     - session identifier \\
+%     - peer certificate \\
+%     - compression method \\
+%     - cipher spec \\
+%     - master secret \\
+%     - is resumable \\
+% \\
+% - handshake: \\
+%     - exchange hello messages (algorithms, random values, session resumption) \\
+%     - exchange crypto parameters for premaster secret \\
+%     - exchange certs and crypto info for authentication \\
+%     - generate a master secret from the premaster secret and random values \\
+%     - provide security params to the TLS Record Layer \\
+%     - allow parameter verification between peers \\
+% \\
+% - types of handshake \\
+%     - basic \\
+%     - client auth \\
+%     - resumed \\
+%         - sessionID \\
+%         - tickets
+\subsection{TLS Change Cipher Spec Protocol} \label{change_cipher_spec}
+    The TLS Change Cipher Spec Protocol is used to signal transitions in
+    ciphering strategies. The protocol itself consists of a single compressed
+    and encrypted message -- \texttt{ChangeCipherSpec}. The encryption and
+    compression method corresponds to the current (not the pending) cipher
+    spec.
+
+    After receiving this message, the receiver instructs its record layer
+    to immediately copy the read pending state into the read current state.
+    Similarly, immediately after sending this messsage, the sender instructs
+    its record layer to copy the write pending state into the write current
+    state. All subsequent messages sent by the sender are then protected under
+    the newly negotiated cipher spec.
+
+\subsection{TLS Alert Protocol}
+    To exchange alert messages between peers, like warnings and errors, the
+    TLS Alert Protocol is used. Each alert message has its severity (warning,
+    fatal) and a description of the alert. All messages with an alert level
+    of fatal result in the immediate termination of the connection.
+
+    The alert's description field contains an identificator of the alert.
+    These descriptions can be split into two categories -- closure alerts
+    and error alerts. The former one contains only one alert --
+    \texttt{close\_notify}. This message can be send by either party and
+    notifies the recipient that the
+    sender will not send any more messages. Any data received after this message
+    must be ignored. The knowledge of the fact, that the connection is ending,
+    is crucial to avoid truncation attacks.
+    The second category contains a number of error alerts used for various
+    purposed during the TLS session. All TLS alert messages are summarized
+    in Table~\ref{tab:tls-alerts}
+    \\
+
+    \todo{Move to appendix, add a title and reference number} \\
+    \noindent\begin{tabularx}{\linewidth}{@{}l l X}
+    \caption{TLS alerts}\label{tab:tls-alerts} \\
+    \toprule
+    \textbf{Alert} & \textbf{ID} & \textbf{Description} \\
+    \midrule
+    \endhead
+    \texttt{close\_notify}                & 0   & The sender notifies the recipient that it will not send any more messages
+                                                  on this connection. \\
+    \texttt{unexpected\_message}          & 10  & An inappropriate message was received. This alert is always fatal. \\
+    \texttt{bad\_record\_mac}             & 20  & The sender received a record with an incorrect MAC. This alert is always fatal. \\
+    \texttt{decryption\_failed\_RESERVED} & 21  & Used in some earlier versions of TLS, must not be sent by compliant implementations. \\
+    \texttt{record\_overflow}             & 22  & A \texttt{TLSCiphertext} record was received that had a length more than $2^{14}+2048$ bytes or
+                                                  a record decrypted to a \texttt{TLSCompressed} record with more than $2^{14}+1024$ bytes. This alert
+                                                  is always fatal. \\
+    \texttt{decompression\_failure}       & 30  & The decompression function received improper input. This alert is always fatal. \\
+    \texttt{handshake\_failure}           & 40  & The sender was unable to negotiate an acceptable set of security parameters given
+                                                  the options available. This alert is always fatal. \\
+    \texttt{no\_certificate\_RESERVED}    & 41  & This alert was used in SSLv3 but it no longer used in any TLS version. \\
+    \texttt{bad\_certificate}             & 42  & The sender notifies the recipient that the provided certificate is corrupt. \\
+    \texttt{unsupported\_certificate}     & 43  & The sender notifies the recipient that the provided certificate is of an unsupported type. \\
+    \texttt{certificate\_revoked}         & 44  & The sender notifies the recipient that the provided certificate was revoked by the issuing authority. \\
+    \texttt{certificate\_expired}         & 45  & The sender notifies the recipient that the provided certificate has expired or is no longer valid. \\
+    \texttt{certificate\_unknown}         & 46  & The sender notifies the recipient that some unspecified issue occured during the certificate processing,
+                                                  rendering it unacceptable. \\
+    \texttt{illegal\_parameter}           & 47  & A field in the handshake was out of range or inconsistent with other fields. This alert is always fatal. \\
+    \texttt{unknown\_ca}                  & 48  & The received certificate could not be validated, because the CA certificate could not be located or could
+                                                  not be matched with a known, trusted CA. This alert is always fatal. \\
+    \texttt{access\_denied}               & 49  & A valid certificate was received, but when access control was applied, the sender decided not to proceed
+                                                  with negotiation. This alert is always fatal. \\
+    \texttt{decode\_error}                & 50  & The received message could not be decoded because some field was out of the specified range or length of
+                                                  the message was incorrect. This alert is always fatal. \\
+    \texttt{decrypt\_error}               & 51  & A handshake cryptographic operation failed. This alert is always fatal. \\
+    \texttt{export\_restriction\_RESERVED}& 60  & Used in some earlier versions of TLS, must not be sent by compliant implementations. \\
+    \texttt{protocol\_version}            & 70  & The protocol version the client has attempted to negotiate is recognized but not supported.
+                                                  This alert is always fatal. \\
+    \texttt{insufficient\_security}       & 71  & The server requires more secure ciphers than those supported by the client. This alert is always fatal. \\
+    \texttt{internal\_error}              & 80  & An internal error occured, unrelated to the peer or corectness of the protocol. This alert is always fatal. \\
+    \texttt{user\_canceled}               & 90  & This handshake is being canceled for some reason unrelated to a protocol failure. This alert should be followed
+                                                  by a \texttt{close\_notify}. \\
+    \texttt{no\_renegotiation}            & 100 & The peer should respond with this alert when renegotiation is not appropriate regarding the current connection
+                                                  state. This alert is always a warning. \\
+    \texttt{unsupported\_extension}       & 110 & Sent by the client when the received \texttt{ServerHello} message contains an extension not sent by the client
+                                                  in its \texttt{ClientHello} message. This alert is always fatal.
+    \end{tabularx}
+
 \subsection{TLS Application Data Protocol}
+    The TLS Application Data Protocol takes the arbitrary data from the application
+    layer and feeds it into the TLS Record Protocol for fragmentation, compression
+    and encryption. The resulting TLS records are then sent to the recipient.
+
+\subsection{TLS Extensions}
 - todo
 
 \chapter{Continuous Integration}
 \todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
+\todo{current state - github, travis, docker, beakerlib, ...}
 
 \chapter {SSL/TLS Testing}
     Before the testing itself, we have to know what should be tested, how it
