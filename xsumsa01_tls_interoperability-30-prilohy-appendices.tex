@@ -13,3 +13,48 @@
 
 %\chapter{Plakát} % poster
 
+\chapter{TLS Alerts}
+    \noindent\begin{tabularx}{\linewidth}{@{}l l X}
+    \caption{TLS Alerts}\label{tab:tls-alerts} \\
+    \toprule
+    \textbf{Alert} & \textbf{ID} & \textbf{Description} \\
+    \midrule
+    \endhead
+    \texttt{close\_notify}                & 0   & The sender notifies the recipient that it will not send any more messages
+                                                  on this connection. \\
+    \texttt{unexpected\_message}          & 10  & An inappropriate message was received. This alert is always fatal. \\
+    \texttt{bad\_record\_mac}             & 20  & The sender received a record with an incorrect MAC. This alert is always fatal. \\
+    \texttt{decryption\_failed\_RESERVED} & 21  & Used in some earlier versions of TLS, must not be sent by compliant implementations. \\
+    \texttt{record\_overflow}             & 22  & A \texttt{TLSCiphertext} record was received that had a length more than $2^{14}+2048$ bytes or
+                                                  a record decrypted to a \texttt{TLSCompressed} record with more than $2^{14}+1024$ bytes. This alert
+                                                  is always fatal. \\
+    \texttt{decompression\_failure}       & 30  & The decompression function received improper input. This alert is always fatal. \\
+    \texttt{handshake\_failure}           & 40  & The sender was unable to negotiate an acceptable set of security parameters given
+                                                  the options available. This alert is always fatal. \\
+    \texttt{no\_certificate\_RESERVED}    & 41  & This alert was used in SSLv3 but it no longer used in any TLS version. \\
+    \texttt{bad\_certificate}             & 42  & The sender notifies the recipient that the provided certificate is corrupt. \\
+    \texttt{unsupported\_certificate}     & 43  & The sender notifies the recipient that the provided certificate is of an unsupported type. \\
+    \texttt{certificate\_revoked}         & 44  & The sender notifies the recipient that the provided certificate was revoked by the issuing authority. \\
+    \texttt{certificate\_expired}         & 45  & The sender notifies the recipient that the provided certificate has expired or is no longer valid. \\
+    \texttt{certificate\_unknown}         & 46  & The sender notifies the recipient that some unspecified issue occured during the certificate processing,
+                                                  rendering it unacceptable. \\
+    \texttt{illegal\_parameter}           & 47  & A field in the handshake was out of range or inconsistent with other fields. This alert is always fatal. \\
+    \texttt{unknown\_ca}                  & 48  & The received certificate could not be validated, because the CA certificate could not be located or could
+                                                  not be matched with a known, trusted CA. This alert is always fatal. \\
+    \texttt{access\_denied}               & 49  & A valid certificate was received, but when access control was applied, the sender decided not to proceed
+                                                  with negotiation. This alert is always fatal. \\
+    \texttt{decode\_error}                & 50  & The received message could not be decoded because some field was out of the specified range or length of
+                                                  the message was incorrect. This alert is always fatal. \\
+    \texttt{decrypt\_error}               & 51  & A handshake cryptographic operation failed. This alert is always fatal. \\
+    \texttt{export\_restriction\_RESERVED}& 60  & Used in some earlier versions of TLS, must not be sent by compliant implementations. \\
+    \texttt{protocol\_version}            & 70  & The protocol version the client has attempted to negotiate is recognized but not supported.
+                                                  This alert is always fatal. \\
+    \texttt{insufficient\_security}       & 71  & The server requires more secure ciphers than those supported by the client. This alert is always fatal. \\
+    \texttt{internal\_error}              & 80  & An internal error occured, unrelated to the peer or corectness of the protocol. This alert is always fatal. \\
+    \texttt{user\_canceled}               & 90  & This handshake is being canceled for some reason unrelated to a protocol failure. This alert should be followed
+                                                  by a \texttt{close\_notify}. \\
+    \texttt{no\_renegotiation}            & 100 & The peer should respond with this alert when renegotiation is not appropriate regarding the current connection
+                                                  state. This alert is always a warning. \\
+    \texttt{unsupported\_extension}       & 110 & Sent by the client when the received \texttt{ServerHello} message contains an extension not sent by the client
+                                                  in its \texttt{ClientHello} message. This alert is always fatal.
+    \end{tabularx}
