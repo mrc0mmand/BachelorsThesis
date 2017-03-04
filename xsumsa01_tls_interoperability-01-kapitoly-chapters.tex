@@ -2,6 +2,8 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
+    \todo{TODO !!!1}
+
 \chapter{SSL/TLS}
     \textit{Secure Socket Layer}~(SSL) and its successor
     \textit{Transport Layer Security}~(TLS) are cryptographic protocols
@@ -10,9 +12,13 @@
     deprecated in June~2015~\cite{rfc7568} it will not be discussed
     further in this thesis.
 
-    \todo{Reference TLSv1.0, TLSv1.1 and TLSv1.2}
+    Although there are currently three TLS versions -- TLS 1.0~\cite{rfc2246},
+    TLS 1.1~\cite{rfc4346} and TLS 1.2~\cite{rfc5246} -- this thesis focuses
+    only on the latest two as TLS 1.0 is basically SSL 3.0 with a few
+    differences. Also, there were few cryptographic problems found
+    in TLS 1.0 and later resolved in TLS 1.1 (e.g. BEAST~\cite{duong2011}).
 
-\section{Overview}\label{overview}
+\section{Overview}\label{ref:overview}
     \todo{TLS history?}
     The primary goal of the TLS protocol is to provide privacy and data
     integrity between two communicating applications. The structure of
@@ -73,8 +79,6 @@
     TLS supports many extensions further extending its capabilities and possibilites,
     which will be described further in this thesis.
 
-    \todo{RSA, DH(E), DSS, ECDS, ECDH(E), 3DES, RC4, AES, SHA, CHACHA20, POLYXXX}
-
 \section{TLS Protocols}
     As mentioned above, the TLS protocol consists of four protocols --
     the TLS Record Protocol, the TLS Handshake Protocol, the TLS Changer Cipher
@@ -82,7 +86,7 @@
     In this section we will overview and discuss these protocols in more detail.
 
 \subsection{TLS Record Protocol}
-    In section \ref{overview} we briefly described the main function of the
+    In section \ref{ref:overview} we briefly described the main function of the
     TLS Record Protocol, which is encapsulation of protocol data from higher
     layers. This includes fragmentation, optional compression, MAC application,
     encryption and transmission of the data. On the receiving side the data is
@@ -95,25 +99,13 @@
     the \texttt{TLSCiphertext} structure.
 
     \todo{Describe fragmentation, compression and encryption?}
-\subsection{TLS Handshake Protocol}
+\subsection{TLS Handshake Protocol} \label{ref:tls_handshake_protocol}
     The TLS Handshake Protocol is the core protocol of TLS which operates on
     top of the TLS Record Protocol. Its goal is the authentication of communnicating
     peers and negotiaton of security parameters necessary for establishment or
     resumption of secure sessions.
 
     \todo{current/pending write/read state}
-    \todo{Handshake message flow image}
-
-    % TODO
-    %\begin{tikzpicture}
-    %    \coordinate (a) at (0,0);
-    %    \coordinate (b) at (0,1);
-    %    \coordinate (c) at (1,0);
-    %    \coordinate (d) at (1,1);
-    %    \draw (a) -- (b)node{Client} (c) -- (d)node[pos=1.1]{Server};
-    %    \draw[-stealth] ($(a)!0.75!(b)$) -- node[above,scale=0.25,midway]{Text}($(c)!0.75!(d)$);
-    %    \draw[stealth-] ($(a)!0.65!(b)$) -- node[below,scale=0.25,midway]{Hey} ($(c)!0.65!(d)$);
-    %\end{tikzpicture}
 
     \noindent The session establishment consists of following steps:
     \begin{itemize}
@@ -125,7 +117,7 @@
     \end{itemize}
 
     \noindent The actual session establishment using the TLS Handshake Protocol
-    proceeds as follows:
+    proceeds as follows (see~Figure~\ref{fig:full_tls_handshake}):
     \begin{enumerate}
         \item The client sends a \texttt{ClientHello} message to the server, that
               includes the TLS version a list of cipher suites supported by the
@@ -153,7 +145,7 @@
               client's certificate.
         \item The client sends a \texttt{ChangeCipherSpec} message to the server,
               using the TLS Change Cipher Spec Protocol (see
-              section \ref{change_cipher_spec}) and copies its pending write state
+              section \ref{ref:change_cipher_spec}) and copies its pending write state
               into the current write state.
         \item The client sends a \texttt{Finished} message to the server under
               the new write state (with the new algorithms, keys, and secrets).
@@ -163,13 +155,48 @@
               spec.
     \end{enumerate}
 
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{block} = [draw, rectangle, minimum width=5.5em, minimum height=2.2em, node distance=15em]
+        \node[block] (Client) {Client};
+        \node[block,right=of Client] (Server) {Server};
+        \node[below of=Server, node distance=28em] (ServerGround) {};
+        \node[below of=Client, node distance=28em] (ClientGround) {};
+
+        \draw (Client) -- (ClientGround);
+        \draw (Server) -- (ServerGround);
+
+        \draw[->] ($(Client)!0.15!(ClientGround)$) -- node[above]{\texttt{ClientHello}} ($(Server)!0.15!(ServerGround)$);
+
+        \draw[<-] ($(Client)!0.25!(ClientGround)$) -- node[above]{\texttt{ServerHello}} ($(Server)!0.25!(ServerGround)$);
+        \draw[<-] ($(Client)!0.30!(ClientGround)$) -- node[above]{\texttt{Certificate*}} ($(Server)!0.30!(ServerGround)$);
+        \draw[<-] ($(Client)!0.35!(ClientGround)$) -- node[above]{\texttt{ServerKeyExchange*}} ($(Server)!0.35!(ServerGround)$);
+        \draw[<-] ($(Client)!0.40!(ClientGround)$) -- node[above]{\texttt{CertificateRequest*}} ($(Server)!0.40!(ServerGround)$);
+        \draw[<-] ($(Client)!0.45!(ClientGround)$) -- node[above]{\texttt{ServerHelloDone}} ($(Server)!0.45!(ServerGround)$);
+
+        \draw[->] ($(Client)!0.55!(ClientGround)$) -- node[above]{\texttt{Certificate*}} ($(Server)!0.55!(ServerGround)$);
+        \draw[->] ($(Client)!0.60!(ClientGround)$) -- node[above]{\texttt{ClientKeyExchange}} ($(Server)!0.60!(ServerGround)$);
+        \draw[->] ($(Client)!0.65!(ClientGround)$) -- node[above]{\texttt{CertificateVerify*}} ($(Server)!0.65!(ServerGround)$);
+        \draw[->] ($(Client)!0.70!(ClientGround)$) -- node[above]{\texttt{[ChangeCipherSpec]}} ($(Server)!0.70!(ServerGround)$);
+        \draw[->] ($(Client)!0.75!(ClientGround)$) -- node[above]{\texttt{Finished}} ($(Server)!0.75!(ServerGround)$);
+
+        \draw[<-] ($(Client)!0.85!(ClientGround)$) -- node[above]{\texttt{[ChangeCipherSpec]}} ($(Server)!0.85!(ServerGround)$);
+        \draw[<-] ($(Client)!0.90!(ClientGround)$) -- node[above]{\texttt{Finished}} ($(Server)!0.90!(ServerGround)$);
+
+        \draw[<->, thick] ($(Client)!0.98!(ClientGround)$) -- node[above]{\texttt{Application Data}} ($(Server)!0.98!(ServerGround)$);
+    \end{tikzpicture}
+    \caption{Full TLS handshake} \label{fig:full_tls_handshake}
+    \end{figure}
+
+    Note: * marks messages which are sent only under specific conditions. \\
+
     At this point the TLS handshake is complete, and the peers may begin to
     exchange application layer data.
 
-    \todo{session resumption handshake flow image}
-
     When the client and the server decide to resume a previous session or duplicate
-    an existing one, the handshake can be simplified considerably. The client
+    an existing one, the handshake can be simplified considerably
+    (see Figure~\ref{fig:simplied_tls_handshake}). The client
     sends a \texttt{ClientHello} message including the ID of the session to be
     resumed. The server then checks its session cache for a match. If a match
     is found, and the server is willing to re-establish the connection under
@@ -179,10 +206,35 @@
     message. If a Session ID match is not found in the session cache, the
     server generates a new session ID and the peers perform a full TLS handshake.
 
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{block} = [draw, rectangle, minimum width=5.5em, minimum height=2.2em, node distance=15em]
+        \node[block] (Client) {Client};
+        \node[block,right=of Client] (Server) {Server};
+        \node[below of=Server, node distance=14em] (ServerGround) {};
+        \node[below of=Client, node distance=14em] (ClientGround) {};
+
+        \draw (Client) -- (ClientGround);
+        \draw (Server) -- (ServerGround);
+
+        \draw[->] ($(Client)!0.20!(ClientGround)$) -- node[above]{\texttt{ClientHello}} ($(Server)!0.20!(ServerGround)$);
+
+        \draw[<-] ($(Client)!0.35!(ClientGround)$) -- node[above]{\texttt{ServerHello}} ($(Server)!0.35!(ServerGround)$);
+        \draw[<-] ($(Client)!0.45!(ClientGround)$) -- node[above]{\texttt{[ChangeCipherSpec]}} ($(Server)!0.45!(ServerGround)$);
+        \draw[<-] ($(Client)!0.55!(ClientGround)$) -- node[above]{\texttt{Finished}} ($(Server)!0.55!(ServerGround)$);
+
+        \draw[->] ($(Client)!0.70!(ClientGround)$) -- node[above]{\texttt{[ChangeCipherSpec]}} ($(Server)!0.70!(ServerGround)$);
+        \draw[->] ($(Client)!0.80!(ClientGround)$) -- node[above]{\texttt{Finished}} ($(Server)!0.80!(ServerGround)$);
+
+        \draw[<->, thick] ($(Client)!0.98!(ClientGround)$) -- node[above]{\texttt{Application Data}} ($(Server)!0.98!(ServerGround)$);
+    \end{tikzpicture}
+    \caption{Simplied TLS handshake} \label{fig:simplied_tls_handshake}
+    \end{figure}
+
+
     Let's have a closer look at the various messsages that are exchanged during
     the TLS handshake:
-
-    \todo{Check differencies between TLS1.{0,1,2} protocols}
 
 \subsubsection{\texttt{HelloRequest}}
     This message may be sent by the server at any time and tells the client
@@ -191,7 +243,7 @@
     it can be useful in some cases, e.g. forcing a session renegotiation for
     a TLS sessions which are active for a longer period of time.
 
-\subsubsection{\texttt{ClientHello}}
+\subsubsection{\texttt{ClientHello}} \label{ref:client_hello}
     The \texttt{ClientHello} message is usually the first message in the TLS
     handshake, sent by the client, which initiates the session negotiation.
     The message itself contains the latest TLS version supported by the client,
@@ -260,37 +312,12 @@
 
 \subsubsection{\texttt{Finished}}
     The \texttt{Finished} message is always sent immediately after a
-    \texttt{ChangeCipherSpec} message~\ref{change_cipher_spec} to verify
+    \texttt{ChangeCipherSpec} message~\ref{ref:change_cipher_spec} to verify
     that the key exchange and authentication processes were successful.
     As the message follows the \texttt{ChangeCipherSpec} message, it is the
     first message protected by the newly negotiated algorithms and keys.
 
-
-    \todo{extensions - signature\_algorithms, SessionTicket, ...(?)}
-
-% - session negotiation \\
-%     - session identifier \\
-%     - peer certificate \\
-%     - compression method \\
-%     - cipher spec \\
-%     - master secret \\
-%     - is resumable \\
-% \\
-% - handshake: \\
-%     - exchange hello messages (algorithms, random values, session resumption) \\
-%     - exchange crypto parameters for premaster secret \\
-%     - exchange certs and crypto info for authentication \\
-%     - generate a master secret from the premaster secret and random values \\
-%     - provide security params to the TLS Record Layer \\
-%     - allow parameter verification between peers \\
-% \\
-% - types of handshake \\
-%     - basic \\
-%     - client auth \\
-%     - resumed \\
-%         - sessionID \\
-%         - tickets
-\subsection{TLS Change Cipher Spec Protocol} \label{change_cipher_spec}
+\subsection{TLS Change Cipher Spec Protocol} \label{ref:change_cipher_spec}
     The TLS Change Cipher Spec Protocol is used to signal transitions in
     ciphering strategies. The protocol itself consists of a single compressed
     and encrypted message -- \texttt{ChangeCipherSpec}. The encryption and
@@ -320,18 +347,88 @@
     is crucial to avoid truncation attacks.
     The second category contains a number of error alerts used for various
     purposed during the TLS session. All TLS alert messages are summarized
-    in Table~\ref{tab:tls-alerts}
+    in Table~\ref{tab:tls-alerts}.
 
 \subsection{TLS Application Data Protocol}
     The TLS Application Data Protocol takes the arbitrary data from the application
     layer and feeds it into the TLS Record Protocol for fragmentation, compression
     and encryption. The resulting TLS records are then sent to the recipient.
 
+\section{Cipher Spec and Cipher Suite}
+    In previous sections we mentioned terms \textit{cipher spec} and
+    \textit{ciper suite}. Let's have a closer look at their meanings.
+
+    A \textit{cipher spec} refers to a pair of algorithms that are used
+    cryptographically protect data. Such pair consists of a message
+    authentication algorithm (\textit{MAC}) and a data encryption algorithm. If we
+    add a key exchange algorithm to a cipher spec, we get a \textit{cipher suite}.
+
+    For example, \textit{TLS\_DHE\_RSA\_AES\_256\_CBC\_SHA1} refers to a TLS
+    cipher suite which uses ephemeral Diffie-Hellman with RSA for a key
+    exchange, 256-bit AES in CBC~\footnote{Cipher Block Chaining} mode for
+    encryption, and SHA-1 for message authentication.
+    \todo{List of cipher suites?}
+
 \section{TLS Extensions}
-% cite rfc6066
-% signature_algorithms
-% SessionTicket
-- todo
+    As mentioned in section~\ref{ref:tls_handshake_protocol}, the \texttt{ClientHello}
+    and \texttt{ServerHello} messages contain an optional field for extensions.
+    These extensions can be used to add functionality to TLS.
+
+    When a client wants to use an extension
+    it sends its name in the \texttt{ClientHello} message. If the
+    extension is supported by the server, it will be included in the responding
+    \texttt{ServerHello} message. However, if the \texttt{ServerHello} message
+    contains an extension, which was not sent by the client, the connection
+    must be aborted with an \texttt{unsupported\_extension} fatal
+    alert~(\ref{tab:tls-alerts}).~\cite{rfc3546}~\cite{rfc4366}
+
+    Describing all currently implemented extensions~\cite{rfc6066} is
+    way beyond scope of this thesis.
+    Thus, in the following paragraphs, we will discuss only those extensions,
+    which are currently tested by the implementation part of this thesis.
+    Nevertheless, support for other extensions is highly probable in
+    the near future.
+
+\subsection{Session Tickets}
+    If a client wanted to resume an existing session, it would have to
+    send a session ID in its \texttt{ClientHello} message (field \texttt{session\_id})
+    and the server would have to check its cache for a match (see
+    section~\ref{ref:tls_handshake_protocol}). This may cause problems on systems
+    with a large amount of requests from different users or on systems with
+    little memory. For such cases there is a \texttt{SessionTicket} TLS extension which uses
+    client-side caching.~\cite{rfc5077}
+
+    In the initial handshake, where the client does not possess a ticket for an existing
+    session, it includes an empty \texttt{SessionTicket} TLS extension in
+    its \texttt{ClientHello} message. The server responds with an empty
+    \texttt{SessionTicket} extension to indicate that it will send a new session
+    ticket using the \texttt{NewSessionTicket} message. This ticket contains
+    the current session state (such as ciphersuite and master secret) and is
+    cryptographically protected by a key, which is known only to the server.
+
+    When the client wishes to resume the session, it includes the cached ticket
+    in the \texttt{SessionTicket} extension of its \texttt{ClientHello} message.
+    The server then decrypts and verifies the contents of the ticket and resumes
+    the session according to the decrypted parameters. If the server cannot
+    or does not want to use the state from the ticket, then it can initiate
+    a full handshake with the client.
+
+\subsection{Signature Algorithms}
+    TLS 1.2 defines (\cite{rfc5246}, section 7.4.1.4.1) an extension
+    \texttt{supported\_signature\_algorithms}, which allows a client to tell
+    the server which hash and signature algorithm combinations it supports.
+    Even though internally the supported algorithms are split into two lists
+    (none, MD5, SHA-1, SHA-224, SHA-256, SHA-384 and SHA-512 for hash algorithms
+    and anonymous, RSA, DSA and ECSDA for signature algorithms), the algorithms
+    sent in the extension are always listed in pairs, as not all combinations
+    may be accepted by an implementation.
+
+    The peers exchange this information through the \texttt{ClientHello} and
+    \texttt{ServerHello} messages including the \texttt{supported\_signature\_algorithms}
+    extension. The client sends a list of supported algorithms and the server
+    responds with its choicei, that is going to be used for subsequent signature
+    generation and verification.
+
 
 \chapter{Continuous Integration}
 \todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
