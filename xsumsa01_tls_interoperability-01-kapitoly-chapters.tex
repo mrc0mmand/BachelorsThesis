@@ -2,9 +2,55 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
-    \todo{TODO !!!1}
+    SSL/TLS is the most widely used technology for securing today's Internet communications.
+    Every application, which trasmits data over the Internet, should implement
+    some kind of encryption and many of these applications use SSL/TLS. But, as
+    the correct way of implementing such encryption can be very tricky, and
+    a simple mistake may have severe consequences, several general-purpose
+    implementations -- libraries -- were created. These libaries allow the
+    application to use SSL/TLS without having to create their own implementation.
 
-\chapter{SSL/TLS}
+    Even though these libraries follow certain standards, which should ensure
+    their inteoperability (ability to communicate with any library which
+    implements SSL/TLS according to the standards), they may contain little
+    deviations or issues which can cause unexpected behavior or even some more
+    serious problems (like denial of service). To avoid,
+    or to at least detect, such issues we can implement tests, which will test the
+    inteoperability between the SSL/TLS libraries. This is one of the main
+    goals of this thesis.
+
+    Executing these tests manually for different environments would be ineffective,
+    tedious and not error-prone.
+    Thus, using an automation, which would test various combinations of different
+    library versions on different versions of operating systems is necessary.
+    Such automation -- in this case we call it \textit{continuous integration} -- is
+    the second main topic of this thesis.
+
+    By combining all these features together, we get a powerful system for continuous
+    SSL/TLS library testing. This system can be used for regression detection
+    and ensuring, that interoperability between two given libraries works in a specific
+    environment with a specific combination of settings.
+
+    All necessary components
+    for such system are described in the following chapters, starting with a
+    brief description of SSL/TLS protocols and their features in
+    chapter~\ref{chap:ssl_tls}.
+
+    Chapter~\ref{chap:continuous_integration}
+    describes various continuous integration systems, which were considered
+    for the final solution, and how the implemented solution looks like.
+
+    The testing itself, along with used technologies, is discussed in
+    chapter~\ref{chap:ssl_tls_testing}. This chapter also includes a list
+    and description of libraries, which were chosen to be tested and why.
+
+    During the testing phase several issues were found. Some of them are harmless,
+    others can have a serious impact on the application, which uses given library.
+    Summary of these results is detailed in chapter~\ref{chap:testing_results}
+    following a thesis summary in chapter~\ref{chap:conclusion}.
+
+
+\chapter{SSL/TLS} \label{chap:ssl_tls}
     \textit{Secure Socket Layer}~(SSL) and its successor
     \textit{Transport Layer Security}~(TLS) are cryptographic protocols
     designed to provide communications security over a computer network. As
@@ -430,11 +476,11 @@
     generation and verification.
 
 
-\chapter{Continuous Integration}
+\chapter{Continuous Integration} \label{chap:continuous_integration}
 \todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
 \todo{current state - github, travis, docker, beakerlib, ...}
 
-\chapter {SSL/TLS Testing}
+\chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
     Before the testing itself, we have to know what should be tested, how it
     should be tested and where, or to be more precise, which environments it
     should be tested in.
@@ -536,8 +582,8 @@
     \todo{beakerlib, testplan(!), test format, relevancy, tested systems, tested libraries,
     what's not covered and why, ...}
 
-\chapter {Testing Results}
+\chapter {Testing Results} \label{chap:testing_results}
 \todo{filed bugs/CVEs, split upstream and downstream}
 
-\chapter {Conclusion}
+\chapter {Conclusion} \label{chap:conclusion}
 \todo{summarise findings, current CI state, future work (if any), ...}
