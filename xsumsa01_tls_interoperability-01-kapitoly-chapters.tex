@@ -275,9 +275,8 @@
 
         \draw[<->, thick] ($(Client)!0.98!(ClientGround)$) -- node[above]{\texttt{Application Data}} ($(Server)!0.98!(ServerGround)$);
     \end{tikzpicture}
-    \caption{Simplied TLS handshake} \label{fig:simplied_tls_handshake}
+    \caption{Simplified TLS handshake} \label{fig:simplied_tls_handshake}
     \end{figure}
-
 
     Let's have a closer look at the various messsages that are exchanged during
     the TLS handshake:
@@ -367,7 +366,7 @@
     The TLS Change Cipher Spec Protocol is used to signal transitions in
     ciphering strategies. The protocol itself consists of a single compressed
     and encrypted message -- \texttt{ChangeCipherSpec}. The encryption and
-    compression method corresponds to the current (not the pending) cipher
+    compression methods correspond to the current (not the pending) cipher
     spec.
 
     After receiving this message, the receiver instructs its record layer
@@ -472,13 +471,24 @@
     The peers exchange this information through the \texttt{ClientHello} and
     \texttt{ServerHello} messages including the \texttt{supported\_signature\_algorithms}
     extension. The client sends a list of supported algorithms and the server
-    responds with its choicei, that is going to be used for subsequent signature
+    responds with its choice, that is going to be used for any subsequent signature
     generation and verification.
 
 
-\chapter{Continuous Integration} \label{chap:continuous_integration}
+\chapter{Continuous Integration System} \label{chap:continuous_integration}
 \todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
-\todo{current state - github, travis, docker, beakerlib, ...}
+\todo{current state - github, travis, docker, ...}
+
+\section{GitHub \& Webhooks}
+\section{Jenkins}
+\subsection{Plugins(?)}
+\section{Beaker}
+\section{OpenStack}
+    \todo{+components}
+\section{Travis}
+\section{Docker}
+\section{Current State}
+
 
 \chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
     Before the testing itself, we have to know what should be tested, how it
@@ -578,12 +588,19 @@
     RHEL~\footnote{Red Hat Enterprise Linux -
     https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux}.
 
+\section{Test Format}
+    \todo{test plan(!!!)}
+\subsection{Beakerlib}
+\subsection{Test relevancy}
 
-    \todo{beakerlib, testplan(!), test format, relevancy, tested systems, tested libraries,
-    what's not covered and why, ...}
+\section{Testing Process}
+    \todo{PR/commit trigger -> test-setup.sh -> docker -> test-runner.sh ...}
+
+\section{Outstanding Issues(?)}
+    \todo{FIPS}
 
 \chapter {Testing Results} \label{chap:testing_results}
 \todo{filed bugs/CVEs, split upstream and downstream}
 
 \chapter {Conclusion} \label{chap:conclusion}
-\todo{summarise findings, current CI state, future work (if any), ...}
+\todo{summarize findings, current CI state, future work (if any), ...}

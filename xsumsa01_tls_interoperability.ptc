@@ -1,38 +1,51 @@
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}
-\contentsline {chapter}{\numberline {2}SSL/TLS}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}Overview}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}TLS Protocols}{4}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}TLS Record Protocol}{4}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}TLS Handshake Protocol}{4}{subsection.2.2.2}
-\contentsline {subsubsection}{\texttt {HelloRequest}}{7}{section*.2}
-\contentsline {subsubsection}{\texttt {ClientHello}}{7}{section*.3}
-\contentsline {subsubsection}{\texttt {ServerHello}}{7}{section*.4}
-\contentsline {subsubsection}{\texttt {Certificate}}{7}{section*.5}
-\contentsline {subsubsection}{\texttt {ServerKeyExchange}}{8}{section*.6}
-\contentsline {subsubsection}{\texttt {CertificateRequest}}{8}{section*.7}
-\contentsline {subsubsection}{\texttt {ServerHelloDone}}{8}{section*.8}
-\contentsline {subsubsection}{\texttt {ClientKeyExchange}}{8}{section*.9}
-\contentsline {subsubsection}{\texttt {CertificateVerify}}{8}{section*.10}
-\contentsline {subsubsection}{\texttt {Finished}}{8}{section*.11}
-\contentsline {subsection}{\numberline {2.2.3}TLS Change Cipher Spec Protocol}{9}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}TLS Alert Protocol}{9}{subsection.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}TLS Application Data Protocol}{9}{subsection.2.2.5}
-\contentsline {section}{\numberline {2.3}Cipher Spec and Cipher Suite}{9}{section.2.3}
-\contentsline {section}{\numberline {2.4}TLS Extensions}{10}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Session Tickets}{10}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Signature Algorithms}{10}{subsection.2.4.2}
-\contentsline {chapter}{\numberline {3}Continuous Integration}{11}{chapter.3}
-\contentsline {chapter}{\numberline {4}SSL/TLS Testing}{12}{chapter.4}
-\contentsline {section}{\numberline {4.1}Tested Libraries}{12}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}OpenSSL}{12}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}NSS}{13}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}GnuTLS}{13}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}Tested Environments}{14}{section.4.2}
-\contentsline {chapter}{\numberline {5}Testing Results}{15}{chapter.5}
-\contentsline {chapter}{\numberline {6}Conclusion}{16}{chapter.6}
-\contentsline {chapter}{Bibliography}{17}{chapter*.12}
-\contentsline {chapter}{Appendices}{18}{section*.13}
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
+\contentsline {chapter}{\numberline {2}SSL/TLS}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Overview}{4}{section.2.1}
+\contentsline {section}{\numberline {2.2}TLS Protocols}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}TLS Record Protocol}{5}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}TLS Handshake Protocol}{5}{subsection.2.2.2}
+\contentsline {subsubsection}{\texttt {HelloRequest}}{8}{section*.2}
+\contentsline {subsubsection}{\texttt {ClientHello}}{8}{section*.3}
+\contentsline {subsubsection}{\texttt {ServerHello}}{8}{section*.4}
+\contentsline {subsubsection}{\texttt {Certificate}}{8}{section*.5}
+\contentsline {subsubsection}{\texttt {ServerKeyExchange}}{9}{section*.6}
+\contentsline {subsubsection}{\texttt {CertificateRequest}}{9}{section*.7}
+\contentsline {subsubsection}{\texttt {ServerHelloDone}}{9}{section*.8}
+\contentsline {subsubsection}{\texttt {ClientKeyExchange}}{9}{section*.9}
+\contentsline {subsubsection}{\texttt {CertificateVerify}}{9}{section*.10}
+\contentsline {subsubsection}{\texttt {Finished}}{9}{section*.11}
+\contentsline {subsection}{\numberline {2.2.3}TLS Change Cipher Spec Protocol}{10}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}TLS Alert Protocol}{10}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}TLS Application Data Protocol}{10}{subsection.2.2.5}
+\contentsline {section}{\numberline {2.3}Cipher Spec and Cipher Suite}{10}{section.2.3}
+\contentsline {section}{\numberline {2.4}TLS Extensions}{11}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Session Tickets}{11}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Signature Algorithms}{11}{subsection.2.4.2}
+\contentsline {chapter}{\numberline {3}Continuous Integration System}{12}{chapter.3}
+\contentsline {section}{\numberline {3.1}GitHub \& Webhooks}{12}{section.3.1}
+\contentsline {section}{\numberline {3.2}Jenkins}{12}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Plugins(?)}{12}{subsection.3.2.1}
+\contentsline {section}{\numberline {3.3}Beaker}{12}{section.3.3}
+\contentsline {section}{\numberline {3.4}OpenStack}{12}{section.3.4}
+\contentsline {section}{\numberline {3.5}Travis}{12}{section.3.5}
+\contentsline {section}{\numberline {3.6}Docker}{12}{section.3.6}
+\contentsline {section}{\numberline {3.7}Current State}{12}{section.3.7}
+\contentsline {chapter}{\numberline {4}SSL/TLS Testing}{13}{chapter.4}
+\contentsline {section}{\numberline {4.1}Tested Libraries}{13}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}OpenSSL}{13}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}NSS}{14}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}GnuTLS}{14}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Tested Environments}{15}{section.4.2}
+\contentsline {section}{\numberline {4.3}Test Format}{15}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Beakerlib}{15}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Test relevancy}{15}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Testing Process}{15}{section.4.4}
+\contentsline {section}{\numberline {4.5}Outstanding Issues(?)}{15}{section.4.5}
+\contentsline {chapter}{\numberline {5}Testing Results}{16}{chapter.5}
+\contentsline {chapter}{\numberline {6}Conclusion}{17}{chapter.6}
+\contentsline {chapter}{Bibliography}{18}{chapter*.12}
+\contentsline {chapter}{Appendices}{19}{section*.13}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}TLS Alerts}{19}{appendix.A}
+\contentsline {chapter}{\numberline {A}TLS Alerts}{20}{appendix.A}
 \contentsfinish 
