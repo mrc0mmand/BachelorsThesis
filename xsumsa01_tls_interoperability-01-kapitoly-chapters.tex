@@ -589,12 +589,112 @@
     https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux}.
 
 \section{Test Format}
+    Each test consists of two main files -- \textit{runtest.sh} and \textit{Makefile}
+    -- and other optional auxiliary files. Makefile contains metadata of the
+    particular test, such as its name, author, version, dependencies, information
+    about relevancy, package it tests, etc. It also contains several make
+    targets, so for example \texttt{make run} makes the runtest.sh executable
+    and runs it. The CI makes use of this file and extracts some necessary
+    information from it -- namely dependencies and relevancy -- to ensure
+    correct execution of the test itself.
+
+    The second file -- runtest.sh -- is the core of the test. It is a Bash
+    script using the Beakerlib~\footnote{https://github.com/beakerlib/beakerlib}
+    testing framework containing a sequence of commands and asserts which
+    are executed and evaluated. Each command execution or an assert
+    creates a record in a log, which is processed, stored and printed at the end of
+    each test run.
+
+    Let's have an example runtest.sh script, which simply generates an elliptic
+    curve key and checks if it contains "BEGIN EC PRIVATE KEY"
+    (Figure~\ref{fig:runtest.sh}). When executed, Beakerlib generates two
+    logs -- the first one is generated throughout the test execution and contains
+    outputs of all executed commands, whether the second one is generated at
+    the end of the test and contains a summary of the first log. An execution
+    log can be seen in Figure~\ref{fig:runtest.sh-log}.
+
+    \begin{figure}
+        \begin{lstlisting}[language=Bash,basicstyle=\small]
+. /usr/share/beakerlib/beakerlib.sh || exit 1
+
+PACKAGE="openssl"
+
+rlJournalStart
+    rlPhaseStartSetup
+        rlAssertRpm $PACKAGE
+        rlRun "TestDir=\$(pwd)"
+        rlRun "TmpDir=\$(mktemp -d)" 0 "Creating tmp directory"
+        rlRun "pushd $TmpDir"
+    rlPhaseEnd
+
+    rlPhaseStartTest
+        rlRun "openssl ecparam -genkey -name prime256v1 -out ec.key"
+        rlAssertGrep "BEGIN EC PRIVATE KEY" "ec.key"
+    rlPhaseEnd
+
+    rlPhaseStartCleanup
+        rlRun "popd"
+        rlRun "rm -r $TmpDir" 0 "Removing tmp directory"
+    rlPhaseEnd
+rlJournalPrintText
+rlJournalEnd
+        \end{lstlisting}
+        \caption{Example runtest.sh file} \label{fig:runtest.sh}
+    \end{figure}
+
+    \begin{figure}
+        \begin{lstlisting}[basicstyle=\small]
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: [   LOG    ] :: Setup
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+openssl-1.1.0c-5.fc26.x86_64
+:: [   PASS   ] :: Checking for the presence of openssl rpm
+:: [ 22:32:45 ] :: Package versions:
+:: [ 22:32:45 ] ::   openssl-1.1.0c-5.fc26.x86_64
+:: [  BEGIN   ] :: Running 'TestDir=$(pwd)'
+:: [   PASS   ] :: Command 'TestDir=$(pwd)' (Expected 0, got 0)
+:: [  BEGIN   ] :: Creating tmp directory :: actually running
+                   'TmpDir=$(mktemp -d)'
+:: [   PASS   ] :: Creating tmp directory (Expected 0, got 0)
+:: [  BEGIN   ] :: Running 'pushd /tmp/tmp.qHTxIVtyY2'
+/tmp/tmp.qHTxIVtyY2 /tmp
+:: [   PASS   ] :: Command 'pushd /tmp/tmp.qHTxIVtyY2'
+                   (Expected 0, got 0)
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: [   LOG    ] :: Test
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [  BEGIN   ] :: Generate an EC key :: actually running
+                   'openssl ecparam -genkey -name prime256v1
+                   -out ec.key'
+:: [   PASS   ] :: Generate an EC key (Expected 0, got 0)
+:: [   PASS   ] :: File 'ec.key' should contain 'BEGIN EC PRIVATE KEY'
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: [   LOG    ] :: Cleanup
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [  BEGIN   ] :: Running 'popd'
+/tmp
+:: [   PASS   ] :: Command 'popd' (Expected 0, got 0)
+:: [  BEGIN   ] :: Removing tmp directory :: actually running
+                   'rm -r /tmp/tmp.qHTxIVtyY2'
+:: [   PASS   ] :: Removing tmp directory (Expected 0, got 0)
+        \end{lstlisting}
+        \caption{Execution log of the runtest.sh from Figure~\ref{fig:runtest.sh}}
+        \label{fig:runtest.sh-log}
+    \end{figure}
+
     \todo{test plan(!!!)}
 \subsection{Beakerlib}
 \subsection{Test relevancy}
 
 \section{Testing Process}
     \todo{PR/commit trigger -> test-setup.sh -> docker -> test-runner.sh ...}
+
+\section{Tested Features}
 
 \section{Outstanding Issues(?)}
     \todo{FIPS}
