@@ -55,14 +55,13 @@
         \item IEEE 829-2008 Standard for Software Test
         Documentation~\footnote{http://standards.ieee.org/findstds/standard/829-2008.html}
         \item Common Criteria \@ access.redhat.com~\footnote{https://access.redhat.com/blogs/766093/posts/1976523}
-        \todo{TODO}
     \end{itemize}
 
 \section{Introduction}
     The main goal of this test plan is to ensure interoperability of supported
-    SSL/TLS libraries on CentOS and Fedora systems. The testing itself involves
+    SSL/TLS libraries on CentOS/RHEL and Fedora systems. The testing itself involves
     verification of ability to comunicate between two libraries using various
-    combination of cipher suites and extensions.
+    combination of cipher suites, connection settings and extensions.
 
 \section{Test Items}
 \subsection{Components}
@@ -83,11 +82,10 @@
     \end{itemize}
 
 \section{Software Risk Issues}
-\todo{TODO}
-
-
-\todo{test case list/matrix?}
-
+    \begin{itemize}
+        \item Package rebases can cause unexpected behavior and/or regressions
+              -- thorough test results analysis is necessary
+    \end{itemize}
 
 \section{Features to be Tested}
     All features are tested using TLSv1.1 and TLSv1.2 protocols with all supported
@@ -147,6 +145,31 @@
         \item Session renegotiation is successful
     \end{itemize}
 
+\section{Test Cases}
+    \todo{signature algorithms}
+    \noindent\begin{tabularx}{\linewidth}{@{}X c c c }
+    \caption{Test case matrix}\label{tab:test-plan-matrix} \\
+    \toprule
+    \textbf{Test case} & \textbf{CentOS 6} & \textbf{CentOS 7} & \textbf{Fedora} \\
+    \midrule
+    \endhead
+    gnutls/renegotiation-with-NSS                 &   & x & x \\
+    gnutls/renegotiation-with-OpenSSL             &   & x & x \\
+    gnutls/resumption-with-NSS                    &   & x & x \\
+    gnutls/resumption-with-OpenSSL                &   & x & x \\
+    gnutls/softhsm-integration                    &   & x & x \\
+    gnutls/TLSv1-2-with-NSS                       & x & x & x \\
+    gnutls/TLSv1-2-with-OpenSSL                   & x & x & x \\
+    \hline
+    nss/CC-nss-with-gnutls                        &   & x & x \\
+    nss/CC-nss-with-openssl                       &   & x & x \\
+    nss/Interoperability-with-OpenSSL             & x & x & x \\
+    nss/renego-and-resumption-NSS-with-OpenSSL    & x & x & x \\
+    \hline
+    openssl/CC-openssl-with-gnutls                &   & x & x \\
+
+    \end{tabularx}
+
 \section{Suspension Criteria and Resumption Requirements}
     Testing will be suspended if any of the following criteria are met:
     \begin{itemize}
@@ -203,15 +226,12 @@
 \section{Schedule}
     Currently all tests are being executed when a new PR or commit is pushed
     to the test repository. In the nearest future, all tests should be executed
-    periodically and when a new version of supported system is released.
+    periodically, and when a new version of a supported system is released.
 
     Long term plans include delivering all test cases to both downstream and
     upstream, so possible failures can be detected before the library itself
     is released.
 
-\section{Planning Risks and Contingencies}
-\todo{is this necessary?}
-
 \section{Approvals}
+\todo{TODO?}
 
-\section{Glossary}
