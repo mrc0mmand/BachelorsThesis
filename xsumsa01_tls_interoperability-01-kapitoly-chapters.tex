@@ -476,18 +476,82 @@
 
 
 \chapter{Continuous Integration System} \label{chap:continuous_integration}
-\todo{(overview, jenkins, travis, semaphore, beaker, openstack, ...)}
-\todo{current state - github, travis, docker, ...}
+    \todo{General overview}
+
+    During the progress of these thesis, we tried several solutions before
+    implementing and accepting the final one.
 
 \section{GitHub \& Webhooks}
+    First of the proposed solutions was a simple Python script, which would
+    make use of GitHub's webhooks~\cite{github-webhooks}. This script would listen
+    for requests from GitHub and would perform required tasks.
+
+    This solution, even though it was very flexible, would require re-implementation
+    of many things already implemented in already existing solutions, which would
+    consume unnecessary amount of time, that could be utilized for other, more important things.
+
 \section{Jenkins}
-\subsection{Plugins(?)}
-\section{Beaker}
-\section{OpenStack}
-    \todo{+components}
-\section{Travis}
-\section{Docker}
+    During our search for more robust and complete solution, we come across
+    Jenkins. Jenkins is an open-source automation server, which can be used
+    for automation of various tasks~\cite{jenkins-docs}. After several
+    proof-of-concept solutions we knew that Jenkins is something we can
+    build on.
+
+    Nevertheless, Jenkins itself lacks integration with GitHub. Thankfully, that
+    could be solved by using several open-source plugins. First of them is
+    \textit{GitHub Plugin}~\footnote{https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin},
+    which provides basic integration with GitHub and functionality for other
+    GitHub plugins. This functionality is used and improved by
+    \textit{GitHub pull request builder plugin}~\footnote{https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin},
+    which adds support for polling from GitHub webhooks, trigger hooks for
+    specific comments in pull requests, customizable build status messages and
+    others.
+
+    Combining all these things above together, we were able to create a working
+    automation system -- \textit{CI} -- which reacted to changes in the test
+    repository and reported build results back to it. The major disadvantage
+    was in running all build tasks on the same machine as the Jenkins itself.
+    So the another necessary task was implementing some kind of isolation
+    for the build tasks.
+
+    In our current infrastructure we use Beaker~(Chapter~\ref{ref:beaker}) for machine
+    provision, where each tasks has its own machine. This sounded like exactly
+    what we needed, but that would require obtaining machines for our machine pool
+    and their maintenance, which was far too excessive for such small project.
+
+    Taking inspiration from another of our internal projects, we thought about
+    using OpenStack~(Chapter~\ref{ref:openstack}) for provision of virtual
+    machines. OpenStack could run on the same machine as Jenkins, so we wouldn't
+    need another hardware. Also, the provision can be done from pre-installed
+    images, so it would be much faster than in case of Beaker. Unfortunately,
+    after spending several hours by reading documentation and playing around with
+    OpenStack itself we have concluded, that it would be too demanding
+    to maintain.
+
+    Finally, we managed to isolate build tasks using Docker~\ref{ref:docker} containers.
+    But, after this step, where we managed to get rid of dependency on other machines,
+    and basically on dependency on the underlying operating system itself, we
+    were trying to move everything somewhere to the cloud, so we would be free
+    of the need of maintaining our own infrastructure. And thankfully, after
+    another trial and error, we managed to accomplish that goal using Travis.
+
+\subsection{Beaker} \label{ref:beaker}
+    Beaker is open-source software for managing and automating labs of test
+    computers.~\cite{beaker-docs} It allows administrators and users to maintain an
+    automated invetory of all machines present in the machine pool with
+    system details, running tasks on machines with specific environments and
+    reporting (and storing) results back.
+
+\subsection{OpenStack} \label{ref:openstack}
+    OpenStack is a cloud operating system for managing pools of compute, storage,
+    and networking resources.~\cite{openstack-docs} For easier administration and
+    usage, almost everything can be managed through a web dashboard, which provides
+    all necessary information. OpenStack itself consists of several components,
+    which can be added or removed according to the particular needs.
+
+\subsection{Docker} \label{ref:docker}
 \section{Current State}
+\subsection{Travis CI}
 
 
 \chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
@@ -518,10 +582,10 @@
     API~\footnote{Application Programming Interface} of each library,
     which is not error prone and would require a maintenance of such applications.
     Thankfully, each of the tested libraries provides a set of utilities,
-    among which we can found a simple client and server application with
-    dozens of settings and options. These applications are then used in
+    among which we can find a simple client and server applications with
+    dozens of settings and options. These utilities are then used in
     various scenarios to ensure, that given valid combination of settings works
-    for both client and a server using different libraries.
+    for both client and server using different libraries.
 
 \subsection{OpenSSL}
     OpenSSL is an open source library maintained by The OpenSSL Project,
