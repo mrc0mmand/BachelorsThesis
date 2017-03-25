@@ -38,11 +38,10 @@
 \contentsline {subsection}{\numberline {4.1.3}GnuTLS}{14}{subsection.4.1.3}
 \contentsline {section}{\numberline {4.2}Tested Environments}{15}{section.4.2}
 \contentsline {section}{\numberline {4.3}Test Format}{15}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Beakerlib}{15}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Test relevancy}{15}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Testing Process}{15}{section.4.4}
-\contentsline {section}{\numberline {4.5}Tested Features}{15}{section.4.5}
-\contentsline {section}{\numberline {4.6}Outstanding Issues(?)}{15}{section.4.6}
+\contentsline {subsection}{\numberline {4.3.1}Test relevancy}{15}{subsection.4.3.1}
+\contentsline {section}{\numberline {4.4}Testing Process}{16}{section.4.4}
+\contentsline {section}{\numberline {4.5}Tested Features}{16}{section.4.5}
+\contentsline {section}{\numberline {4.6}Outstanding Issues(?)}{16}{section.4.6}
 \contentsline {chapter}{\numberline {5}Testing Results}{18}{chapter.5}
 \contentsline {chapter}{\numberline {6}Conclusion}{19}{chapter.6}
 \contentsline {chapter}{Bibliography}{20}{chapter*.12}
@@ -61,16 +60,15 @@
 \contentsline {section}{\numberline {B.7}Features not to be Tested}{25}{section.B.7}
 \contentsline {section}{\numberline {B.8}Approach}{25}{section.B.8}
 \contentsline {section}{\numberline {B.9}Item Pass/Fail Criteria}{26}{section.B.9}
-\contentsline {section}{\numberline {B.10}Suspension Criteria and Resumption Requirements}{26}{section.B.10}
-\contentsline {section}{\numberline {B.11}Test Deliverables}{26}{section.B.11}
-\contentsline {section}{\numberline {B.12}Remaining Test Tasks}{26}{section.B.12}
-\contentsline {section}{\numberline {B.13}Environmental Needs}{27}{section.B.13}
-\contentsline {subsection}{\numberline {B.13.1}Hardware}{27}{subsection.B.13.1}
-\contentsline {subsection}{\numberline {B.13.2}Software}{27}{subsection.B.13.2}
-\contentsline {section}{\numberline {B.14}Staffing and Training needs}{27}{section.B.14}
-\contentsline {section}{\numberline {B.15}Responsibilities}{27}{section.B.15}
-\contentsline {section}{\numberline {B.16}Schedule}{27}{section.B.16}
-\contentsline {section}{\numberline {B.17}Planning Risks and Contingencies}{27}{section.B.17}
-\contentsline {section}{\numberline {B.18}Approvals}{27}{section.B.18}
-\contentsline {section}{\numberline {B.19}Glossary}{27}{section.B.19}
+\contentsline {section}{\numberline {B.10}Test Cases}{26}{section.B.10}
+\contentsline {section}{\numberline {B.11}Suspension Criteria and Resumption Requirements}{26}{section.B.11}
+\contentsline {section}{\numberline {B.12}Test Deliverables}{26}{section.B.12}
+\contentsline {section}{\numberline {B.13}Remaining Test Tasks}{27}{section.B.13}
+\contentsline {section}{\numberline {B.14}Environmental Needs}{27}{section.B.14}
+\contentsline {subsection}{\numberline {B.14.1}Hardware}{27}{subsection.B.14.1}
+\contentsline {subsection}{\numberline {B.14.2}Software}{27}{subsection.B.14.2}
+\contentsline {section}{\numberline {B.15}Staffing and Training needs}{27}{section.B.15}
+\contentsline {section}{\numberline {B.16}Responsibilities}{27}{section.B.16}
+\contentsline {section}{\numberline {B.17}Schedule}{27}{section.B.17}
+\contentsline {section}{\numberline {B.18}Approvals}{28}{section.B.18}
 \contentsfinish 

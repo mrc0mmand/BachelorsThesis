@@ -688,8 +688,32 @@ openssl-1.1.0c-5.fc26.x86_64
     \end{figure}
 
     \todo{test plan(!!!)}
-\subsection{Beakerlib}
 \subsection{Test relevancy}
+    To control in which environments should be each test case executed, we have
+    to implement an algorithm, which would check if a given test case is relevant
+    for a given environment before the execution itself. The information about
+    relevant environments is stated in the Makefile of each test case and has
+    a following format:
+
+    \begin{lstlisting}
+"Releases:        -RHEL4 -RHELClient5 -RHELServer5"
+    \end{lstlisting}
+
+    The test will be excluded from all environments, which have a - symbol
+    before their name. Environments not included in the list are implicitly
+    added when the final check is done. The same syntax can be used for
+    architectures as well, but as the current CI is limited to an x86\_64
+    architecture, it is not relevant for this thesis.
+
+    To apply this relevancy during the testing itself a simple script was
+    created, which parses the Makefile and compares the parsed environments
+    with the current one. If a match with a non-excluded environment is found,
+    the test is executed, otherwise it is simply skipped.
+
+    As the CentOS and RHEL environments are basically the same, the relevancy
+    script is able to interchange between these two environments to avoid
+    unnecessary duplicites in the Makefile. Thus, a \texttt{RHEL7} environment
+    from the Makefile matches both CentOS 7 and RHEL 7 environments.
 
 \section{Testing Process}
     \todo{PR/commit trigger -> test-setup.sh -> docker -> test-runner.sh ...}
