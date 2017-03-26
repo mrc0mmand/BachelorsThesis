@@ -521,11 +521,11 @@
 
     Taking inspiration from another of our internal projects, we thought about
     using OpenStack~(Section~\ref{ref:openstack}) for provision of virtual
-    machines. OpenStack could run on the same machine as Jenkins, so we wouldn't
+    machines. OpenStack could run on the same machine as Jenkins, so we would not
     need another hardware. Also, the provision can be done from pre-installed
     images, so it would be much faster than in case of Beaker. Unfortunately,
     after spending several hours by reading documentation and playing around with
-    OpenStack itself we have concluded, that it would be too demanding
+    OpenStack itself, we have concluded, that it would be too demanding
     to maintain.
 
     Finally, we managed to isolate build tasks using Docker containers~(Section~\ref{ref:docker}).
@@ -536,23 +536,80 @@
     another trial and error, we managed to accomplish that goal using Travis.
 
 \subsection{Beaker} \label{ref:beaker}
-    Beaker is open-source software for managing and automating labs of test
+    Beaker is an open-source software for managing and automating labs of test
     computers.~\cite{beaker-docs} It allows administrators and users to maintain an
     automated invetory of all machines present in the machine pool with
     system details, running tasks on machines with specific environments and
     reporting (and storing) results back.
 
 \subsection{OpenStack} \label{ref:openstack}
-    OpenStack is a cloud operating system for managing pools of compute, storage,
+    OpenStack is an open-source cloud operating system for managing pools of compute, storage,
     and networking resources.~\cite{openstack-docs} For easier administration and
     usage, almost everything can be managed through a web dashboard, which provides
     all necessary information. OpenStack itself consists of several components,
     which can be added or removed according to the particular needs.
 
 \subsection{Docker} \label{ref:docker}
-\section{Current State}
-\subsection{Travis CI}
+    Docker is an open-source project which automates deployment of applications
+    inside containers.~\cite{docker-docs} Container is a small, executable image,
+    which contains all necessary software to run a desired application without
+    any other external dependencies, in an isolated environment. This approach
+    allows us to run an application under a different operating system -- e.g.
+    running an application in a CentOS 7 container even though the host operating
+    system is Ubuntu. This feature is crucial in the CI implemented in this thesis.
 
+\section{Travis CI}
+    As mentioned above, the chosen solution is Travis CI. Travis CI is a powerful,
+    hosted, distributed continuous integration service, used exclusively to
+    build and test projects hosted at GitHub.~\cite{travis-ci-docs} It has two
+    variants -- commercial, for private projects and free, for open-source
+    projects. As all tests and scripts from this thesis are open-source, and
+    we were already using GitHub, wecould use the free variant and throw away
+    the need for our own infrastructure.
+
+    Nevertheless, even though Travis CI met our expectations, it was not exactly
+    "out-of-the-box" solution for us, as we had to overcome several obstacles.
+
+    \todo{describe integration with GitHub (commit status, PR status, \dots)}
+
+\subsection{Operating System}
+    First major issue was the OS used by Travis CI, which is Ubuntu, as our
+    tests should run on CentOS and Fedora. Thankfully, using and extending the
+    already implemented solution from the previous experience with
+    Jenkins, we were able to workaround this issue using Docker containers.
+    Both CentOS~\footnote{https://hub.docker.com/\_/centos/} and
+    Fedora~\footnote{https://hub.docker.com/\_/fedora/} have official images
+    for Docker, so we did not have to bother with making and maintaining our
+    own Docker images.
+
+    Travis CI itself supports Docker, so we can simply tell Travis to enable
+    Docker for our build, pull a correct docker image and then simply run
+    whatever we want inside it.
+
+\subsection{Test Environments}
+    Even though Travis does know concept of environments, and has a built-in
+    mechanism for specifying a matrix of environment variables, where each
+    set specifying an environments has its own job, it still needs some handler,
+    which would correctly set up the environment according to these settings.
+
+    For this purpose, a short Bash script was written~\footnote{\texttt{scripts/test-setup.sh}}.
+    This scripts takes four arguments -- OS type
+    (centos, fedora), OS version (7, 25, \dots), tested component (openssl, gnutls,
+    nss) and glob pattern for further test case specificiation
+    (see Section~\ref{ref:performance-limits}).
+
+    \todo{describe test-setup.sh}
+
+\subsection{Test Execution}
+    As our test suite contains several tests, where each one of them lies in
+    its own script file, it does not have any entry point, which could be passed
+    to Docker to run all tests. For this case, we had to create a script,
+    which would coordinate test execution according to the current environment.
+
+    \todo{test-runner.sh}
+
+\subsection{Performance and Limits} \label{ref:performance-limits}
+\todo{travis limits, job splitting - globs, log size limit, \dots}
 
 \chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
     Before the testing itself, we have to know what should be tested, how it
@@ -572,7 +629,7 @@
     expansion to support other libraries is not impossible.
 
     Even though these libraries are
-    separate projects, an user must be able to communicate with every client,
+    separate projects, user must be able to communicate with every client,
     which supports the particular protocol and ciphersute, no matter which
     implementation they use. Testing of this functionality --- \textit{interoperability} ---
     is the main goal of this thesis.
@@ -783,6 +840,7 @@ openssl-1.1.0c-5.fc26.x86_64
     \todo{PR/commit trigger -> test-setup.sh -> docker -> test-runner.sh ...}
 
 \section{Tested Features}
+    \todo{describe what was already implemented and what's new(!1!11)}
 
 \section{Outstanding Issues(?)}
     \todo{FIPS}
