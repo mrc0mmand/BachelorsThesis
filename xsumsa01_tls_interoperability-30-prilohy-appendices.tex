@@ -146,7 +146,6 @@
     \end{itemize}
 
 \section{Test Cases}
-    \todo{signature algorithms}
     \noindent\begin{tabularx}{\linewidth}{@{}X c c c }
     \caption{Test case matrix}\label{tab:test-plan-matrix} \\
     \toprule
@@ -160,6 +159,7 @@
     gnutls/softhsm-integration                    &   & x & x \\
     gnutls/TLSv1-2-with-NSS                       & x & x & x \\
     gnutls/TLSv1-2-with-OpenSSL                   & x & x & x \\
+    gnutls/signature_algorithms-with-OpenSSL      &   & x & x \\
     \hline
     nss/CC-nss-with-gnutls                        &   & x & x \\
     nss/CC-nss-with-openssl                       &   & x & x \\
@@ -203,7 +203,7 @@
     limited support of these extensions by the utilities of SSL/TLS libraries.
 
     Testing of some recent algorithms for TLS should be considered as well
-    (e.g. \textit{ChaCha20-Poly1305}~\footnote{https://tools.ietf.org/html/rfc7905}).
+    (e.g. \textit{ChaCha20-Poly1305}~\footnote{https://www.rfc-editor.org/rfc/rfc7905.txt}).
     This will have to wait until the SSL/TLS libraries provide support for
     these algorithms.
 
@@ -221,7 +221,11 @@
     N/A
 
 \section{Responsibilities}
-\todo{TODO?}
+    \begin{itemize}
+        \item František Šumšal
+        \item Stanislav Židek
+        \item Hubert Kario
+    \end{itemize}
 
 \section{Schedule}
     Currently all tests are being executed when a new PR or commit is pushed
@@ -233,5 +237,6 @@
     is released.
 
 \section{Approvals}
-\todo{TODO?}
-
+    \begin{itemize}
+        \item Stanislav Židek
+    \end{itemize}
