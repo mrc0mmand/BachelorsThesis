@@ -587,7 +587,7 @@
     whatever we want inside it.
 
 \subsection{Test Environments}
-    Even though Travis does know concept of environments, and has a built-in
+    Even though Travis does know the concept of environments, and has a built-in
     mechanism for specifying a matrix of environment variables, where each
     set specifying an environments has its own job, it still needs some handler,
     which would correctly set up the environment according to these settings.
@@ -599,6 +599,7 @@
     (see Section~\ref{ref:performance-limits}).
 
     \todo{describe test-setup.sh}
+    \todo{certgen, FIPS workaround, rlGetTestState sanity check, docker + test-runner exec}
 
 \subsection{Test Execution}
     As our test suite contains several tests, where each one of them lies in
@@ -607,9 +608,17 @@
     which would coordinate test execution according to the current environment.
 
     \todo{test-runner.sh}
+    \todo{Fedora version replacement (latest), pkg manager selection, full system upgrade,
+          EPEL repo installation (non-fedora distros), general test dependencies, beakerlib
+      installation, replacement of rlIsRHEL calls with rlIsCentOS} \\
+    \todo{Test execution: filter all relevant test by the component name, check for match if
+          a glob pattern is used, check if a Makefile exists, check test case relevancy --
+      if it should be run, install its dependencies and run it, otherwise skip it}
 
 \subsection{Performance and Limits} \label{ref:performance-limits}
-\todo{travis limits, job splitting - globs, log size limit, \dots}
+    \todo{travis limits, job splitting - globs, log size limit, \dots}
+    \todo{free vresion for OS projects - 50min/job, 4MB of logs/job}
+    \todo{solution -- job splitting - per component and per glob pattern}
 
 \chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
     Before the testing itself, we have to know what should be tested, how it
@@ -840,13 +849,21 @@ openssl-1.1.0c-5.fc26.x86_64
     \todo{PR/commit trigger -> test-setup.sh -> docker -> test-runner.sh ...}
 
 \section{Tested Features}
-    \todo{describe what was already implemented and what's new(!1!11)}
+    \todo{describe what was already implemented and what's new(!1!11)} \\
+    \todo{basic interoperability, resumption, renegotiation, signature\_algorithms,
+        x2 (+client authentication)}
 
 \section{Outstanding Issues(?)}
-    \todo{FIPS}
+    \todo{FIPS} \\
+    \todo{REF: https://www.nist.gov/information-technology-laboratory/fips-general-information}
 
 \chapter {Testing Results} \label{chap:testing_results}
-\todo{filed bugs/CVEs, split upstream and downstream}
+\todo{filed bugs/CVEs, split upstream and downstream} \\
+\todo{bugzilla query below} \\
+% https://bugzilla.redhat.com/buglist.cgi?bug_status=NEW&bug_status=ASSIGNED&bug_status=POST&bug_status=MODIFIED&bug_status=ON_DEV&bug_status=ON_QA&bug_status=VERIFIED&bug_status=RELEASE_PENDING&bug_status=CLOSED&f1=reporter&f3=OP&f4=component&f5=component&f6=component&f7=component&f8=CP&j3=OR&list_id=7236186&o1=equals&o4=equals&o5=equals&o6=equals&o7=equals&query_format=advanced&v1=fsumsal@redhat.com&v4=nss&v5=openssl&v6=gnutls&v7=crypto-policies
+\todo{bugzilla@mozilla query below} \\
+% https://bugzilla.mozilla.org/buglist.cgi?f1=OP&emailreporter1=1&o3=equals&list_id=13518206&f0=OP&v3=frantisek@sumsal.cz&emailtype1=exact&o2=notequals&f4=CP&emailassigned_to1=1&query_format=advanced&j1=OR&f3=reporter&f2=bug_status&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED&f5=CP&email1=frantisek@sumsal.cz&v2=UNCONFIRMED
+\todo{CVE: https://access.redhat.com/security/cve/CVE-2016-9574 (why "will not fix" for all releases?)}
 
 \chapter {Conclusion} \label{chap:conclusion}
 \todo{summarize findings, current CI state, future work (if any), ...}
