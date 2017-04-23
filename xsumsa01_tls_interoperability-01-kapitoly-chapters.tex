@@ -568,10 +568,17 @@
     we were already using GitHub, wecould use the free variant and throw away
     the need for our own infrastructure.
 
+    After hooking a repository to Travis, it reacts to all commits, branches
+    and pull requests, for which a new build is created. Status of each build
+    is reported back to GitHub in two ways -- for commits it is an icon
+    in their summary (yellow dot for a running build, green tick for a passed
+    build and red cross for a failed build), and for pull requests it is located
+    in the information box of each pull request. Both ways contain
+    a hyperlink to the particular
+    build with genreal overview and status with logs for each job (environment).
+
     Nevertheless, even though Travis CI met our expectations, it was not exactly
     "out-of-the-box" solution for us, as we had to overcome several obstacles.
-
-    \todo{describe integration with GitHub (commit status, PR status, \dots)}
 
 \subsection{Operating System}
     First major issue was the OS used by Travis CI, which is Ubuntu, as our
