@@ -41,36 +41,50 @@
 \contentsline {section}{\numberline {4.2}Tested Environments}{19}{section.4.2}
 \contentsline {section}{\numberline {4.3}Test Format}{19}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Test relevancy}{19}{subsection.4.3.1}
-\contentsline {section}{\numberline {4.4}Testing Process}{20}{section.4.4}
-\contentsline {section}{\numberline {4.5}Tested Features}{20}{section.4.5}
-\contentsline {section}{\numberline {4.6}Outstanding Issues(?)}{20}{section.4.6}
-\contentsline {chapter}{\numberline {5}Testing Results}{22}{chapter.5}
-\contentsline {chapter}{\numberline {6}Conclusion}{23}{chapter.6}
-\contentsline {chapter}{Bibliography}{24}{chapter*.12}
-\contentsline {chapter}{Appendices}{26}{section*.13}
+\contentsline {section}{\numberline {4.4}Tested Features}{20}{section.4.4}
+\contentsline {section}{\numberline {4.5}Implementation details}{22}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}GnuTLS}{22}{subsection.4.5.1}
+\contentsline {subsubsection}{gnutls/renegotiation-with-NSS}{22}{section*.12}
+\contentsline {subsubsection}{gnutls/renegotiation-with-OpenSSL}{22}{section*.13}
+\contentsline {subsubsection}{gnutls/resumption-with-NSS}{22}{section*.14}
+\contentsline {subsubsection}{gnutls/resumption-with-OpenSSL}{22}{section*.15}
+\contentsline {subsubsection}{gnutls/signature\_algorithms-with-OpenSSL}{23}{section*.16}
+\contentsline {subsubsection}{gnutls/TLSv1-2-with-NSS}{23}{section*.17}
+\contentsline {subsubsection}{gnutls/TLSv1-2-with-OpenSSL}{23}{section*.18}
+\contentsline {subsection}{\numberline {4.5.2}NSS}{23}{subsection.4.5.2}
+\contentsline {subsubsection}{nss/CC-nss-with-gnutls}{23}{section*.19}
+\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{23}{section*.20}
+\contentsline {subsubsection}{nss/renego-and-resumption-NSS-with-OpenSSL}{23}{section*.21}
+\contentsline {subsection}{\numberline {4.5.3}OpenSSL}{24}{subsection.4.5.3}
+\contentsline {subsubsection}{openssl/CC-openssl-with-gnutls}{24}{section*.22}
+\contentsline {section}{\numberline {4.6}Outstanding Issues(?)}{24}{section.4.6}
+\contentsline {chapter}{\numberline {5}Testing Results}{25}{chapter.5}
+\contentsline {chapter}{\numberline {6}Conclusion}{26}{chapter.6}
+\contentsline {chapter}{Bibliography}{27}{chapter*.23}
+\contentsline {chapter}{Appendices}{29}{section*.24}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}TLS Alerts}{27}{appendix.A}
-\contentsline {chapter}{\numberline {B}Test Plan}{29}{appendix.B}
-\contentsline {section}{\numberline {B.1}Test Plan Identifier}{29}{section.B.1}
-\contentsline {section}{\numberline {B.2}References}{29}{section.B.2}
-\contentsline {section}{\numberline {B.3}Introduction}{29}{section.B.3}
-\contentsline {section}{\numberline {B.4}Test Items}{29}{section.B.4}
-\contentsline {subsection}{\numberline {B.4.1}Components}{29}{subsection.B.4.1}
-\contentsline {subsection}{\numberline {B.4.2}Environments: Releases and Architectures}{29}{subsection.B.4.2}
-\contentsline {section}{\numberline {B.5}Software Risk Issues}{30}{section.B.5}
-\contentsline {section}{\numberline {B.6}Features to be Tested}{30}{section.B.6}
-\contentsline {section}{\numberline {B.7}Features not to be Tested}{30}{section.B.7}
-\contentsline {section}{\numberline {B.8}Approach}{30}{section.B.8}
-\contentsline {section}{\numberline {B.9}Item Pass/Fail Criteria}{31}{section.B.9}
-\contentsline {section}{\numberline {B.10}Test Cases}{31}{section.B.10}
-\contentsline {section}{\numberline {B.11}Suspension Criteria and Resumption Requirements}{31}{section.B.11}
-\contentsline {section}{\numberline {B.12}Test Deliverables}{31}{section.B.12}
-\contentsline {section}{\numberline {B.13}Remaining Test Tasks}{32}{section.B.13}
-\contentsline {section}{\numberline {B.14}Environmental Needs}{32}{section.B.14}
-\contentsline {subsection}{\numberline {B.14.1}Hardware}{32}{subsection.B.14.1}
-\contentsline {subsection}{\numberline {B.14.2}Software}{32}{subsection.B.14.2}
-\contentsline {section}{\numberline {B.15}Staffing and Training needs}{32}{section.B.15}
-\contentsline {section}{\numberline {B.16}Responsibilities}{32}{section.B.16}
-\contentsline {section}{\numberline {B.17}Schedule}{33}{section.B.17}
-\contentsline {section}{\numberline {B.18}Approvals}{33}{section.B.18}
+\contentsline {chapter}{\numberline {A}TLS Alerts}{30}{appendix.A}
+\contentsline {chapter}{\numberline {B}Test Plan}{32}{appendix.B}
+\contentsline {section}{\numberline {B.1}Test Plan Identifier}{32}{section.B.1}
+\contentsline {section}{\numberline {B.2}References}{32}{section.B.2}
+\contentsline {section}{\numberline {B.3}Introduction}{32}{section.B.3}
+\contentsline {section}{\numberline {B.4}Test Items}{32}{section.B.4}
+\contentsline {subsection}{\numberline {B.4.1}Components}{32}{subsection.B.4.1}
+\contentsline {subsection}{\numberline {B.4.2}Environments: Releases and Architectures}{32}{subsection.B.4.2}
+\contentsline {section}{\numberline {B.5}Software Risk Issues}{33}{section.B.5}
+\contentsline {section}{\numberline {B.6}Features to be Tested}{33}{section.B.6}
+\contentsline {section}{\numberline {B.7}Features not to be Tested}{33}{section.B.7}
+\contentsline {section}{\numberline {B.8}Approach}{33}{section.B.8}
+\contentsline {section}{\numberline {B.9}Item Pass/Fail Criteria}{34}{section.B.9}
+\contentsline {section}{\numberline {B.10}Test Cases}{34}{section.B.10}
+\contentsline {section}{\numberline {B.11}Suspension Criteria and Resumption Requirements}{34}{section.B.11}
+\contentsline {section}{\numberline {B.12}Test Deliverables}{34}{section.B.12}
+\contentsline {section}{\numberline {B.13}Remaining Test Tasks}{35}{section.B.13}
+\contentsline {section}{\numberline {B.14}Environmental Needs}{35}{section.B.14}
+\contentsline {subsection}{\numberline {B.14.1}Hardware}{35}{subsection.B.14.1}
+\contentsline {subsection}{\numberline {B.14.2}Software}{35}{subsection.B.14.2}
+\contentsline {section}{\numberline {B.15}Staffing and Training needs}{35}{section.B.15}
+\contentsline {section}{\numberline {B.16}Responsibilities}{35}{section.B.16}
+\contentsline {section}{\numberline {B.17}Schedule}{36}{section.B.17}
+\contentsline {section}{\numberline {B.18}Approvals}{36}{section.B.18}
 \contentsfinish 

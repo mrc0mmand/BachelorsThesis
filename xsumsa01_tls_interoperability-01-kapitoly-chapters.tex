@@ -240,6 +240,7 @@
     At this point the TLS handshake is complete, and the peers may begin to
     exchange application layer data.
 
+    \label{ref:session-resumption}
     When the client and the server decide to resume a previous session or duplicate
     an existing one, the handshake can be simplified considerably
     (see Figure~\ref{fig:simplied_tls_handshake}). The client
@@ -281,7 +282,7 @@
     Let's have a closer look at the various messsages that are exchanged during
     the TLS handshake:
 
-\subsubsection{\texttt{HelloRequest}}
+\subsubsection{\texttt{HelloRequest}} \label{ref:session-renegotiation}
     This message may be sent by the server at any time and tells the client
     to begin a new session negotiation. Client should respond to this
     message with a \texttt{ClientHello}. This message is not often used, but
@@ -434,7 +435,7 @@
     Nevertheless, support for other extensions is highly probable in
     the near future.
 
-\subsection{Session Tickets}
+\subsection{Session Tickets} \label{ref:sessionticket-ext}
     If a client wanted to resume an existing session, it would have to
     send a session ID in its \texttt{ClientHello} message (field \texttt{session\_id})
     and the server would have to check its cache for a match (see
@@ -458,7 +459,7 @@
     or does not want to use the state from the ticket, then it can initiate
     a full handshake with the client.
 
-\subsection{Signature Algorithms}
+\subsection{Signature Algorithms} \label{ref:signature-algorithms}
     TLS 1.2 defines (\cite{rfc5246}, section 7.4.1.4.1) an extension
     \texttt{supported\_signature\_algorithms}, which allows a client to tell
     the server which hash and signature algorithm combinations it supports.
@@ -711,6 +712,8 @@
     a while (until we reach another milestone where one test runs for more than
     50 minutes).
 
+    \todo{RFE: compile dev branch before testing}
+
 \chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
     Before the testing itself, we have to know what should be tested, how it
     should be tested and where, or to be more precise, which environments it
@@ -908,7 +911,6 @@ openssl-1.1.0c-5.fc26.x86_64
         \label{fig:runtest.sh-log}
     \end{figure}
 
-    \todo{test plan(!!!)}
 \subsection{Test relevancy} \label{ref:test-relevancy}
     To control in which environments should be each test case executed, we have
     to implement an algorithm, which would check if a given test case is relevant
@@ -936,13 +938,139 @@ openssl-1.1.0c-5.fc26.x86_64
     unnecessary duplicites in the Makefile. Thus, a \texttt{RHEL7} environment
     from the Makefile matches both CentOS 7 and RHEL 7 environments.
 
-\section{Testing Process}
-    \todo{PR/commit trigger -> test-setup.sh -> docker -> test-runner.sh ...}
-
 \section{Tested Features}
-    \todo{describe what was already implemented and what's new(!1!11)} \\
-    \todo{basic interoperability, resumption, renegotiation, signature\_algorithms,
-        x2 (+client authentication)}
+    Each library goes through several layers of testing:
+
+    \begin{itemize}
+        \item \textbf{Basic interoperability} -- Simple communication without
+            any special settings
+        \item \textbf{Session resumption} -- Verify if session resumption works
+            (Section~\ref{ref:session-resumption}); this test is done twice --
+            with Session IDs and with SessionTicket
+            extension (Section~\ref{ref:sessionticket-ext})
+        \item \textbf{Session renegotiation} -- Verify if session renegotiation
+            works (Section~\ref{ref:session-renegotiation})
+        \item \textbf{signature\_algorithms}* -- Verify if signature\_algorithms
+            extension works (Section~\ref{ref:signature-algorithms})
+    \end{itemize}
+
+    * This test is (so far) not implemented for all supported libraries, as
+    some of them lack necessary support on CentOS. \\
+
+    All mentioned tests are performed multiple times -- with and without
+    client certificates, with and without TLSv1.2 enabled, and for each
+    supported ciphersuite.
+
+    Apart from these tests, each tested combination has a Common Criteria
+    test~\footnote{https://www.commoncriteriaportal.org/} which test
+    the necessary subset of functionality which is required to work according
+    to the library specification and standards.
+
+\section{Implementation details}
+    As this thesis started with already existing tests (and its purpose was
+    to extend them), following paragraphs should make clear what was already
+    implemented and what is the result of this thesis.
+
+\subsection{GnuTLS}
+\subsubsection{gnutls/renegotiation-with-NSS}
+    New features:
+    \begin{itemize}
+        \item Use certgen library for generating certificates
+        \item Test 20 ciphersuites instead of only the default one
+        \item Test renegotiation scenarios with client certificates
+    \end{itemize}
+
+    Overall stats: 457 additions, 32 deletions
+
+\subsubsection{gnutls/renegotiation-with-OpenSSL}
+    New features:
+    \begin{itemize}
+        \item Use certgen library for generating certificates
+        \item Test 20 ciphersuites instead of only the default one
+        \item Test renegotiation scenarios with client certificates
+    \end{itemize}
+
+    Overall stats: 399 additions, 24 deletions
+
+\subsubsection{gnutls/resumption-with-NSS}
+    New features:
+    \begin{itemize}
+        \item Create certificate PKI
+        \item Test 20 ciphersuites instead of only the default one
+        \item Test resumption scenarios with client certificates and with
+            SessionTicket extension
+    \end{itemize}
+
+    Overall stats: 469 additions, 35 deletions
+
+\subsubsection{gnutls/resumption-with-OpenSSL}
+    New features:
+    \begin{itemize}
+        \item Use certgen library for generating certificates
+        \item Test 20 ciphersuites instead of only the default one
+        \item Test resumption scenarios with client certificates and with
+            SessionTicket extension
+    \end{itemize}
+
+    Overall stats: 425 additions, 29 deletions
+
+\subsubsection{gnutls/signature\_algorithms-with-OpenSSL}
+\todo{finish when the test is done}
+
+\subsubsection{gnutls/TLSv1-2-with-NSS}
+    New features:
+    \begin{itemize}
+        \item Explicitly enable RC4 and DHE-DSS
+        \item Temporarily ignore crypto-policies on Fedora
+    \end{itemize}
+
+    Overall stats: 13 additions, 6 deletions
+
+\subsubsection{gnutls/TLSv1-2-with-OpenSSL}
+    New features:
+    \begin{itemize}
+        \item Explicitly enable RC4 and DHE-DSS
+    \end{itemize}
+
+    Overall stats: 7 additions, 6 deletions
+
+\subsection{NSS}
+\subsubsection{nss/CC-nss-with-gnutls}
+    New features:
+    \begin{itemize}
+        \item Explicitly enable RC4 and DHE-DSS
+    \end{itemize}
+
+    Overall stats: 10 additions, 3 deletions
+
+\subsubsection{nss/Interoperability-with-OpenSSL}
+\todo{find out what happened with the WIP version}
+
+\subsubsection{nss/renego-and-resumption-NSS-with-OpenSSL}
+    New features:
+    \begin{itemize}
+        \item OpenSSL-NSS - basic interoperability
+        \item OpenSSL-NSS - basic interoperability with client certificates
+        \item NSS-OpenSSL - fixed basic interoperability
+        \item NSS-OpenSSL - fixed basic interoperability with client
+            certificates
+        \item NSS-OpenSSL - session renegotiation
+        \item NSS-OpenSSL - session renegotiation with client certificates
+        \item NSS-OpenSSL - session resumption
+        \item NSS-OpenSSL - session resumption with client certificates
+        \item Add missing expect scripts
+    \end{itemize}
+
+    Overall stats: 343 additions, 61 deletions
+
+\subsection{OpenSSL}
+\subsubsection{openssl/CC-openssl-with-gnutls}
+    New features:
+    \begin{itemize}
+        \item Explicitly enable RC4 and DHE-DSS
+    \end{itemize}
+
+    Overall stats: 9 additions, 2 deletions
 
 \section{Outstanding Issues(?)}
     \todo{FIPS} \\
