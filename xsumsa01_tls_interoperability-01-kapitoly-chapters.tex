@@ -584,7 +584,7 @@
 
     Travis CI itself supports Docker, so we can simply tell Travis to enable
     Docker for our build, pull a correct docker image and then simply run
-    whatever we want inside it.
+    whatever we want inside the container.
 
 \subsection{Test Environments}
     Even though Travis does know the concept of environments, and has a built-in
@@ -593,32 +593,123 @@
     which would correctly set up the environment according to these settings.
 
     For this purpose, a short Bash script was written~\footnote{\texttt{scripts/test-setup.sh}}.
-    This scripts takes four arguments -- OS type
+    This script takes four arguments -- OS type
     (centos, fedora), OS version (7, 25, \dots), tested component (openssl, gnutls,
     nss) and glob pattern for further test case specificiation
     (see Section~\ref{ref:performance-limits}).
 
-    \todo{describe test-setup.sh}
-    \todo{certgen, FIPS workaround, rlGetTestState sanity check, docker + test-runner exec}
+    Before executing the tests itself, several preparation steps need to be made
+    to install and configure all necessary dependencies. First of them is
+    library certgen~\footnote{https://github.com/redhat-qe-security/certgen},
+    written by Hubert Kario, for generating certificates, which are later used
+    in the testing process.
+
+    The second dependency, or to call it properly -- the second workaround, is
+    creating a fake library for
+    FIPS~\footnote{Federal Information Processing Standard - http://csrc.nist.gov/groups/STM/cmvp/standards.html}
+    configuration, as FIPS is not supported
+    by Travis (yet). When this library is loaded properly, it configures
+    system into a FIPS mode. Current solution just returns zero (success) without
+    any changes to the underlying system, which allows us running tests even in
+    Travis without FIPS support.
+
+    The last thing before the Docker execution itself is checking each test
+    for \texttt{rlGetTestState} command. This command must be present as
+    the last thing in each test, as all Beakerlib tests return zero even
+    if they contain failed phases. Ensuring, that each test has this command
+    at its end, gives us relevant results from each test, as
+    \texttt{rlGetTestState} returns a number of failed phases as the script's
+    exit code (or 255 if the number of failed phases is bigger than 255).
+    \todo{maybe a reference to Beakerlib's wiki on github?}
+
+    After the preparations, a docker container is executed with given environment
+    settings and the \texttt{scripts/test-runner.sh} script as an entry point.
+    This script will be described in detail in the following section.
 
 \subsection{Test Execution}
     As our test suite contains several tests, where each one of them lies in
     its own script file, it does not have any entry point, which could be passed
-    to Docker to run all tests. For this case, we had to create a script,
+    to Docker to run all tests. For this case, we had to create
+    a~script~\footnote{scripts/test-runner.sh},
     which would coordinate test execution according to the current environment.
 
-    \todo{test-runner.sh}
-    \todo{Fedora version replacement (latest), pkg manager selection, full system upgrade,
-          EPEL repo installation (non-fedora distros), general test dependencies, beakerlib
-      installation, replacement of rlIsRHEL calls with rlIsCentOS} \\
-    \todo{Test execution: filter all relevant test by the component name, check for match if
-          a glob pattern is used, check if a Makefile exists, check test case relevancy --
-      if it should be run, install its dependencies and run it, otherwise skip it}
+    This script has the same arguments as the \texttt{test-setup.sh} -- OS type,
+    OS version, component and test glob -- which are used to determine
+    a~package manager (yum on CentOS or dnf on Fedora), correct OS version
+    (Docker images support a "latest" tag, which needs to be translated to
+    an exact version), and whether to configure
+    EPEL~\footnote{https://fedoraproject.org/wiki/EPEL} repository, as Beakerlib
+    is not in base repositories on CentOS.
+
+    As these test were originally developed for RHEL (and still are),
+    another workaround had to be implemented to avoid complex branching in
+    the tests. Beakerlib
+    has a function \texttt{rlIsRHEL}, which allows certain phases to be
+    run only on some version of RHEL -- e.g. condition
+    \texttt{if rlIsRHEL 6; then ...} would execute a code inside of the if
+    statement only on RHEL 6. But this function does not work on CentOS. For
+    CentOS, there is a conveniently named function \texttt{rlIsCentOS}, which
+    does the same thing. To avoid having to use both functions for each
+    if statement, the \texttt{test-runner.sh} creates a wrapper function
+    \texttt{rlIsRHEL} which overloads the original function. The overloaded
+    function then simply calls \texttt{rlIsCentOS}, so the tests can use
+    the RHEL function only.
+
+    Next step is a full system upgrade, as the Docker images are usually not
+    up to date, followed by installation of basic dependencies necessary
+    for the test execution.
+
+    The core of the test runner scripts consist of a loop, which goes through
+    all tests for given component. If the test passes through all relevancy
+    checks, it is executed, otherwise it is skipped.
+
+    The first relevancy check is via the previously mentioned glob pattern,
+    which uses extended globbing feature of Bash. This glob pattern is then
+    simply matched with the test case name -- if it matches, the test continues
+    to the next relevancy check, otherwise it is skipped.
+
+    The second check is a comparison of OS version and OS type with metadata
+    from the test's Makefile (see Section~\ref{ref:test-relevancy}). For this
+    purpose we have a script \texttt{scripts/relevancy.awk} written, as the
+    name suggests, in GNU~AWK~\footnote{https://www.gnu.org/software/gawk/}.
+    This script, apart from the comparison itself, performs necessary
+    substitutions between RHEL and CentOS to give correct results.
+
+    If a test passes through all relevancy checks, its Makefile is parsed once
+    again for dependencies (section \textit{Requires}). These dependencies
+    are installed and the test is executed.
+
+    The test runner keeps statistics of executed, skipped and failed tests,
+    which are logged along the test results and can be viewed in the Travis
+    web UI.
 
 \subsection{Performance and Limits} \label{ref:performance-limits}
-    \todo{travis limits, job splitting - globs, log size limit, \dots}
-    \todo{free vresion for OS projects - 50min/job, 4MB of logs/job}
-    \todo{solution -- job splitting - per component and per glob pattern}
+    During the CI development, we found out about several limiting factors
+    in Travis, which we had to solve. Some of them are related only to
+    the free version of Travis CI (for open-source projects), and some
+    of them affecting all Travis versions.
+
+    First one is a time limit per job, which is 50 minutes. At the beginning
+    of this thesis this was not an issue, as we had a quite big reserve in
+    this matter. Nevertheless, as we added more and more test combinations,
+    we managed to hit this limit.
+
+    Originally, each OS type and version has its own job, so we hade one job
+    for CentOS 6, one for CentOS 7 and one for the latest Fedora. The first
+    step of solving the aforementioned issue
+    was creating a separate job for each OS type, version and component
+    combination. This resulted in nine jobs (GnuTLS, NSS and OpenSSL times
+    supported operating systems) which were enough, at least for a while.
+
+    As we added another batch of changes, we hit this limit again on Fedora
+    along with another, previously unknown limit -- the size of the result log
+    -- which is 4 MiB.
+    After several proposed solutions we decided to add another variable
+    to the environment definition -- test glob -- which would allow us to split
+    each component test suite internally into smaller pieces, depending on their
+    name. This solution proved to be quite effective and should last for
+    a while (until we reach another milestone where one test runs for more than
+    50 minutes).
 
 \chapter {SSL/TLS Testing} \label{chap:ssl_tls_testing}
     Before the testing itself, we have to know what should be tested, how it
@@ -818,7 +909,7 @@ openssl-1.1.0c-5.fc26.x86_64
     \end{figure}
 
     \todo{test plan(!!!)}
-\subsection{Test relevancy}
+\subsection{Test relevancy} \label{ref:test-relevancy}
     To control in which environments should be each test case executed, we have
     to implement an algorithm, which would check if a given test case is relevant
     for a given environment before the execution itself. The information about
