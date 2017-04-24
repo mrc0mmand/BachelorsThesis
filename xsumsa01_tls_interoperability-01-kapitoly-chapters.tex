@@ -49,8 +49,8 @@
     Summary of these results is detailed in chapter~\ref{chap:testing_results}
     following a thesis summary in chapter~\ref{chap:conclusion}.
 
-
 \chapter{SSL/TLS} \label{chap:ssl_tls}
+    \todo{change chapter name - no abbreviations}
     \textit{Secure Socket Layer}~(SSL) and its successor
     \textit{Transport Layer Security}~(TLS) are cryptographic protocols
     designed to provide communications security over a computer network. As
@@ -65,7 +65,6 @@
     in TLS 1.0 and later resolved in TLS 1.1 (e.g. BEAST~\cite{duong2011}).
 
 \section{Overview}\label{ref:overview}
-    \todo{TLS history?}
     The primary goal of the TLS protocol is to provide privacy and data
     integrity between two communicating applications. The structure of
     the protocol comprises two layers: the TLS Record Protocol and
@@ -477,6 +476,7 @@
 
 
 \chapter{Continuous Integration System} \label{chap:continuous_integration}
+    \todo{(!) split theoretical and implementation part}
     As manual testing is often tedious and not error prone, an automated system
     has to be implemented to test a developed component both periodically and
     on-demand, when developer requests it. Such system should be capable of
@@ -1106,7 +1106,9 @@ openssl-1.1.0c-5.fc26.x86_64
 % https://bugzilla.redhat.com/buglist.cgi?bug_status=NEW&bug_status=ASSIGNED&bug_status=POST&bug_status=MODIFIED&bug_status=ON_DEV&bug_status=ON_QA&bug_status=VERIFIED&bug_status=RELEASE_PENDING&bug_status=CLOSED&f1=reporter&f3=OP&f4=component&f5=component&f6=component&f7=component&f8=CP&j3=OR&list_id=7236186&o1=equals&o4=equals&o5=equals&o6=equals&o7=equals&query_format=advanced&v1=fsumsal@redhat.com&v4=nss&v5=openssl&v6=gnutls&v7=crypto-policies
 \todo{bugzilla@mozilla query below} \\
 % https://bugzilla.mozilla.org/buglist.cgi?f1=OP&emailreporter1=1&o3=equals&list_id=13518206&f0=OP&v3=frantisek@sumsal.cz&emailtype1=exact&o2=notequals&f4=CP&emailassigned_to1=1&query_format=advanced&j1=OR&f3=reporter&f2=bug_status&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED&f5=CP&email1=frantisek@sumsal.cz&v2=UNCONFIRMED
-\todo{CVE: https://access.redhat.com/security/cve/CVE-2016-9574 (why "will not fix" for all releases?)}
+\todo{CVE: https://access.redhat.com/security/cve/CVE-2016-9574} \\
+\todo{Beakerlib bugs} \\
+\todo{Other issues (certgen, ...)}
 
 \chapter {Conclusion} \label{chap:conclusion}
 \todo{summarize findings, current CI state, future work (if any), ...}
