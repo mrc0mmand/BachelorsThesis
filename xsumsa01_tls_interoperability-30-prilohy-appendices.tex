@@ -272,7 +272,13 @@
             client certificates. The resumption itself is tested using both
             Session IDs and SessionTicket extension.
         \item[signature\_algorithms-with-OpenSSL] \hfill \\
-            \todo{description}
+            Test signature\_algorithms extension in communication between
+            GnuTLS and OpenSSL libraries with and without client certificates.
+            This extension is present only in TLSv1.2 and higher.
+            As this extension
+            has to be explicitly enabled, it is currently tested only in
+            this combination of libraries, due to lack of support in testing
+            utilities provided by the libraries.
         \item[TLSv1-2-with-NSS] \hfill \\
             Verify interoperability of GnuTLS with NSS using TLSv1.2 protocol
             with various cipher suites.
