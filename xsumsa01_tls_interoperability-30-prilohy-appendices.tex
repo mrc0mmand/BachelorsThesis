@@ -227,6 +227,7 @@
     \end{itemize}
 
 \section{Schedule}
+    \todo{Update schedule => +periodic runs, +devel branches}
     Currently all tests are being executed when a new PR or commit is pushed
     to the test repository. In the nearest future, all tests should be executed
     periodically, and when a new version of a supported system is released.
@@ -239,3 +240,50 @@
     \begin{itemize}
         \item Stanislav Židek
     \end{itemize}
+
+\chapter{Test Cases Description}
+\section{GnuTLS}
+    \begin{description}
+        \item[renegotiation-with-NSS] \hfill \\
+            Test session renegotiation between GnuTLS and NSS libraries using
+            various cipher suites, TLSv1.1 and TLSv1.2 protocols, and
+            client certificates.
+        \item[renegotiation-with-OpenSSL] \hfill \\
+            Test session renegotiation between GnuTLS and OpenSSL libraries using
+            various cipher suites, TLSv1.1 and TLSv1.2 protocols, and
+            client certificates.
+        \item[resumption-with-NSS] \hfill \\
+            Test session resumption between GnuTLS and NSS libraries using
+            various cipher suites, TLSv1.1 and TLSv1.2 protocols, and
+            client certificates. The resumption itself is tested using both
+            Session IDs and SessionTicket extension.
+        \item[resumption-with-OpenSSL] \hfill \\
+            Test session resumption between GnuTLS and OpenSSL libraries using
+            various cipher suites, TLSv1.1 and TLSv1.2 protocols, and
+            client certificates. The resumption itself is tested using both
+            Session IDs and SessionTicket extension.
+        \item[signature\_algorithms-with-OpenSSL] \hfill \\
+            \todo{description}
+        \item[TLSv1-2-with-NSS] \hfill \\
+            Verify interoperability of GnuTLS with NSS using TLSv1.2 protocol
+            with various cipher suites.
+        \item[TLSv1-2-with-OpenSSL] \hfill \\
+            Verify interoperability of GnuTLS with OpenSSL using TLSv1.2 protocol
+            with various cipher suites.
+    \end{description}
+\section{NSS}
+    \begin{description}
+        \item[CC-nss-with-gnutls] \hfill  \\
+            test
+        \item[CC-nss-with-openssl] \hfill  \\
+            test
+        \item[Interoperability-with-OpenSSL] \hfill  \\
+            test
+        \item[renego-and-resumption-NSS-with-OpenSSL] \hfill  \\
+            test
+    \end{description}
+\section{OpenSSL}
+    \begin{description}
+        \item[CC-openssl-with-gnutls] \hfill \\
+            test
+    \end{description}
