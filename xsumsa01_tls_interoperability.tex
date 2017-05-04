@@ -133,12 +133,30 @@
 }
 
 %Abstrakt (cesky, slovensky ci anglicky) / Abstract (in czech, slovak or english)
-\abstract[cs]{Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}
-\abstract[en]{Do tohoto odstavce bude zapsán výtah (abstrakt) práce v anglickém jazyce.}
+\abstract[cs]{Cílem této práce je implementace systému pro testování
+Secure Socket Layer (SSL) / Transport Layer Security (TLS) knihoven
+na podporovaných systémech a jeho
+využití na rozšířené sadě testů pro verifikaci jejich interoperability.
+Tento systém umožňuje jak průběžné testování, tak testování na
+vyžádání pro specifickou verzi knihovny. Hlavním přínosem této práce je
+zajištění inteoperability nejznámějších SSL/TLS knihoven již ve fázi vývoje
+a detekce chyb v co nejkratším čase. Výsledky této práce ukazují nalezené
+problémy na skutečných případech využití těchto knihoven a jejich dopad
+na systém, kde jsou použity.}
+
+\abstract[en]{The goal of this thesis is to implement a continuous integration
+system, which allows periodic and on-demand testing of provided
+Secure Socket Layer (SSL) / Transport Layer Security (TLS) libraries
+on supported systems, and to show the functionality and potential of such system by extending
+the existing interoperability test suite. The main benefit of this thesis
+is ensuring interoperability between the most popular SSL/TLS libraries
+during their development, and to discover potential issues in the shortest
+possible time. Presented results show found issues discovered by combining and
+using the implementation parts of this thesis on real world scenarios.}
 
 %Klicova slova (cesky, slovensky ci anglicky) / Keywords (in czech, slovak or english)
-\keywords[cs]{Sem budou zapsána jednotlivá klíčová slova v českém (slovenském) jazyce, oddělená čárkami.}
-\keywords[en]{Sem budou zapsána jednotlivá klíčová slova v anglickém jazyce, oddělená čárkami.}
+\keywords[cs]{testování, interoperabilita, TLS, SSL, integrace, CI}
+\keywords[en]{testing, interoperability, TLS, SSL, integration, CI}
 
 %Prohlaseni (u anglicky psane prace anglicky, u slovensky psane prace slovensky)
 %Declaration (for thesis in english should be in english)
@@ -155,11 +173,11 @@ thesis, are properly cited and included in the list of references.}
 %Podekovani (nepovinne, nejlepe v jazyce prace) / Acknowledgement (optional, ideally in the language of the thesis)
 %#\acknowledgment{V této sekci je možno uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc
 %(externí zadavatel, konzultant, apod.).}
-\acknowledgment{Here it is possible to express thanks to the supervisor and to the people which provided professional help
-(external submitter, consultant, etc.).
-
-TODO: Stanislav Zidek, Hubert Kario, Jakub Mach, \dots
-}
+\acknowledgment{I would like to thank Ing. Aleš Smrčka, Ph.D. for his guidance
+in formal parts, structure and direction of this thesis, Stanislav Židek and Hubert Kario
+for their patience and incredible technical support during the entire course
+of this thesis, and Jakub Mach and Kamil Jeřábek for their moral and encouraging
+support when it was needed the most.}
 
 % řeší první/poslední řádek odstavce na předchozí/následující stránce
 % solves first/last row of the paragraph on the previous/next page
