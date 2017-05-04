@@ -404,7 +404,7 @@
     \textit{ciper suite}. Let's have a closer look at their meanings.
 
     A \textit{cipher spec} refers to a pair of algorithms that are used
-    cryptographically protect data. Such pair consists of a message
+    to cryptographically protect data. Such pair consists of a message
     authentication algorithm (\textit{MAC}) and a data encryption algorithm. If we
     add a key exchange algorithm to a cipher spec, we get a \textit{cipher suite}.
 
@@ -1095,20 +1095,151 @@ openssl-1.1.0c-5.fc26.x86_64
     \todo{REF: https://www.nist.gov/information-technology-laboratory/fips-general-information}
 
 \chapter {Testing Results} \label{chap:testing_results}
-    Throughout the test extension process, we have found several bugs and issues
+    Throughout the test extension process, several bugs and issues were found
     in the tested libraries, as well as in the auxiliary utilities. These
     issues have various levels of security impact and will be described in
     detail in this chapter.
 
+    \bigskip\noindent Described issues have following format:
 
-\todo{filed bugs/CVEs, split upstream and downstream} \\
-\todo{bugzilla query below} \\
-% https://bugzilla.redhat.com/buglist.cgi?bug_status=NEW&bug_status=ASSIGNED&bug_status=POST&bug_status=MODIFIED&bug_status=ON_DEV&bug_status=ON_QA&bug_status=VERIFIED&bug_status=RELEASE_PENDING&bug_status=CLOSED&f1=reporter&f3=OP&f4=component&f5=component&f6=component&f7=component&f8=CP&j3=OR&list_id=7236186&o1=equals&o4=equals&o5=equals&o6=equals&o7=equals&query_format=advanced&v1=fsumsal@redhat.com&v4=nss&v5=openssl&v6=gnutls&v7=crypto-policies
-\todo{bugzilla@mozilla query below} \\
-% https://bugzilla.mozilla.org/buglist.cgi?f1=OP&emailreporter1=1&o3=equals&list_id=13518206&f0=OP&v3=frantisek@sumsal.cz&emailtype1=exact&o2=notequals&f4=CP&emailassigned_to1=1&query_format=advanced&j1=OR&f3=reporter&f2=bug_status&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED&f5=CP&email1=frantisek@sumsal.cz&v2=UNCONFIRMED
-\todo{CVE: https://access.redhat.com/security/cve/CVE-2016-9574} \\
-\todo{Beakerlib bugs} \\
-\todo{Other issues (certgen, ...)}
+    \subsubsection*{Issue ID(s) \newline [severity, affected systems] \newline Issue summary}
+    Issue description
+
+    \medskip\noindent <version>: <link to component's issue tracker>
+
+    \bigskip\noindent Issue ID abbreviations:
+    \begin{description}
+        \item[CVE] Common Vulnerabilities and Exposures~\footnote{https://cve.mitre.org/}
+        \item[BZ] Red Hat bug-tracking system~\footnote{https://bugzilla.redhat.com/}
+        \item[MBZ] Mozilla bug-tracking system~\footnote{https://bugzilla.mozilla.org/}
+    \end{description}
+
+\section{NSS}
+\subsubsection*{{\color{red} CVE-2016-9574}, BZ\#1397482, BZ\#1397410 \newline
+    [Urgent, RHEL/CentOS 6, RHEL/CentOS 7] \newline
+    Segfault in selfserv during session handshake when using SessionTicket
+    extension and ECDHE-ECDSA ciphersuites}
+
+    \texttt{selfserv} utility crashes during handshake when using SessionTicket
+    extension for session resumption. This issue although does not occur when
+    using client certificates.
+
+    \medskip\noindent CVE: \url{https://access.redhat.com/security/cve/CVE-2016-9574}
+    \newline\noindent RHEL/CentOS 6: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397482}
+    \newline\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397410}
+
+\subsubsection*{BZ\#1426182, MBZ\#1320695 \newline
+    [Urgent, RHEL/CentOS 7, upstream] \newline
+    Support ticket based session resumption using only ECDSA certificate}
+
+    Using SessionTicket extension along with any ECDHE-ECDSA ciphersuite
+    renders \texttt{selfserv} server unusable.
+
+    \medskip\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1426182}
+    \newline\noindent Upstream: \url{https://bugzilla.mozilla.org/show_bug.cgi?id=1320695}
+
+\subsubsection*{BZ\#1436114, MBZ\#1350950 \newline
+    [Unspecified, RHEL/CentOS 7, upstream] \newline
+    Sending of CERTIFICATE REQUEST messages does not correspond to manual}
+
+    When \texttt{-r} or \texttt{-rr} parameter is used with \texttt{sefserv}
+    utility, to request (and require) client certificate on initial handshake,
+    the CERTIFICATE REQUEST message is sent on both handshakes, whereas when
+    \texttt{-rrr} or \texttt{-rrrr} parameter is used, the CERTIFICATE REQUEST
+    message is not sent at all. This does not correspond to the manual of
+    the \texttt{selfserv} utility, which states following:
+
+    \begin{lstlisting}
+-r flag is interepreted as follows:
+    1 -r  means request, not require, cert on initial handshake.
+    2 -r's mean request  and require, cert on initial handshake.
+    3 -r's mean request, not require, cert on second handshake.
+    4 -r's mean request  and require, cert on second handshake.
+    \end{lstlisting}
+
+    \medskip\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1436114}
+    \newline\noindent Upstream: \url{https://bugzilla.mozilla.org/show_bug.cgi?id=1350950}
+
+\subsubsection*{BZ\#1397486, BZ\#1397472, MBZ\#1320708 \newline
+    [Low, RHEL/CentOS 6, RHEL/CentOS 7, upstream] \newline
+    strsclnt gets stuck during session resumption when using client certificates}
+
+    \texttt{strsclnt} utility gets stuck during session resumption (for both
+    SessionTicket and SessionID) when using client certificates and when the
+    server has enabled client certificate verification.
+
+    \medskip\noindent RHEL/CentOS 6: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397486}
+    \newline\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397472}
+    \newline\noindent Upstream: \url{https://bugzilla.mozilla.org/show_bug.cgi?id=1320708}
+
+\subsubsection*{BZ\#1397478, BZ\#1397365 \newline
+    [Low, RHEL/CentOS 6, RHEL/CentOS 7] \newline
+    NSS session resumption using session ID does not work for DHE-DSS ciphersuites}
+
+    When NSS acts as a server, session resumption using SessionID does not work
+    for ciphersuites using DHE-DSS algorithm. Even though this behavior is
+    expected for the ticket based resumption, the Session ID resumption should work.
+
+    \medskip\noindent RHEL/CentOS 6: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397478}
+    \newline\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397365}
+
+\subsubsection*{BZ\#1426267 \newline
+    [Unspecified, Fedora 25] \newline
+    Broken Crypto Policy handling of RC4 ciphersuites}
+
+    On F25 RC4 ciphers in NSS should be disabled by Crypto Policy, but in the
+    current version it works only partially - when NSS acts as a client,
+    the handshake fails, but when it acts as a server, the handshake is
+    completed successfully.
+
+    \medskip\noindent Fedora 25: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1426267}
+
+\section{GnuTLS}
+\subsubsection*{BZ\#1401564 \newline
+    [Unspecified, RHEL/CentOS 7] \newline
+    Duplicate PK signature algorithms in gnutls-cli output}
+
+    Output of \texttt{gnutls-cli -l} command contains duplicate public key signature
+    algorithms -- namely \texttt{SIGN-RSA-SHA1} and \texttt{SIGN-RSA-MD5}.
+
+    \medskip\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1401564}
+
+\subsubsection*{BZ\#1434091, BZ\#1434420 \newline
+    [Unspecified, RHEL/CentOS 7] \newline
+    Session renegotiation fails with client certificates}
+
+    GnuTLS sends a client certificate in renegotiation, even if it was not
+    requested by the server, causing the handshake to fail.
+
+    \medskip\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1434091}
+    \newline\noindent Fedora 25: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1434420}
+
+\section{Beakerlib}
+\subsubsection*{BZ\#1416014 \newline
+    [High, upstream] \newline
+    rlWaitForSocket --close now waits for incorrect socket}
+
+    A patch in the latest testing version of beakerlib causes that
+    \texttt{rlWaitForSocket --close} can cause a deadlock/unwanted delay,
+    because of grepping an incorrect socket.
+
+    \medskip\noindent Upstream: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1416014}
 
 \chapter {Conclusion} \label{chap:conclusion}
 \todo{summarize findings, current CI state, future work (if any), ...}
+
+% Proposed ToC
+% 1. Introduction
+% 2. Used Technologies
+%   2.1 Secure Socket Layer/Transport Layer Security
+%   ...
+%   2.2 Continuous Integration
+%   ... Jenkins, OS, Travis, ...
+% 3. Implementation Details
+%   3.1 Testing Process
+%   ...
+%       3.1.x Test Suite Extension
+%   3.2 Continuous Integration
+%   ...
+% 4. Testing Results
+% 5. Conclusion
