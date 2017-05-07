@@ -751,7 +751,7 @@ openssl-1.1.0c-5.fc26.x86_64
     consume unnecessary amount of time, that could be utilized for other, more important things.
 
 \subsection{Jenkins}
-    During our search for more robust and complete solution, we come across
+    During the search for more robust and complete solution, we come across
     Jenkins. Jenkins is an open-source automation server, which can be used
     for automation of various tasks~\cite{jenkins-docs}. After several
     proof-of-concept solutions we knew that Jenkins is something we can
@@ -776,8 +776,8 @@ openssl-1.1.0c-5.fc26.x86_64
 
     In our current infrastructure we use Beaker~(Section~\ref{ref:beaker}) for machine
     provision, where each tasks (or a set of tasks) has its own machine. This sounded like exactly
-    what we needed, but that would require obtaining machines for our machine pool
-    and their maintenance, which was far too excessive for such small project.
+    what we needed, but that would require obtaining machines for a machine pool
+    and their maintenance, which was far too excessive for a such small project.
 
     Taking inspiration from another of our internal projects, we thought about
     using OpenStack~(Section~\ref{ref:openstack}) for provision of virtual
@@ -814,7 +814,7 @@ openssl-1.1.0c-5.fc26.x86_64
     inside containers.~\cite{docker-docs} Container is a small, executable image,
     which contains all necessary software to run a desired application without
     any other external dependencies, in an isolated environment. This approach
-    allows us to run an application under a different operating system -- e.g.
+    allows an user to run an application under a different operating system -- e.g.
     running an application in a CentOS 7 container even though the host operating
     system is Ubuntu. This feature is crucial in the CI implemented in this thesis.
 
@@ -837,7 +837,7 @@ openssl-1.1.0c-5.fc26.x86_64
     build with genreal overview and status with logs for each job (environment).
 
     Nevertheless, even though Travis CI met our expectations, it was not exactly
-    "out-of-the-box" solution for us, as we had to overcome several obstacles.
+    "out-of-the-box" solution, as several obstacles had to be overcome.
 
 \subsection{Operating System}
     First major issue was the OS used by Travis CI, which is Ubuntu, as our
@@ -894,10 +894,10 @@ openssl-1.1.0c-5.fc26.x86_64
     This script will be described in detail in the following section.
 
 \subsection{Test Execution}
-    As our test suite contains several tests, where each one of them lies in
+    As the test suite contains several tests, where each one of them lies in
     its own script file, it does not have any entry point, which could be passed
-    to Docker to run all tests. For this case, we had to create
-    a~script~\footnote{scripts/test-runner.sh},
+    to Docker to run all tests. For this case,
+    a~script~\footnote{scripts/test-runner.sh} had to be created,
     which would coordinate test execution according to the current environment.
 
     This script has the same arguments as the \texttt{test-setup.sh} -- OS type,
@@ -957,25 +957,25 @@ openssl-1.1.0c-5.fc26.x86_64
     of them affecting all Travis versions.
 
     First one is a time limit per job, which is 50 minutes. At the beginning
-    of this thesis this was not an issue, as we had a quite big reserve in
-    this matter. Nevertheless, as we added more and more test combinations,
-    we managed to hit this limit.
+    of this thesis this was not an issue, as there was a quite big reserve in
+    this matter. Nevertheless, as more and more test combinations were added,
+    this limit was hit several times.
 
-    Originally, each OS type and version has its own job, so we hade one job
+    Originally, each OS type and version has its own job, so there was one job
     for CentOS 6, one for CentOS 7 and one for the latest Fedora. The first
     step of solving the aforementioned issue
     was creating a separate job for each OS type, version and component
     combination. This resulted in nine jobs (GnuTLS, NSS and OpenSSL times
     supported operating systems) which were enough, at least for a while.
 
-    As we added another batch of changes, we hit this limit again on Fedora
+    As another batch of changes was added, the limit was hit again on Fedora
     along with another, previously unknown limit -- the size of the result log
     -- which is 4 MiB.
     After several proposed solutions we decided to add another variable
-    to the environment definition -- test glob -- which would allow us to split
+    to the environment definition -- test glob -- which allows splitting
     each component test suite internally into smaller pieces, depending on their
     name. This solution proved to be quite effective and should last for
-    a while (until we reach another milestone where one test runs for more than
+    a while (until we reach another milestone, where one test runs for more than
     50 minutes).
 
     \todo{RFE: compile dev branch before testing}
