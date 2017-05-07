@@ -893,7 +893,7 @@ openssl-1.1.0c-5.fc26.x86_64
     settings and the \texttt{scripts/test-runner.sh} script as an entry point.
     This script will be described in detail in the following section.
 
-\subsection{Test Execution}
+\subsection{Test Execution} \label{ref:test-execution}
     As the test suite contains several tests, where each one of them lies in
     its own script file, it does not have any entry point, which could be passed
     to Docker to run all tests. For this case,
@@ -952,7 +952,7 @@ openssl-1.1.0c-5.fc26.x86_64
 
 \subsection{Performance and Limits} \label{ref:performance-limits}
     During the CI development, we found out about several limiting factors
-    in Travis, which we had to solve. Some of them are related only to
+    in Travis, which had to be solved. Some of them are related only to
     the free version of Travis CI (for open-source projects), and some
     of them affecting all Travis versions.
 
@@ -978,7 +978,37 @@ openssl-1.1.0c-5.fc26.x86_64
     a while (until we reach another milestone, where one test runs for more than
     50 minutes).
 
-    \todo{RFE: compile dev branch before testing}
+\subsection{On-demand Library Compilation}
+    To be able to call this system a "continuous integration system", there had
+    to be a way how to test a development version of a SSL/TLS library. This
+    appeared to be a complicated issue, as Travis itself does not support
+    monitoring external repositories, thus it is not able to tell whether
+    a new change was commited to such
+    repository.~\footnote{https://github.com/travis-ci/travis-ci/issues/631}
+
+    As stated in previous sections, any dependency on an external infrastructure
+    is an unwanted solution (e.g. an external watchdog). Thus, after several proposals,
+    a semi-automated solution was implemented, which consists of a small configuration
+    file, containing a path to a repository with target SSL/TLS library,
+    a branch, which contains desired library version, and a library identifier.
+
+    If such configuration file exists, the \texttt{test-runner.sh}
+    script~\ref{ref:test-execution} tries to read it and if it is a valid
+    configuration, it passes all parsed information to the \texttt{scripts/lib-compile.sh}
+    script. This script contains recipes for all supported libraries, as
+    each library has a custom way of compilation and installation.
+    If the compilation fails, the job is immediately aborted and a build log
+    is printed to the resulting log to be analysed. Otherwise, the test runner continues
+    as usual with execution of all relevant tests for given environment.
+
+    This solution has a few disadvantages -- the library is compiled in each
+    job, which is unnecessary, and it requires a separate branch to be created
+    manually by a developer, with the custom configuration file. The first
+    issue is particularly hard to solve, as the jobs does not have any shared
+    space, and usually run in pararel. The second issue it not easy to solve
+    without incorporating some kind of external system of watchdog. As this
+    implementation is currently being discussed and tested by developers, it is possible
+    it will be improved or replaced completely in the future.
 
 \section{Test Extension Details}
     As this thesis started with already existing tests (and its purpose was
@@ -1089,6 +1119,7 @@ openssl-1.1.0c-5.fc26.x86_64
 \section{Outstanding Issues(?)}
     \todo{FIPS} \\
     \todo{REF: https://www.nist.gov/information-technology-laboratory/fips-general-information}
+    \todo{expect scripts - random hangups, unreliability, ...}
 
 
 \chapter {Testing Results} \label{chap:testing_results}
