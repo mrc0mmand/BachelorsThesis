@@ -38,7 +38,7 @@
 \contentsline {subsubsection}{Beaker}{18}{section*.12}
 \contentsline {subsubsection}{OpenStack}{18}{section*.13}
 \contentsline {subsubsection}{Docker}{19}{section*.14}
-\contentsline {section}{\numberline {3.5}Final CI Implementation With Travis CI}{19}{section.3.5}
+\contentsline {section}{\numberline {3.5}Final CI Implementation with Travis CI}{19}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Operating System}{19}{subsection.3.5.1}
 \contentsline {subsection}{\numberline {3.5.2}Test Environments}{19}{subsection.3.5.2}
 \contentsline {subsection}{\numberline {3.5.3}Test Execution}{20}{subsection.3.5.3}
@@ -62,7 +62,7 @@
 \contentsline {chapter}{\numberline {4}Testing Results}{25}{chapter.4}
 \contentsline {section}{\numberline {4.1}NSS}{25}{section.4.1}
 \contentsline {section}{\numberline {4.2}GnuTLS}{27}{section.4.2}
-\contentsline {section}{\numberline {4.3}Beakerlib}{27}{section.4.3}
+\contentsline {section}{\numberline {4.3}BeakerLib}{27}{section.4.3}
 \contentsline {chapter}{\numberline {5}Conclusion}{28}{chapter.5}
 \contentsline {chapter}{Bibliography}{29}{chapter*.36}
 \contentsline {chapter}{Appendices}{31}{section*.37}

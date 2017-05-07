@@ -587,7 +587,7 @@
     correct execution of the test itself.
 
     The second file -- runtest.sh -- is the core of the test. It is a Bash
-    script using the Beakerlib~\footnote{https://github.com/beakerlib/beakerlib}
+    script using the BeakerLib~\footnote{https://github.com/beakerlib/beakerlib}
     testing framework containing a sequence of commands and asserts which
     are executed and evaluated. Each command execution or an assert
     creates a record in a log, which is processed, stored and printed at the end of
@@ -595,7 +595,7 @@
 
     Let's have an example runtest.sh script, which simply generates an elliptic
     curve key and checks if it contains "BEGIN EC PRIVATE KEY"
-    (Figure~\ref{fig:runtest.sh}). When executed, Beakerlib generates two
+    (Figure~\ref{fig:runtest.sh}). When executed, BeakerLib generates two
     logs -- the first one is generated throughout the test execution and contains
     outputs of all executed commands, whether the second one is generated at
     the end of the test and contains a summary of the first log. An execution
@@ -818,7 +818,7 @@ openssl-1.1.0c-5.fc26.x86_64
     running an application in a CentOS 7 container even though the host operating
     system is Ubuntu. This feature is crucial in the CI implemented in this thesis.
 
-\section{Final CI Implementation With Travis CI}
+\section{Final CI Implementation with Travis CI}
     As mentioned above, the chosen solution is Travis CI. Travis CI is a powerful,
     hosted, distributed continuous integration service, used exclusively to
     build and test projects hosted at GitHub.~\cite{travis-ci-docs} It has two
@@ -882,12 +882,12 @@ openssl-1.1.0c-5.fc26.x86_64
 
     The last thing before the Docker execution itself is checking each test
     for \texttt{rlGetTestState} command. This command must be present as
-    the last thing in each test, as all Beakerlib tests return zero even
+    the last thing in each test, as all BeakerLib tests return zero even
     if they contain failed phases. Ensuring, that each test has this command
     at its end, gives us relevant results from each test, as
     \texttt{rlGetTestState} returns a number of failed phases as the script's
-    exit code (or 255 if the number of failed phases is bigger than 255).
-    \todo{maybe a reference to Beakerlib's wiki on github?}
+    exit code (or 255 if the number of failed phases is bigger
+    than 255).~\cite{beakerlib-gh-man}
 
     After the preparations, a docker container is executed with given environment
     settings and the \texttt{scripts/test-runner.sh} script as an entry point.
@@ -905,12 +905,12 @@ openssl-1.1.0c-5.fc26.x86_64
     a~package manager (yum on CentOS or dnf on Fedora), correct OS version
     (Docker images support a "latest" tag, which needs to be translated to
     an exact version), and whether to configure
-    EPEL~\footnote{https://fedoraproject.org/wiki/EPEL} repository, as Beakerlib
+    EPEL~\footnote{https://fedoraproject.org/wiki/EPEL} repository, as BeakerLib
     is not in base repositories on CentOS.
 
     As these test were originally developed for RHEL (and still are),
     another workaround had to be implemented to avoid complex branching in
-    the tests. Beakerlib
+    the tests. BeakerLib
     has a function \texttt{rlIsRHEL}, which allows certain phases to be
     run only on some version of RHEL -- e.g. condition
     \texttt{if rlIsRHEL 6; then ...} would execute a code inside of the if
@@ -1211,7 +1211,7 @@ openssl-1.1.0c-5.fc26.x86_64
     \medskip\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1434091}
     \newline\noindent Fedora 25: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1434420}
 
-\section{Beakerlib}
+\section{BeakerLib}
 \subsubsection*{BZ\#1416014 \newline
     [High, upstream] \newline
     rlWaitForSocket --close now waits for incorrect socket}
