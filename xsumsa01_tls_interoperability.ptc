@@ -27,45 +27,45 @@
 \contentsline {subsection}{\numberline {2.5.1}OpenSSL}{12}{subsection.2.5.1}
 \contentsline {subsection}{\numberline {2.5.2}NSS}{13}{subsection.2.5.2}
 \contentsline {subsection}{\numberline {2.5.3}GnuTLS}{13}{subsection.2.5.3}
-\contentsline {chapter}{\numberline {3}Continuous Integration System}{14}{chapter.3}
-\contentsline {section}{\numberline {3.1}GitHub \& Webhooks}{14}{section.3.1}
-\contentsline {section}{\numberline {3.2}Jenkins}{14}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Beaker}{15}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}OpenStack}{15}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Docker}{15}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}Travis CI}{15}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Operating System}{16}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Test Environments}{16}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Test Execution}{17}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}Performance and Limits}{18}{subsection.3.3.4}
-\contentsline {chapter}{\numberline {4}SSL/TLS Testing}{19}{chapter.4}
-\contentsline {section}{\numberline {4.1}Tested Environments}{19}{section.4.1}
-\contentsline {section}{\numberline {4.2}Test Format}{19}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Test relevancy}{20}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}Tested Features}{22}{section.4.3}
-\contentsline {section}{\numberline {4.4}Implementation details}{22}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}GnuTLS}{22}{subsection.4.4.1}
-\contentsline {subsubsection}{gnutls/renegotiation-with-NSS}{22}{section*.12}
-\contentsline {subsubsection}{gnutls/renegotiation-with-OpenSSL}{23}{section*.13}
-\contentsline {subsubsection}{gnutls/resumption-with-NSS}{23}{section*.14}
-\contentsline {subsubsection}{gnutls/resumption-with-OpenSSL}{23}{section*.15}
-\contentsline {subsubsection}{gnutls/signature\_algorithms-with-OpenSSL}{23}{section*.16}
-\contentsline {subsubsection}{gnutls/TLSv1-2-with-NSS}{23}{section*.17}
-\contentsline {subsubsection}{gnutls/TLSv1-2-with-OpenSSL}{23}{section*.18}
-\contentsline {subsection}{\numberline {4.4.2}NSS}{24}{subsection.4.4.2}
-\contentsline {subsubsection}{nss/CC-nss-with-gnutls}{24}{section*.19}
-\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{24}{section*.20}
-\contentsline {subsubsection}{nss/renego-and-resumption-NSS-with-OpenSSL}{24}{section*.21}
-\contentsline {subsection}{\numberline {4.4.3}OpenSSL}{24}{subsection.4.4.3}
-\contentsline {subsubsection}{openssl/CC-openssl-with-gnutls}{24}{section*.22}
-\contentsline {section}{\numberline {4.5}Outstanding Issues(?)}{24}{section.4.5}
-\contentsline {chapter}{\numberline {5}Testing Results}{25}{chapter.5}
-\contentsline {section}{\numberline {5.1}NSS}{25}{section.5.1}
-\contentsline {section}{\numberline {5.2}GnuTLS}{27}{section.5.2}
-\contentsline {section}{\numberline {5.3}Beakerlib}{27}{section.5.3}
-\contentsline {chapter}{\numberline {6}Conclusion}{28}{chapter.6}
-\contentsline {chapter}{Bibliography}{29}{chapter*.33}
-\contentsline {chapter}{Appendices}{31}{section*.34}
+\contentsline {chapter}{\numberline {3}Implementation Details}{14}{chapter.3}
+\contentsline {section}{\numberline {3.1}Tested Environments}{14}{section.3.1}
+\contentsline {section}{\numberline {3.2}Test Format}{14}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Test relevancy}{15}{subsection.3.2.1}
+\contentsline {section}{\numberline {3.3}Tested Features}{17}{section.3.3}
+\contentsline {section}{\numberline {3.4}Continuous Integration System}{17}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}GitHub \& Webhooks}{17}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Jenkins}{18}{subsection.3.4.2}
+\contentsline {subsubsection}{Beaker}{18}{section*.12}
+\contentsline {subsubsection}{OpenStack}{18}{section*.13}
+\contentsline {subsubsection}{Docker}{19}{section*.14}
+\contentsline {section}{\numberline {3.5}Final CI Implementation With Travis CI}{19}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Operating System}{19}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Test Environments}{19}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.3}Test Execution}{20}{subsection.3.5.3}
+\contentsline {subsection}{\numberline {3.5.4}Performance and Limits}{21}{subsection.3.5.4}
+\contentsline {section}{\numberline {3.6}Test Extension Details}{21}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}GnuTLS}{22}{subsection.3.6.1}
+\contentsline {subsubsection}{gnutls/renegotiation-with-NSS}{22}{section*.15}
+\contentsline {subsubsection}{gnutls/renegotiation-with-OpenSSL}{22}{section*.16}
+\contentsline {subsubsection}{gnutls/resumption-with-NSS}{22}{section*.17}
+\contentsline {subsubsection}{gnutls/resumption-with-OpenSSL}{22}{section*.18}
+\contentsline {subsubsection}{gnutls/signature\_algorithms-with-OpenSSL}{22}{section*.19}
+\contentsline {subsubsection}{gnutls/TLSv1-2-with-NSS}{23}{section*.20}
+\contentsline {subsubsection}{gnutls/TLSv1-2-with-OpenSSL}{23}{section*.21}
+\contentsline {subsection}{\numberline {3.6.2}NSS}{23}{subsection.3.6.2}
+\contentsline {subsubsection}{nss/CC-nss-with-gnutls}{23}{section*.22}
+\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{23}{section*.23}
+\contentsline {subsubsection}{nss/renego-and-resumption-NSS-with-OpenSSL}{23}{section*.24}
+\contentsline {subsection}{\numberline {3.6.3}OpenSSL}{24}{subsection.3.6.3}
+\contentsline {subsubsection}{openssl/CC-openssl-with-gnutls}{24}{section*.25}
+\contentsline {section}{\numberline {3.7}Outstanding Issues(?)}{24}{section.3.7}
+\contentsline {chapter}{\numberline {4}Testing Results}{25}{chapter.4}
+\contentsline {section}{\numberline {4.1}NSS}{25}{section.4.1}
+\contentsline {section}{\numberline {4.2}GnuTLS}{27}{section.4.2}
+\contentsline {section}{\numberline {4.3}Beakerlib}{27}{section.4.3}
+\contentsline {chapter}{\numberline {5}Conclusion}{28}{chapter.5}
+\contentsline {chapter}{Bibliography}{29}{chapter*.36}
+\contentsline {chapter}{Appendices}{31}{section*.37}
 \ttl@starttoc {chapters@1}
 \contentsline {chapter}{\numberline {A}TLS Alerts}{32}{appendix.A}
 \contentsline {chapter}{\numberline {B}Test Plan}{34}{appendix.B}
