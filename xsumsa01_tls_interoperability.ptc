@@ -59,7 +59,7 @@
 \contentsline {subsubsection}{nss/renego-and-resumption-NSS-with-OpenSSL}{24}{section*.24}
 \contentsline {subsection}{\numberline {3.6.3}OpenSSL}{24}{subsection.3.6.3}
 \contentsline {subsubsection}{openssl/CC-openssl-with-gnutls}{24}{section*.25}
-\contentsline {section}{\numberline {3.7}Outstanding Issues(?)}{24}{section.3.7}
+\contentsline {section}{\numberline {3.7}Outstanding Issues}{24}{section.3.7}
 \contentsline {chapter}{\numberline {4}Testing Results}{25}{chapter.4}
 \contentsline {section}{\numberline {4.1}NSS}{25}{section.4.1}
 \contentsline {section}{\numberline {4.2}GnuTLS}{27}{section.4.2}

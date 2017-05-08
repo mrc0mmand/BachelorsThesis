@@ -1116,10 +1116,28 @@ openssl-1.1.0c-5.fc26.x86_64
 
     \noindent Overall stats: 9 additions, 2 deletions
 
-\section{Outstanding Issues(?)}
-    \todo{FIPS} \\
-    \todo{REF: https://www.nist.gov/information-technology-laboratory/fips-general-information}
-    \todo{expect scripts - random hangups, unreliability, ...}
+\section{Outstanding Issues}
+    Even though dozens of issues were found and resolved throughout the
+    the implementation process, several of them still persist for various reasons
+    -- either the solution lies in parts which couldn't be influenced by
+    this thesis, or there was not enough time or data to come up with a proper
+    fix.
+
+    First of them is the aforementioned FIPS support, which is currently
+    non-existent in Travis. Thankfully, it is not a crucial part of the
+    testing process, so it won't affect results of this thesis.
+
+    Another issue lies in \textit{expect} scripts~\cite{expect-man}. Thanks to
+    expect, one can write scripts for interactive applications,
+    which can be then used in automation. These scripts are used in many places
+    throughout the interoperability test suite for interaction with SSL/TLS
+    utilities. Unfortunately, as interactive applications were not meant to
+    be scripted, these scripts can be unreliable under specific conditions
+    -- e.g. delay in the expected input -- which may cause unexpected errors
+    and fails during the testing process. Some of these issues were already
+    resolved, but some of them are still present, as they happen sporadically
+    and are really hard to reproduce. Further investigation of such issues
+    is being planned and discussed.
 
 
 \chapter {Testing Results} \label{chap:testing_results}
