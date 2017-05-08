@@ -460,7 +460,7 @@
     the server which hash and signature algorithm combinations it supports.
     Even though internally the supported algorithms are split into two lists
     (none, MD5, SHA-1, SHA-224, SHA-256, SHA-384 and SHA-512 for hash algorithms
-    and anonymous, RSA, DSA and ECSDA for signature algorithms), the algorithms
+    and anonymous, RSA, DSA and ECDSA for signature algorithms), the algorithms
     sent in the extension are always listed in pairs, as not all combinations
     may be accepted by an implementation.
 
@@ -563,7 +563,7 @@
 
 \section{Tested Environments}
     For the purposes of this thesis, an environment consists of an operating
-    system (e.g.
+    system name (e.g.
     CentOS~\footnote{https://www.centos.org/},
     Fedora~\footnote{https://getfedora.org/}) and its version
     (e.g. 7, 25). Each of these environments must be tested separately, as
@@ -571,7 +571,7 @@
     affect the SSL/TLS communication.
 
     This thesis covers SSL/TLS libraries on CentOS and Fedora, as the tests used
-    and extended by this thesis were originaly created for
+    and extended by this thesis were originally created for
     RHEL~\footnote{Red Hat Enterprise Linux -
     https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux}.
 
@@ -579,7 +579,7 @@
     Each test consists of two main files -- \textit{runtest.sh} and \textit{Makefile}
     -- and other optional auxiliary files. Makefile contains metadata of the
     particular test, such as its name, author, version, dependencies, information
-    about relevancy, package it tests, etc. It also contains several make
+    about relevancy, package(s) it tests, etc. It also contains several make
     targets, so for example \texttt{make run} makes the runtest.sh executable
     and runs it. The CI makes use of this file and extracts some necessary
     information from it -- namely dependencies and relevancy -- to ensure
@@ -685,13 +685,13 @@ openssl-1.1.0c-5.fc26.x86_64
 "Releases:        -RHEL4 -RHELClient5 -RHELServer5"
     \end{lstlisting}
 
-    The test will be excluded from all environments, which have a - symbol
+    The test will be excluded from all environments which have a \textbf{-} symbol
     before their name. Environments not included in the list are implicitly
     added when the final check is done. The same syntax can be used for
-    architectures as well, but as the current CI is limited to an x86\_64
+    architectures as well, but as the current CI is limited to the x86\_64
     architecture, it is not relevant for this thesis.
 
-    To apply this relevancy during the testing itself a simple script was
+    To apply this relevancy during the testing itself, a simple script was
     created, which parses the Makefile and compares the parsed environments
     with the current one. If a match with a non-excluded environment is found,
     the test is executed, otherwise it is simply skipped.
@@ -722,22 +722,22 @@ openssl-1.1.0c-5.fc26.x86_64
 
     All mentioned tests are performed multiple times -- with and without
     client certificates, with and without TLSv1.2 enabled, and for each
-    supported ciphersuite.
+    supported cipher suite.
 
     Apart from these tests, each tested combination has a \textit{Common Criteria}
-    test~\footnote{https://www.commoncriteriaportal.org/} which test
+    test~\footnote{https://www.commoncriteriaportal.org/} which tests
     the necessary subset of functionality which is required to work according
     to the library specifications and standards.
 
 \section{Continuous Integration System}
     As manual testing is often tedious and not error prone, an automated system
-    has to be implemented to test a developed component both periodically and
+    had to be implemented to test a developed component both periodically and
     on-demand, when developer requests it. Such system should be capable of
-    running all relevant tests on given component without (almost) any manual
+    running all relevant tests for given component without (almost) any manual
     intervention and reporting results back to the person, who requested
     it.~\cite{amazon-ci}
 
-    During the progress of thise thesis, we tried several solutions before
+    During the progress of this thesis, we tried several solutions before
     implementing and accepting the final one.
 
 \subsection{GitHub \& Webhooks}
@@ -747,19 +747,19 @@ openssl-1.1.0c-5.fc26.x86_64
 
     This solution, even though it was very flexible, would require re-implementation
     of many things already implemented in already existing solutions, which would
-    consume unnecessary amount of time, that could be utilized for other, more important things.
+    consume unnecessary amount of time, that could be utilized for other, more important tasks.
 
 \subsection{Jenkins}
     During the search for more robust and complete solution, we come across
     Jenkins. Jenkins is an open-source automation server, which can be used
     for automation of various tasks~\cite{jenkins-docs}. After several
-    proof-of-concept solutions we knew that Jenkins is something we can
+    proof-of-concept solutions we knew, that Jenkins is something we can
     build on.
 
     Nevertheless, Jenkins itself lacks integration with GitHub. Thankfully, that
     could be solved by using several open-source plugins. First of them is
     \textit{GitHub Plugin}~\footnote{https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin},
-    which provides basic integration with GitHub and functionality for other
+    which provides a basic integration with GitHub and functionality for other
     GitHub plugins. This functionality is used and improved by
     \textit{GitHub pull request builder plugin}~\footnote{https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin},
     which adds support for polling from GitHub webhooks, trigger hooks for
@@ -789,15 +789,15 @@ openssl-1.1.0c-5.fc26.x86_64
 
     Finally, we managed to isolate build tasks using Docker containers~(Section~\ref{ref:docker}).
     But, after this step, where we managed to get rid of dependency on other machines,
-    and basically on dependency on the underlying operating system itself, we
-    were trying to move everything somewhere to the cloud, so we would be free
+    and basically on a dependency on the underlying operating system itself, we
+    were trying to move everything to the cloud, so we would be free
     of the need of maintaining our own infrastructure. And thankfully, after
     another trial and error, we managed to accomplish that goal using Travis.
 
 \subsubsection{Beaker} \label{ref:beaker}
     Beaker is an open-source software for managing and automating labs of test
     computers.~\cite{beaker-docs} It allows administrators and users to maintain an
-    automated invetory of all machines present in the machine pool with
+    automated inventory of all machines present in the machine pool with
     system details, running tasks on machines with specific environments and
     reporting (and storing) results back.
 
@@ -815,7 +815,7 @@ openssl-1.1.0c-5.fc26.x86_64
     any other external dependencies, in an isolated environment. This approach
     allows an user to run an application under a different operating system -- e.g.
     running an application in a CentOS 7 container even though the host operating
-    system is Ubuntu. This feature is crucial in the CI implemented in this thesis.
+    system is Ubuntu. This feature is crucial in the CI implemented by this thesis.
 
 \section{Final CI Implementation with Travis CI}
     As mentioned above, the chosen solution is Travis CI. Travis CI is a powerful,
@@ -823,7 +823,7 @@ openssl-1.1.0c-5.fc26.x86_64
     build and test projects hosted at GitHub.~\cite{travis-ci-docs} It has two
     variants -- commercial, for private projects and free, for open-source
     projects. As all tests and scripts from this thesis are open-source, and
-    we were already using GitHub, wecould use the free variant and throw away
+    we were already using GitHub, we could use the free variant and throw away
     the need for our own infrastructure.
 
     After hooking a repository to Travis, it reacts to all commits, branches
@@ -833,7 +833,7 @@ openssl-1.1.0c-5.fc26.x86_64
     build and red cross for a failed build), and for pull requests it is located
     in the information box of each pull request. Both ways contain
     a hyperlink to the particular
-    build with genreal overview and status with logs for each job (environment).
+    build with general overview and status with logs for each job (environment).
 
     Nevertheless, even though Travis CI met our expectations, it was not exactly
     "out-of-the-box" solution, as several obstacles had to be overcome.
@@ -855,13 +855,13 @@ openssl-1.1.0c-5.fc26.x86_64
 \subsection{Test Environments}
     Even though Travis does know the concept of environments, and has a built-in
     mechanism for specifying a matrix of environment variables, where each
-    set specifying an environments has its own job, it still needs some handler,
+    set specifying an environment has its own job, it still needs some handler,
     which would correctly set up the environment according to these settings.
 
     For this purpose, a short Bash script was written~\footnote{\texttt{scripts/test-setup.sh}}.
     This script takes four arguments -- OS type
-    (centos, fedora), OS version (7, 25, \dots), tested component (openssl, gnutls,
-    nss) and glob pattern for further test case specificiation
+    (centos, fedora), OS version (7, 25, \dots), component (openssl, gnutls,
+    nss) and a glob pattern for further test case specification
     (see Section~\ref{ref:performance-limits}).
 
     Before executing the tests itself, several preparation steps need to be made
@@ -879,8 +879,8 @@ openssl-1.1.0c-5.fc26.x86_64
     any changes to the underlying system, which allows us running tests even in
     Travis without FIPS support.
 
-    The last thing before the Docker execution itself is checking each test
-    for \texttt{rlGetTestState} command. This command must be present as
+    The last thing, before the Docker execution itself, is checking each test
+    for a \texttt{rlGetTestState} command. This command must be present as
     the last thing in each test, as all BeakerLib tests return zero even
     if they contain failed phases. Ensuring, that each test has this command
     at its end, gives us relevant results from each test, as
@@ -888,8 +888,8 @@ openssl-1.1.0c-5.fc26.x86_64
     exit code (or 255 if the number of failed phases is bigger
     than 255).~\cite{beakerlib-gh-man}
 
-    After the preparations, a docker container is executed with given environment
-    settings and the \texttt{scripts/test-runner.sh} script as an entry point.
+    After the preparations, a Docker container is executed with given environment
+    settings and the \texttt{scripts/test-runner.sh} script as the entry point.
     This script will be described in detail in the following section.
 
 \subsection{Test Execution} \label{ref:test-execution}
@@ -900,17 +900,17 @@ openssl-1.1.0c-5.fc26.x86_64
     which would coordinate test execution according to the current environment.
 
     This script has the same arguments as the \texttt{test-setup.sh} -- OS type,
-    OS version, component and test glob -- which are used to determine
-    a~package manager (yum on CentOS or dnf on Fedora), correct OS version
+    OS version, component and a test glob -- which are used to determine
+    a~package manager (\textit{yum} on CentOS or \textit{dnf} on Fedora), correct OS version
     (Docker images support a "latest" tag, which needs to be translated to
-    an exact version), and whether to configure
+    the exact version), and whether to configure
     EPEL~\footnote{https://fedoraproject.org/wiki/EPEL} repository, as BeakerLib
-    is not in base repositories on CentOS.
+    is not in the base repositories on CentOS.
 
     As these test were originally developed for RHEL (and still are),
     another workaround had to be implemented to avoid complex branching in
-    the tests. BeakerLib
-    has a function \texttt{rlIsRHEL}, which allows certain phases to be
+    the tests themselves. BeakerLib
+    has a function \texttt{rlIsRHEL}~\cite{beakerlib-gh-man}, which allows certain phases to be
     run only on some version of RHEL -- e.g. condition
     \texttt{if rlIsRHEL 6; then ...} would execute a code inside of the if
     statement only on RHEL 6. But this function does not work on CentOS. For
@@ -936,7 +936,7 @@ openssl-1.1.0c-5.fc26.x86_64
 
     The second check is a comparison of OS version and OS type with metadata
     from the test's Makefile (see Section~\ref{ref:test-relevancy}). For this
-    purpose we have a script \texttt{scripts/relevancy.awk} written, as the
+    purpose, we have a script \texttt{scripts/relevancy.awk} written, as the
     name suggests, in GNU~AWK~\footnote{https://www.gnu.org/software/gawk/}.
     This script, apart from the comparison itself, performs necessary
     substitutions between RHEL and CentOS to give correct results.
@@ -982,13 +982,13 @@ openssl-1.1.0c-5.fc26.x86_64
     to be a way how to test a development version of a SSL/TLS library. This
     appeared to be a complicated issue, as Travis itself does not support
     monitoring of external repositories, thus it is not able to tell whether
-    a new change was commited to such
+    a new change was committed to such
     repository.~\footnote{https://github.com/travis-ci/travis-ci/issues/631}
 
     As stated in previous sections, any dependency on an external infrastructure
-    is an unwanted solution (e.g. an external watchdog). Thus, after several proposals,
+    is unwanted (e.g. an external watchdog). Thus, after several proposals,
     a semi-automated solution was implemented, which consists of a small configuration
-    file, containing a path to a repository with target SSL/TLS library,
+    file, containing a path to a repository, with target SSL/TLS library,
     a branch, which contains desired library version, and a library identifier.
 
     If such configuration file exists, the \texttt{test-runner.sh}
@@ -1004,14 +1004,15 @@ openssl-1.1.0c-5.fc26.x86_64
     job, which is unnecessary, and it requires a separate branch to be created
     manually by a developer, with the custom configuration file. The first
     issue is particularly hard to solve, as the jobs does not have any shared
-    space, and usually run in pararel. The second issue it not easy to solve
+    space, and usually run in parallel. The second issue it not easy to solve as well,
     without incorporating some kind of external system or watchdog. As this
     implementation is currently being discussed and tested by developers, it is possible
     it will be improved or replaced completely in the future.
 
 \section{Test Extension Details} \label{ref:test-extension-details}
-    As this thesis started with already existing tests (and its purpose was
-    to extend them), following paragraphs should make clear what was already
+    As this thesis started with an already existing interoperability
+    test suite (and its purpose was
+    to extend it), following paragraphs should make clear what was already
     implemented and what is the result of this thesis.
 
 \subsection{GnuTLS}
@@ -1019,7 +1020,7 @@ openssl-1.1.0c-5.fc26.x86_64
     New features:
     \begin{itemize}
         \item Use certgen library for generating certificates
-        \item Test 20 ciphersuites instead of only the default one
+        \item Test 20 cipher suites instead of only the default one
         \item Test renegotiation scenarios with client certificates
     \end{itemize}
 
@@ -1029,7 +1030,7 @@ openssl-1.1.0c-5.fc26.x86_64
     New features:
     \begin{itemize}
         \item Use certgen library for generating certificates
-        \item Test 20 ciphersuites instead of only the default one
+        \item Test 20 cipher suites instead of only the default one
         \item Test renegotiation scenarios with client certificates
     \end{itemize}
 
@@ -1039,7 +1040,7 @@ openssl-1.1.0c-5.fc26.x86_64
     New features:
     \begin{itemize}
         \item Create certificate PKI
-        \item Test 20 ciphersuites instead of only the default one
+        \item Test 20 cipher suites instead of only the default one
         \item Test resumption scenarios with client certificates and with
             SessionTicket extension
     \end{itemize}
@@ -1050,7 +1051,7 @@ openssl-1.1.0c-5.fc26.x86_64
     New features:
     \begin{itemize}
         \item Use certgen library for generating certificates
-        \item Test 20 ciphersuites instead of only the default one
+        \item Test 20 cipher suites instead of only the default one
         \item Test resumption scenarios with client certificates and with
             SessionTicket extension
     \end{itemize}
@@ -1145,7 +1146,7 @@ openssl-1.1.0c-5.fc26.x86_64
 \subsubsection*{{\color{red} CVE-2016-9574}, BZ\#1397482, BZ\#1397410 \newline
     [Urgent, RHEL/CentOS 6, RHEL/CentOS 7] \newline
     Segfault in selfserv during session handshake when using SessionTicket
-    extension and ECDHE-ECDSA ciphersuites}
+    extension and ECDHE-ECDSA cipher suites}
 
     \texttt{selfserv} utility crashes during handshake when using SessionTicket
     extension for session resumption. This issue although does not occur when
@@ -1159,7 +1160,7 @@ openssl-1.1.0c-5.fc26.x86_64
     [Urgent, RHEL/CentOS 7, upstream] \newline
     Support ticket based session resumption using only ECDSA certificate}
 
-    Using SessionTicket extension along with any ECDHE-ECDSA ciphersuite
+    Using SessionTicket extension along with any ECDHE-ECDSA cipher suite
     renders \texttt{selfserv} server unusable.
 
     \medskip\noindent RHEL/CentOS 7: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1426182}
@@ -1169,7 +1170,7 @@ openssl-1.1.0c-5.fc26.x86_64
     [Unspecified, RHEL/CentOS 7, upstream] \newline
     Sending of CERTIFICATE REQUEST messages does not correspond to manual}
 
-    When \texttt{-r} or \texttt{-rr} parameter is used with \texttt{sefserv}
+    When \texttt{-r} or \texttt{-rr} parameter is used with \texttt{selfserv}
     utility, to request (and require) client certificate on initial handshake,
     the CERTIFICATE REQUEST message is sent on both handshakes, whereas when
     \texttt{-rrr} or \texttt{-rrrr} parameter is used, the CERTIFICATE REQUEST
@@ -1204,7 +1205,7 @@ openssl-1.1.0c-5.fc26.x86_64
     NSS session resumption using session ID does not work for DHE-DSS ciphersuites}
 
     When NSS acts as a server, session resumption using SessionID does not work
-    for ciphersuites using DHE-DSS algorithm. Even though this behavior is
+    for cipher suites using DHE-DSS algorithm. Even though this behavior is
     expected for the ticket based resumption, the Session ID resumption should work.
 
     \medskip\noindent RHEL/CentOS 6: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1397478}
@@ -1212,7 +1213,7 @@ openssl-1.1.0c-5.fc26.x86_64
 
 \subsubsection*{BZ\#1426267 \newline
     [Unspecified, Fedora 25] \newline
-    Broken Crypto Policy handling of RC4 ciphersuites}
+    Broken Crypto Policy handling of RC4 cipher suites}
 
     On F25 RC4 ciphers in NSS should be disabled by Crypto Policy, but in the
     current version it works only partially - when NSS acts as a client,
@@ -1246,7 +1247,7 @@ openssl-1.1.0c-5.fc26.x86_64
     [High, upstream] \newline
     rlWaitForSocket --close now waits for incorrect socket}
 
-    A patch in the latest testing version of beakerlib causes that
+    A patch in the latest testing version of BeakerLib causes that
     \texttt{rlWaitForSocket --close} can cause a deadlock/unwanted delay,
     because of grepping an incorrect socket.
 
@@ -1254,6 +1255,8 @@ openssl-1.1.0c-5.fc26.x86_64
 
 \chapter {Conclusion} \label{chap:conclusion}
 \todo{summarize findings, current CI state, future work (if any), ...}
+\todo{link to the github repo}
+\todo{link to the travis}
 
 % Proposed ToC
 % 1. Introduction
