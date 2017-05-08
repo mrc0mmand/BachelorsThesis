@@ -34,10 +34,10 @@
 \contentsline {section}{\numberline {3.3}Tested Features}{17}{section.3.3}
 \contentsline {section}{\numberline {3.4}Continuous Integration System}{17}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}GitHub \& Webhooks}{17}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Jenkins}{18}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.2}Jenkins}{17}{subsection.3.4.2}
 \contentsline {subsubsection}{Beaker}{18}{section*.12}
 \contentsline {subsubsection}{OpenStack}{18}{section*.13}
-\contentsline {subsubsection}{Docker}{19}{section*.14}
+\contentsline {subsubsection}{Docker}{18}{section*.14}
 \contentsline {section}{\numberline {3.5}Final CI Implementation with Travis CI}{19}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Operating System}{19}{subsection.3.5.1}
 \contentsline {subsection}{\numberline {3.5.2}Test Environments}{19}{subsection.3.5.2}
@@ -48,14 +48,14 @@
 \contentsline {subsection}{\numberline {3.6.1}GnuTLS}{22}{subsection.3.6.1}
 \contentsline {subsubsection}{gnutls/renegotiation-with-NSS}{22}{section*.15}
 \contentsline {subsubsection}{gnutls/renegotiation-with-OpenSSL}{22}{section*.16}
-\contentsline {subsubsection}{gnutls/resumption-with-NSS}{23}{section*.17}
+\contentsline {subsubsection}{gnutls/resumption-with-NSS}{22}{section*.17}
 \contentsline {subsubsection}{gnutls/resumption-with-OpenSSL}{23}{section*.18}
 \contentsline {subsubsection}{gnutls/signature\_algorithms-with-OpenSSL}{23}{section*.19}
 \contentsline {subsubsection}{gnutls/TLSv1-2-with-NSS}{23}{section*.20}
 \contentsline {subsubsection}{gnutls/TLSv1-2-with-OpenSSL}{23}{section*.21}
 \contentsline {subsection}{\numberline {3.6.2}NSS}{23}{subsection.3.6.2}
 \contentsline {subsubsection}{nss/CC-nss-with-gnutls}{23}{section*.22}
-\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{24}{section*.23}
+\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{23}{section*.23}
 \contentsline {subsubsection}{nss/renego-and-resumption-NSS-with-OpenSSL}{24}{section*.24}
 \contentsline {subsection}{\numberline {3.6.3}OpenSSL}{24}{subsection.3.6.3}
 \contentsline {subsubsection}{openssl/CC-openssl-with-gnutls}{24}{section*.25}

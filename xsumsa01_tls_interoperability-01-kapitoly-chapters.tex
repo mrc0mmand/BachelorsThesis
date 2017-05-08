@@ -551,15 +551,14 @@
 
 
 \chapter{Implementation Details}
-\todo{TODO}
-    Before the testing itself, we have to know what should be tested, how it
-    should be tested and where, or to be more precise, which environments it
-    should be tested in. This chapter thus describes all tested libraries
-    and ways how the are tested, environments which these components are
-    tested in, format of the tests themselves and features, which are tested.
+    Following sections describe in detail the most important part of this thesis
+    -- implementation of the continuous integration system, test extension,
+    and how these two parts work together to ensure interoperability of
+    SSL/TLS libraries.
 
-    As tests for this thesis were not developed from scratch, this chapter
-    also includes a comprehensive review of things, which were added
+    As the majority of the tests for this thesis were not developed from scratch,
+    section~\ref{ref:test-extension-details}
+    contains a comprehensive review of things which were added
     throughout the implementation of this thesis.
 
 \section{Tested Environments}
@@ -725,7 +724,7 @@ openssl-1.1.0c-5.fc26.x86_64
     client certificates, with and without TLSv1.2 enabled, and for each
     supported ciphersuite.
 
-    Apart from these tests, each tested combination has a Common Criteria
+    Apart from these tests, each tested combination has a \textit{Common Criteria}
     test~\footnote{https://www.commoncriteriaportal.org/} which test
     the necessary subset of functionality which is required to work according
     to the library specifications and standards.
@@ -982,7 +981,7 @@ openssl-1.1.0c-5.fc26.x86_64
     To be able to call this system a "continuous integration system", there had
     to be a way how to test a development version of a SSL/TLS library. This
     appeared to be a complicated issue, as Travis itself does not support
-    monitoring external repositories, thus it is not able to tell whether
+    monitoring of external repositories, thus it is not able to tell whether
     a new change was commited to such
     repository.~\footnote{https://github.com/travis-ci/travis-ci/issues/631}
 
@@ -1006,11 +1005,11 @@ openssl-1.1.0c-5.fc26.x86_64
     manually by a developer, with the custom configuration file. The first
     issue is particularly hard to solve, as the jobs does not have any shared
     space, and usually run in pararel. The second issue it not easy to solve
-    without incorporating some kind of external system of watchdog. As this
+    without incorporating some kind of external system or watchdog. As this
     implementation is currently being discussed and tested by developers, it is possible
     it will be improved or replaced completely in the future.
 
-\section{Test Extension Details}
+\section{Test Extension Details} \label{ref:test-extension-details}
     As this thesis started with already existing tests (and its purpose was
     to extend them), following paragraphs should make clear what was already
     implemented and what is the result of this thesis.
