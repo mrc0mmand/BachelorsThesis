@@ -34,21 +34,19 @@
 \section{Structure of the Document}
     All necessary components
     for such system are described in the following chapters, starting with a
-    brief description of SSL/TLS protocols and their features in
-    chapter~\ref{chap:ssl_tls}.
+    brief description of SSL/TLS protocols, their features, and existing
+    implementations in chapter~\ref{chap:ssl_tls}.
 
-    Chapter~\ref{chap:continuous_integration}
-    describes various continuous integration systems, which were considered
-    for the final solution, and how the implemented solution looks like.
-
-    The testing itself, along with used technologies, is discussed in
-    chapter~\ref{chap:ssl_tls_testing}. This chapter also includes a list
-    and description of libraries, which were chosen to be tested and why.
+    Chapter~\ref{chap:implementation_details} describes the test suite extension
+    and the testing process itself, the design and implementation of the continuous integration system,
+    and how the combination of these two major parts ensure interoperability
+    of SSL/TLS libraries.
 
     During the testing phase several issues were found. Some of them are "harmless",
     others can have a serious impact on the application, which uses given library.
-    Summary of these results is detailed in chapter~\ref{chap:testing_results}
+    Summary of these issues is detailed in chapter~\ref{chap:testing_results}
     following a thesis summary in chapter~\ref{chap:conclusion}.
+
 
 \chapter{Secure Sockets Layer / Transport Layer Security} \label{chap:ssl_tls}
     \textit{Secure Sockets Layer}~(SSL) and its successor
@@ -550,7 +548,7 @@
     which lists all necessary information about supported cipher suites.
 
 
-\chapter{Implementation Details}
+\chapter{Implementation Details} \label{chap:implementation_details}
     Following sections describe in detail the most important part of this thesis
     -- implementation of the continuous integration system, test extension,
     and how these two parts work together to ensure interoperability of
@@ -1288,6 +1286,7 @@ openssl-1.1.0c-5.fc26.x86_64
 \todo{summarize findings, current CI state, future work (if any), ...}
 \todo{link to the github repo}
 \todo{link to the travis}
+\todo{more references?}
 
 % Proposed ToC
 % 1. Introduction
