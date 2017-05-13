@@ -1283,10 +1283,36 @@ openssl-1.1.0c-5.fc26.x86_64
     \medskip\noindent Upstream: \url{https://bugzilla.redhat.com/show_bug.cgi?id=1416014}
 
 \chapter {Conclusion} \label{chap:conclusion}
+    This thesis stared with an existing interoperability test suite, which
+    was significantly extended under a thorough supervision, which ensured
+    that all new parts test the exact functionality which they are supposed to
+    test. Also, a continuous integration system was implemented from scratch, to
+    find issues as soon as possible, mainly during the SSL/TLS library development.
+    The usefulness and importance of such system was demonstrated by integrating
+    the extended test suite into the system, which resulted in several issues
+    of various severity being found and reported to the responsible parties.
+
+    As the results of this thesis are meant to be public, to help as many
+    people as possible, the current version of all tests and auxiliary scripts
+    can be found on GitHub~\footnote{https://github.com/redhat-qe-security/interoperability}.
+    Also, the continuous integration system is located on Travis~CI
+    website~\footnote{https://travis-ci.org/redhat-qe-security/interoperability},
+    which contains results from all past, current, and future test runs.
+
+    Even though this thesis brought a significant improvement into the
+    interoperability testing of TLS/SSL libraries, there remains a future
+    work in several areas. One of them is
+    the test suite itself, as it is still far from being complete, due to many
+    TLS extensions, which are still not covered -- either due to lack of time,
+    or lack of support in the libraries themselves. After several discussions
+    with developers and testers of mentioned libraries, I will continue working
+    on these issues even after the end of this thesis.
+
 \todo{summarize findings, current CI state, future work (if any), ...}
 \todo{link to the github repo}
 \todo{link to the travis}
 \todo{more references?}
+\todo{images in appendix}
 
 % Proposed ToC
 % 1. Introduction
