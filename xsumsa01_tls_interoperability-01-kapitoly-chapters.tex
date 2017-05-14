@@ -1,6 +1,3 @@
-%=========================================================================
-% (c) Michal Bidlo, Bohuslav Křena, 2008
-
 \chapter{Introduction}
     SSL/TLS is the most widely used technology for securing today's Internet communications.
     Every application, which transmits data over the Internet, should implement
@@ -26,7 +23,7 @@
     Such automation -- in this case we call it \textit{continuous integration} -- is
     the second main topic of this thesis.
 
-    By combining all these features together, we get a powerful system for continuous
+    By combining all these parts together, we get a powerful system for continuous
     SSL/TLS library testing. Such system can be used for regression detection
     and ensuring, that interoperability between two given libraries works in a specific
     environment with a specific combination of settings.
@@ -35,17 +32,17 @@
     All necessary components
     for such system are described in the following chapters, starting with a
     brief description of SSL/TLS protocols, their features, and existing
-    implementations in chapter~\ref{chap:ssl_tls}.
+    implementations in Chapter~\ref{chap:ssl_tls}.
 
     Chapter~\ref{chap:implementation_details} describes the test suite extension
     and the testing process itself, the design and implementation of the continuous integration system,
-    and how the combination of these two major parts ensure interoperability
+    and how the combination of these two major parts ensures interoperability
     of SSL/TLS libraries.
 
     During the testing phase several issues were found. Some of them are "harmless",
     others can have a serious impact on the application, which uses given library.
-    Summary of these issues is detailed in chapter~\ref{chap:testing_results}
-    following a thesis summary in chapter~\ref{chap:conclusion}.
+    Summary of these issues is detailed in Chapter~\ref{chap:testing_results}
+    following a thesis summary in Chapter~\ref{chap:conclusion}.
 
 
 \chapter{Secure Sockets Layer / Transport Layer Security} \label{chap:ssl_tls}
@@ -57,7 +54,7 @@
     further in this thesis.
 
     Although there are currently three TLS versions -- TLS 1.0~\cite{rfc2246},
-    TLS 1.1~\cite{rfc4346} and TLS 1.2~\cite{rfc5246} -- this thesis focuses
+    TLS 1.1~\cite{rfc4346}, and TLS 1.2~\cite{rfc5246} -- this thesis focuses
     only on the latest two as TLS 1.0 is basically SSL 3.0 with a few
     differences. Also, there were few cryptographic problems found
     in TLS 1.0 and later resolved in TLS 1.1 (e.g. BEAST~\cite{duong2011}).
@@ -125,15 +122,15 @@
 \section{TLS Protocols}
     As mentioned above, the TLS protocol consists of four protocols --
     the TLS Record Protocol, the TLS Handshake Protocol, the TLS Changer Cipher
-    Spec Protocol, the TLS Alert Protocol and the TLS Application Data Protocol.
+    Spec Protocol, the TLS Alert Protocol, and the TLS Application Data Protocol.
     In this section we will overview and discuss these protocols in more detail.
 
 \subsection{TLS Record Protocol}
     In section \ref{ref:overview} we briefly described the main function of the
     TLS Record Protocol, which is encapsulation of protocol data from higher
     layers. This includes fragmentation, optional compression, MAC application,
-    encryption and transmission of the data. On the receiving side the data is
-    decrypted, verified, decompressed, reassembled and then delivered to the
+    encryption, and transmission of the data. On the receiving side the data is
+    decrypted, verified, decompressed, reassembled, and then delivered to the
     higher layers.
 
     Through the data processing, following TLS data structures are used --
@@ -161,7 +158,7 @@
     \begin{enumerate}
         \item The client sends a \texttt{ClientHello} message to the server, that
               includes the TLS version, a list of cipher suites supported by the
-              client (in the client's order of preference) and the client's
+              client (in the client's order of preference), and the client's
               random value, which is used in subsequent computations.
         \item The server responds with a \texttt{ServerHello} message, including
               the protocol version, the cipher suite chosen by the server, the session ID,
@@ -245,7 +242,8 @@
     the same Session ID value. The client and the server can then directly move
     to the \texttt{ChangeCipherSpec} message followed by the \texttt{Finished}
     message. If a Session ID match is not found in the session cache, the
-    server generates a new session ID and the peers perform a full TLS handshake.
+    server generates a new session ID and the peers perform a full TLS
+    handshake.~\cite{rfc5246}
 
     \begin{figure}[H]
     \centering
@@ -289,7 +287,7 @@
     The message itself contains the latest TLS version supported by the client,
     the client's random value, a session ID (which can be empty, if the client
     wishes to negotiate a new session), a list of supported cipher suites,
-    a list of compression methods and optional extensions.
+    a list of compression methods, and optional extensions.
 
 \subsubsection{\texttt{ServerHello}}
     The \texttt{ServerHello} is the server's response to the client's
@@ -300,7 +298,7 @@
     message and will be used for the session. The complete message contains
     the TLS version chosen by the server, the server's random value, the length
     of the session ID and the session ID, the cipher suite, the compression
-    method and the optional extensions.
+    method, and the optional extensions.
 
 \subsubsection{\texttt{Certificate}}
     If the agreed-upon key exchange method uses certificates for authentication,
@@ -352,7 +350,7 @@
 
 \subsubsection{\texttt{Finished}}
     The \texttt{Finished} message is always sent immediately after a
-    \texttt{ChangeCipherSpec} message~\ref{ref:change_cipher_spec} to verify
+    \texttt{ChangeCipherSpec} message (Section~\ref{ref:change_cipher_spec}) to verify
     that the key exchange and authentication processes were successful.
     As the message follows the \texttt{ChangeCipherSpec} message, it is the
     first message protected by the newly negotiated algorithms and keys.
@@ -409,7 +407,7 @@
     encryption, and SHA-1 for message authentication.
 
 \section{TLS Extensions}
-    As mentioned in section~\ref{ref:tls_handshake_protocol}, the \texttt{ClientHello}
+    As mentioned in Section~\ref{ref:tls_handshake_protocol}, the \texttt{ClientHello}
     and \texttt{ServerHello} messages contain an optional field for extensions.
     These extensions can be used to add functionality to TLS.
 
@@ -432,7 +430,7 @@
     If a client wanted to resume an existing session, it would have to
     send a session ID in its \texttt{ClientHello} message (field \texttt{session\_id})
     and the server would have to check its cache for a match (see
-    section~\ref{ref:tls_handshake_protocol}). This may cause problems on systems
+    Section~\ref{ref:tls_handshake_protocol}). This may cause problems on systems
     with a large amount of requests from different users or on systems with
     little memory. For such cases there is a \texttt{SessionTicket} TLS extension which uses
     client-side caching.~\cite{rfc5077}
@@ -555,9 +553,14 @@
     SSL/TLS libraries.
 
     As the majority of the tests for this thesis were not developed from scratch,
-    section~\ref{ref:test-extension-details}
+    Section~\ref{ref:test-extension-details}
     contains a comprehensive review of things which were added
     throughout the implementation of this thesis.
+
+    Detailed analysis of the test suite and its execution can be found
+    in Appendix~\ref{ref:test-plan}, which contains a test plan of
+    the interoperability test suite, along with description of each test case
+    in Appendix~\ref{ref:test-case-description}.
 
 \section{Tested Environments}
     For the purposes of this thesis, an environment consists of an operating
@@ -583,7 +586,8 @@
     information from it -- namely dependencies and relevancy -- to ensure
     correct execution of the test itself.
 
-    The second file -- runtest.sh -- is the core of the test. It is a Bash
+    The second file -- runtest.sh -- is the core of the test. It is a
+    Bash~\footnote{https://www.gnu.org/software/bash/}
     script using the BeakerLib~\footnote{https://github.com/beakerlib/beakerlib}
     testing framework containing a sequence of commands and asserts which
     are executed and evaluated. Each command execution or an assert
@@ -716,7 +720,7 @@ openssl-1.1.0c-5.fc26.x86_64
     \end{itemize}
 
     * This test is (so far) not implemented for all supported libraries, as
-    some of them lack necessary support on CentOS. \\
+    some of them lack the necessary support on CentOS. \\
 
     All mentioned tests are performed multiple times -- with and without
     client certificates, with and without TLSv1.2 enabled, and for each
@@ -815,7 +819,7 @@ openssl-1.1.0c-5.fc26.x86_64
     running an application in a CentOS 7 container even though the host operating
     system is Ubuntu. This feature is crucial in the CI implemented by this thesis.
 
-\section{Final CI Implementation with Travis CI}
+\section{The Final CI Implementation with Travis CI}
     As mentioned above, the chosen solution is Travis CI. Travis CI is a powerful,
     hosted, distributed continuous integration service, used exclusively to
     build and test projects hosted at GitHub.~\cite{travis-ci-docs} It has two
@@ -864,7 +868,7 @@ openssl-1.1.0c-5.fc26.x86_64
 
     Before executing the tests itself, several preparation steps need to be made
     to install and configure all necessary dependencies. First of them is
-    library certgen~\footnote{https://github.com/redhat-qe-security/certgen},
+    library \textit{certgen}~\footnote{https://github.com/redhat-qe-security/certgen},
     written by Hubert Kario, for generating certificates, which are later used
     in the testing process.
 
@@ -878,7 +882,7 @@ openssl-1.1.0c-5.fc26.x86_64
     Travis without FIPS support.
 
     The last thing, before the Docker execution itself, is checking each test
-    for a \texttt{rlGetTestState} command. This command must be present as
+    for a \\ \texttt{rlGetTestState} command. This command must be present as
     the last thing in each test, as all BeakerLib tests return zero even
     if they contain failed phases. Ensuring, that each test has this command
     at its end, gives us relevant results from each test, as
@@ -958,11 +962,11 @@ openssl-1.1.0c-5.fc26.x86_64
     this matter. Nevertheless, as more and more test combinations were added,
     this limit was hit several times.
 
-    Originally, each OS type and version has its own job, so there was one job
-    for CentOS 6, one for CentOS 7 and one for the latest Fedora. The first
+    Originally, each OS type and version had its own job, so there was one job
+    for CentOS 6, one for CentOS 7, and one for the latest Fedora. The first
     step of solving the aforementioned issue
     was creating a separate job for each OS type, version and component
-    combination. This resulted in nine jobs (GnuTLS, NSS and OpenSSL times
+    combination. This resulted in nine jobs (GnuTLS, NSS, and OpenSSL times
     supported operating systems) which were enough, at least for a while.
 
     As another batch of changes was added, the limit was hit again on Fedora
@@ -1307,6 +1311,3 @@ openssl-1.1.0c-5.fc26.x86_64
     or lack of support in the libraries themselves. After several discussions
     with developers and testers of mentioned libraries, I will continue working
     on these issues even after the end of this thesis.
-
-\todo{more references?}
-\todo{images in appendix}

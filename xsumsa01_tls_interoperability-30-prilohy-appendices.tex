@@ -1,3 +1,8 @@
+\chapter{CD Contents}
+    The attached CD contains the source code of all components implemented by
+    this thesis -- the SSL/TLS test suite, the auxiliary scripts of the
+    continuous integration system, and the text part of the thesis itself.
+
 % RFC5246 - TLS alert messages
 \chapter{TLS Alerts}
     \noindent\begin{tabularx}{\linewidth}{@{}l l X}
@@ -46,7 +51,7 @@
     \end{tabularx}
 
 
-\chapter{Test Plan}
+\chapter{Test Plan} \label{ref:test-plan}
 \section{Test Plan Identifier}
     TLS/SSL Interoperability Test Plan v0.1
 
@@ -230,10 +235,9 @@
     \end{itemize}
 
 \section{Schedule}
-    \todo{Update schedule => +periodic runs, +devel branches}
     Currently all tests are being executed when a new PR or commit is pushed
-    to the test repository. In the nearest future, all tests should be executed
-    periodically, and when a new version of a supported system is released.
+    to the test repository, periodically every week on the latest versions
+    of supported systems, and on-demand on a user-specified library repository.
 
     Long term plans include delivering all test cases to both downstream and
     upstream, so possible failures can be detected before the library itself

@@ -34,11 +34,11 @@
 \contentsline {section}{\numberline {3.3}Tested Features}{17}{section.3.3}
 \contentsline {section}{\numberline {3.4}Continuous Integration System}{17}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}GitHub \& Webhooks}{17}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Jenkins}{17}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.2}Jenkins}{18}{subsection.3.4.2}
 \contentsline {subsubsection}{Beaker}{18}{section*.12}
 \contentsline {subsubsection}{OpenStack}{18}{section*.13}
-\contentsline {subsubsection}{Docker}{18}{section*.14}
-\contentsline {section}{\numberline {3.5}Final CI Implementation with Travis CI}{19}{section.3.5}
+\contentsline {subsubsection}{Docker}{19}{section*.14}
+\contentsline {section}{\numberline {3.5}The Final CI Implementation with Travis CI}{19}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Operating System}{19}{subsection.3.5.1}
 \contentsline {subsection}{\numberline {3.5.2}Test Environments}{19}{subsection.3.5.2}
 \contentsline {subsection}{\numberline {3.5.3}Test Execution}{20}{subsection.3.5.3}
@@ -48,52 +48,53 @@
 \contentsline {subsection}{\numberline {3.6.1}GnuTLS}{22}{subsection.3.6.1}
 \contentsline {subsubsection}{gnutls/renegotiation-with-NSS}{22}{section*.15}
 \contentsline {subsubsection}{gnutls/renegotiation-with-OpenSSL}{22}{section*.16}
-\contentsline {subsubsection}{gnutls/resumption-with-NSS}{22}{section*.17}
+\contentsline {subsubsection}{gnutls/resumption-with-NSS}{23}{section*.17}
 \contentsline {subsubsection}{gnutls/resumption-with-OpenSSL}{23}{section*.18}
 \contentsline {subsubsection}{gnutls/signature\_algorithms-with-OpenSSL}{23}{section*.19}
 \contentsline {subsubsection}{gnutls/TLSv1-2-with-NSS}{23}{section*.20}
 \contentsline {subsubsection}{gnutls/TLSv1-2-with-OpenSSL}{23}{section*.21}
-\contentsline {subsection}{\numberline {3.6.2}NSS}{23}{subsection.3.6.2}
-\contentsline {subsubsection}{nss/CC-nss-with-gnutls}{23}{section*.22}
-\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{23}{section*.23}
+\contentsline {subsection}{\numberline {3.6.2}NSS}{24}{subsection.3.6.2}
+\contentsline {subsubsection}{nss/CC-nss-with-gnutls}{24}{section*.22}
+\contentsline {subsubsection}{nss/Interoperability-with-OpenSSL}{24}{section*.23}
 \contentsline {subsubsection}{nss/renego-and-resumption-NSS-with-OpenSSL}{24}{section*.24}
 \contentsline {subsection}{\numberline {3.6.3}OpenSSL}{24}{subsection.3.6.3}
 \contentsline {subsubsection}{openssl/CC-openssl-with-gnutls}{24}{section*.25}
-\contentsline {section}{\numberline {3.7}Outstanding Issues}{24}{section.3.7}
-\contentsline {chapter}{\numberline {4}Testing Results}{25}{chapter.4}
-\contentsline {section}{\numberline {4.1}NSS}{25}{section.4.1}
-\contentsline {section}{\numberline {4.2}GnuTLS}{27}{section.4.2}
-\contentsline {section}{\numberline {4.3}BeakerLib}{27}{section.4.3}
-\contentsline {chapter}{\numberline {5}Conclusion}{28}{chapter.5}
-\contentsline {chapter}{Bibliography}{29}{chapter*.36}
-\contentsline {chapter}{Appendices}{31}{section*.37}
+\contentsline {section}{\numberline {3.7}Outstanding Issues}{25}{section.3.7}
+\contentsline {chapter}{\numberline {4}Testing Results}{26}{chapter.4}
+\contentsline {section}{\numberline {4.1}NSS}{26}{section.4.1}
+\contentsline {section}{\numberline {4.2}GnuTLS}{28}{section.4.2}
+\contentsline {section}{\numberline {4.3}BeakerLib}{28}{section.4.3}
+\contentsline {chapter}{\numberline {5}Conclusion}{29}{chapter.5}
+\contentsline {chapter}{Bibliography}{30}{chapter*.36}
+\contentsline {chapter}{Appendices}{32}{section*.37}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}TLS Alerts}{32}{appendix.A}
-\contentsline {chapter}{\numberline {B}Test Plan}{34}{appendix.B}
-\contentsline {section}{\numberline {B.1}Test Plan Identifier}{34}{section.B.1}
-\contentsline {section}{\numberline {B.2}References}{34}{section.B.2}
-\contentsline {section}{\numberline {B.3}Introduction}{34}{section.B.3}
-\contentsline {section}{\numberline {B.4}Test Items}{34}{section.B.4}
-\contentsline {subsection}{\numberline {B.4.1}Components}{34}{subsection.B.4.1}
-\contentsline {subsection}{\numberline {B.4.2}Environments: Releases and Architectures}{34}{subsection.B.4.2}
-\contentsline {section}{\numberline {B.5}Software Risk Issues}{35}{section.B.5}
-\contentsline {section}{\numberline {B.6}Features to be Tested}{35}{section.B.6}
-\contentsline {section}{\numberline {B.7}Features not to be Tested}{35}{section.B.7}
-\contentsline {section}{\numberline {B.8}Approach}{35}{section.B.8}
-\contentsline {section}{\numberline {B.9}Item Pass/Fail Criteria}{36}{section.B.9}
-\contentsline {section}{\numberline {B.10}Test Cases}{36}{section.B.10}
-\contentsline {section}{\numberline {B.11}Suspension Criteria and Resumption Requirements}{36}{section.B.11}
-\contentsline {section}{\numberline {B.12}Test Deliverables}{36}{section.B.12}
-\contentsline {section}{\numberline {B.13}Remaining Test Tasks}{37}{section.B.13}
-\contentsline {section}{\numberline {B.14}Environmental Needs}{37}{section.B.14}
-\contentsline {subsection}{\numberline {B.14.1}Hardware}{37}{subsection.B.14.1}
-\contentsline {subsection}{\numberline {B.14.2}Software}{37}{subsection.B.14.2}
-\contentsline {section}{\numberline {B.15}Staffing and Training needs}{37}{section.B.15}
-\contentsline {section}{\numberline {B.16}Responsibilities}{37}{section.B.16}
-\contentsline {section}{\numberline {B.17}Schedule}{38}{section.B.17}
-\contentsline {section}{\numberline {B.18}Approvals}{38}{section.B.18}
-\contentsline {chapter}{\numberline {C}Test Cases Description}{39}{appendix.C}
-\contentsline {section}{\numberline {C.1}GnuTLS}{39}{section.C.1}
-\contentsline {section}{\numberline {C.2}NSS}{40}{section.C.2}
-\contentsline {section}{\numberline {C.3}OpenSSL}{40}{section.C.3}
+\contentsline {chapter}{\numberline {A}CD Contents}{33}{appendix.A}
+\contentsline {chapter}{\numberline {B}TLS Alerts}{34}{appendix.B}
+\contentsline {chapter}{\numberline {C}Test Plan}{36}{appendix.C}
+\contentsline {section}{\numberline {C.1}Test Plan Identifier}{36}{section.C.1}
+\contentsline {section}{\numberline {C.2}References}{36}{section.C.2}
+\contentsline {section}{\numberline {C.3}Introduction}{36}{section.C.3}
+\contentsline {section}{\numberline {C.4}Test Items}{36}{section.C.4}
+\contentsline {subsection}{\numberline {C.4.1}Components}{36}{subsection.C.4.1}
+\contentsline {subsection}{\numberline {C.4.2}Environments: Releases and Architectures}{36}{subsection.C.4.2}
+\contentsline {section}{\numberline {C.5}Software Risk Issues}{37}{section.C.5}
+\contentsline {section}{\numberline {C.6}Features to be Tested}{37}{section.C.6}
+\contentsline {section}{\numberline {C.7}Features not to be Tested}{37}{section.C.7}
+\contentsline {section}{\numberline {C.8}Approach}{37}{section.C.8}
+\contentsline {section}{\numberline {C.9}Item Pass/Fail Criteria}{38}{section.C.9}
+\contentsline {section}{\numberline {C.10}Test Cases}{38}{section.C.10}
+\contentsline {section}{\numberline {C.11}Suspension Criteria and Resumption Requirements}{38}{section.C.11}
+\contentsline {section}{\numberline {C.12}Test Deliverables}{38}{section.C.12}
+\contentsline {section}{\numberline {C.13}Remaining Test Tasks}{39}{section.C.13}
+\contentsline {section}{\numberline {C.14}Environmental Needs}{39}{section.C.14}
+\contentsline {subsection}{\numberline {C.14.1}Hardware}{39}{subsection.C.14.1}
+\contentsline {subsection}{\numberline {C.14.2}Software}{39}{subsection.C.14.2}
+\contentsline {section}{\numberline {C.15}Staffing and Training needs}{39}{section.C.15}
+\contentsline {section}{\numberline {C.16}Responsibilities}{39}{section.C.16}
+\contentsline {section}{\numberline {C.17}Schedule}{40}{section.C.17}
+\contentsline {section}{\numberline {C.18}Approvals}{40}{section.C.18}
+\contentsline {chapter}{\numberline {D}Test Cases Description}{41}{appendix.D}
+\contentsline {section}{\numberline {D.1}GnuTLS}{41}{section.D.1}
+\contentsline {section}{\numberline {D.2}NSS}{42}{section.D.2}
+\contentsline {section}{\numberline {D.3}OpenSSL}{42}{section.D.3}
 \contentsfinish 
