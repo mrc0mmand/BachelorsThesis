@@ -1,0 +1,137 @@
+\documentclass[10pt,xcolor=pdflatex]{beamer}
+\usepackage{newcent}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{hyperref}
+\usepackage{fancyvrb}
+\usetheme{FIT}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[Průběžné testování interoperability knihoven TLS/SSL]{Průběžné testování interoperability knihoven TLS/SSL}
+
+\author[]{František Šumšal}
+
+\institute[]{Vysoké Učení Technické v Brně, Fakulta Informačních Technologií\\
+Bo\v{z}et\v{e}chova 1/2. 612 66 Brno - Kr\'alovo Pole\\
+xsumsa01@stud.fit.vutbr.cz}
+
+%\date{January 1, 2016}
+\date{\today}
+%\date{} % bez data
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+
+\section{Zadání}
+
+\begin{frame}
+\frametitle{Zadání}
+\begin{enumerate}
+    \item Seznamte se s projekty OpenSSL, NSS a GnuTLS implementující protokol SSL/TLS. Zaměřte se na testování interoperability těchto projektů.
+    \item Navrhněte systém pro testování interoperability a integrační testování programů a knihoven implementující SSL/TLS protokoly. Jedním z cílů systému je poskytovat testování navrhovaných změn daných projektů ještě před jejich přijetím. Systém by měl podporovat testy napsané s podporou projektu BeakerLib.
+    \item Implementujte systém pro testování interoperability a integračního testování. Importujte stávající testovací sady do nově implementovaného systému.
+    \item Kvalitu dosaženého řešení demonstrujte na příkladech s uměle vytvořenými chybami.
+\end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Implementace}
+
+\begin{frame}
+\frametitle{Testování interoperability}
+\begin{itemize}
+    \item Možná implementace vlastních testovacích utilit pomocí public API knihoven - zbytečné, několik verzí API, nutná údržba
+    \item Každá knihovna poskytuje vlastní sadu utilit (openssl, gnutls-cli, selfserv, \dots)
+    \item Využití těchto utilit v testování (velké množství přepínačů/voleb, detailní analýza komunikace, \dots)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Testovací sada}
+\begin{itemize}
+    \item Využit testovací framework BeakerLib (Bash)
+    \item Původní sada testů rozšířena (rozšíření stávajících testů + implementace nových)
+    \item Testování knihoven v párech (sady šifer, protokoly, certifikáty, \dots)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Průběžné testování (CI)}
+\begin{itemize}
+    \item Několik funkčních prototypů (Webhooks, Jenkins, \dots)
+    \item Finální návrh - Travis CI (open-source, podpora GitHub repozitářů, \dots)
+    \item Nekompatibilní OS (Ubuntu vs CentOS/Fedora) $\implies$ Docker
+    \item Další problémy (RHEL vs CentOS, FIPS, limity Travis CI, \dots)
+    \item Kompilace knihovny před testováním
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Výsledky}
+
+\begin{frame}
+\frametitle{Výsledky}
+\begin{itemize}
+    \item Během vývoje a rozšiřování sady testů nalezeno několik chyb (knihovny, BeakerLib, \dots)
+    \item Jedno CVE (CVE-2016-9574)
+    \item Chyby ohlášeny a potvrzeny odpovědným stranám (upstream, downstream)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Budoucí vývoj}
+
+\begin{frame}
+\frametitle{Budoucí vývoj}
+\begin{itemize}
+    \item Zdrojový kód je dostupný na GitHubu - \url{https://github.com/redhat-qe-security/interoperability}
+    \item Systém průběžné integrace - \url{https://travis-ci.org/redhat-qe-security/interoperability}
+    \item Naplánován další vývoj a údržba projektu
+    \item Spolupráce s vývojáři podporovaných knihoven
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\bluepage{Děkuji za pozornost}
+
+%------------------------------------------------
+
+\section{Otázky}
+
+\begin{frame}
+\frametitle{Otázky}
+\begin{block}{Otázka č. 1}
+Předpokládejte, že jsem autorem nové implementace TLS/SSL (nebo např. zmiňovaného BoringSSL). Jaké kroky je třeba podniknout, aby tato implementace byla podporována Vašim řešením?
+\end{block}
+
+\begin{itemize}
+    \item Zajistit, že je daná implementace přeložitelná na podporovaných systémech
+    \item Rozšířit sadu testů o testy využívající danou implementaci (+CC)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Otázky}
+\begin{block}{Otázka č. 2}
+Je Vaše řešení multiplatformní? Bylo by možné testovat interoperabilitu knihoven např. na MacOS X?
+\end{block}
+
+\begin{itemize}
+    \item Testování probíhá v Docker kontejnerech
+    \item Nutné přípravy (klonování repozitářů, příprava knihoven, kontrola testů, \dots)
+    \item Na MacOS teoreticky bez úprav, na jiných systémech je třeba zajistit prvotní přípravy
+\end{itemize}
+\end{frame}
+
+\end{document}
